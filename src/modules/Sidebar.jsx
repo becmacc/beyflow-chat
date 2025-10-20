@@ -4,8 +4,8 @@ import { brandAssets } from "../config/brandConfig"
 
 const modules = [
   { id: 'chat', name: 'Chat', icon: '💬', description: 'Real-time messaging' },
+  { id: 'workflows', name: 'Workflows', icon: '🔗', description: 'Connect APIs & LLMs' },
   { id: 'sessions', name: 'Sessions', icon: '💾', description: 'Saved conversations' },
-  { id: 'visualizer', name: '3D View', icon: '🎨', description: 'Visual experience' },
   { id: 'ai', name: 'AI Studio', icon: '🤖', description: 'AI playground' },
   { id: 'settings', name: 'Settings', icon: '⚙️', description: 'Configuration' }
 ]
@@ -15,7 +15,7 @@ export default function Sidebar() {
 
   return (
     <motion.div
-      className="w-64 bg-black/30 backdrop-blur-xl border-r border-white/10 flex flex-col"
+      className="w-64 cyber-card border-r border-neon-cyan/30 flex flex-col"
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -32,8 +32,8 @@ export default function Sidebar() {
             className="w-10 h-10 object-contain"
           />
           <div>
-            <h3 className="text-white font-bold">BeyFlow</h3>
-            <p className="text-white/60 text-sm">Chat System</p>
+            <h3 className="text-white font-bold neon-text">BeyFlow</h3>
+            <p className="text-neon-cyan/60 text-sm font-mono">Workflow Studio</p>
           </div>
         </motion.div>
       </div>
@@ -47,8 +47,8 @@ export default function Sidebar() {
               onClick={() => setModule(module.id)}
               className={`w-full text-left p-3 rounded-xl transition-all ${
                 currentModule === module.id
-                  ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/20 border border-cyan-400/30 text-white'
-                  : 'text-white/70 hover:text-white hover:bg-white/5'
+                  ? 'bg-gradient-to-r from-neon-cyan/20 to-neon-magenta/20 border border-neon-cyan shadow-neon-cyan'
+                  : 'text-white/70 hover:text-white hover:bg-neon-cyan/5 hover:border hover:border-neon-cyan/20'
               }`}
               whileHover={{ scale: 1.02, x: 4 }}
               whileTap={{ scale: 0.98 }}

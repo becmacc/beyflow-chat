@@ -9,6 +9,7 @@ import Sidebar from "./modules/Sidebar"
 import Visualizer3D from "./modules/Visualizer3D"
 import SessionManager from "./modules/SessionManager"
 import AIStudio from "./modules/AIStudio"
+import WorkflowBuilder from "./modules/WorkflowBuilder"
 import { GradientBackground, RecursivePattern } from "./components/DopamineUI"
 import { 
   BrandWatermark, 
@@ -20,6 +21,7 @@ import { BananaFlowStatus, useBananaFlow } from "./automation/BananaFlowIntegrat
 import { brandAssets, brandConfig } from "./config/brandConfig"
 import { recursivePattern, createDopamineColors } from "./utils"
 import ErrorBoundary from "./components/ErrorBoundary"
+import MinimizablePanel from "./components/MinimizablePanel"
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts"
 import { useAnalytics } from "./hooks/useAnalytics"
 import { useAdvancedAudio } from "./hooks/useAdvancedAudio"
@@ -44,6 +46,7 @@ function ModuleRouter() {
   
   const modules = {
     chat: <ChatPanel />,
+    workflows: <WorkflowBuilder />,
     sessions: <SessionManager />,
     visualizer: <Visualizer3D />,
     ai: <AIStudio />,
@@ -264,22 +267,24 @@ function App() {
       {/* Banana Flow Status Indicator */}
       <BananaFlowStatus />
       
-      {/* Development Analytics Display */}
+      {/* Minimizable Analytics Display */}
       {import.meta.env.DEV && insights && (
-        <div className="absolute top-20 right-4 bg-black/80 text-white p-4 rounded-lg text-xs max-w-xs">
-          <h3 className="font-bold mb-2">Live Analytics</h3>
-          <div>Active Users: {insights.realTimeData?.activeUsers || 0}</div>
-          <div>Messages/min: {insights.realTimeData?.messagesPerMinute || 0}</div>
-          <div>Error Rate: {(insights.realTimeData?.errorRate || 0).toFixed(2)}%</div>
-          <div>Engagement: {insights.users?.engagementScore || 0}/100</div>
-        </div>
+        <MinimizablePanel title="Live Analytics" position="top-right">
+          <div className="space-y-1">
+            <div className="flex justify-between"><span className="text-gray-400">Active Users:</span> <span>{insights.realTimeData?.activeUsers || 0}</span></div>
+            <div className="flex justify-between"><span className="text-gray-400">Messages/min:</span> <span>{insights.realTimeData?.messagesPerMinute || 0}</span></div>
+            <div className="flex justify-between"><span className="text-gray-400">Error Rate:</span> <span>{(insights.realTimeData?.errorRate || 0).toFixed(2)}%</span></div>
+            <div className="flex justify-between"><span className="text-gray-400">Engagement:</span> <span>{insights.users?.engagementScore || 0}/100</span></div>
+          </div>
+        </MinimizablePanel>
       )}
       
-      {/* Performance Monitor */}
-      <PerformancePanel 
-        isVisible={import.meta.env.DEV} 
-        position="bottom-right" 
-      />
+      {/* Minimizable Performance Monitor */}
+      {import.meta.env.DEV && (
+        <MinimizablePanel title="Performance" position="bottom-right" defaultMinimized={true}>
+          <PerformancePanel isVisible={true} position="bottom-right" />
+        </MinimizablePanel>
+      )}
     </div>
     </ErrorBoundary>
   )
