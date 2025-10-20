@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useStore from '../store'
 import GlassmorphicCard from '../components/GlassmorphicCard'
+import { WorkflowExecutor } from './workflowExecution'
 
 // Available workflow nodes
 const nodeTypes = {
@@ -125,11 +126,15 @@ function ConnectionLine({ from, to, nodes }) {
 }
 
 export default function WorkflowBuilder() {
+  const { webhook } = useStore()
   const [nodes, setNodes] = useState([])
   const [connections, setConnections] = useState([])
   const [selectedNode, setSelectedNode] = useState(null)
   const [connectingFrom, setConnectingFrom] = useState(null)
   const [showPalette, setShowPalette] = useState(false)
+  const [executing, setExecuting] = useState(false)
+  const [executionLog, setExecutionLog] = useState([])
+  const [executionResult, setExecutionResult] = useState(null)
 
   const addNode = useCallback((category, type) => {
     const newNode = {
@@ -160,10 +165,37 @@ export default function WorkflowBuilder() {
   }, [connectingFrom])
 
   const executeWorkflow = useCallback(async () => {
-    console.log('🚀 Executing workflow...', { nodes, connections })
-    // TODO: Implement actual workflow execution
-    alert('Workflow execution coming soon! Your nodes are ready to connect.')
-  }, [nodes, connections])
+    if (nodes.length === 0) return
+
+    setExecuting(true)
+    setExecutionLog([])
+    setExecutionResult(null)
+
+    const executor = new WorkflowExecutor(nodes, connections, webhook)
+    
+    executor.setProgressCallback((progress) => {
+      setExecutionLog(prev => [...prev, progress])
+    })
+
+    try {
+      const result = await executor.execute({ 
+        message: 'Workflow started',
+        initiatedBy: 'user'
+      })
+      
+      setExecutionResult(result)
+      console.log('✅ Workflow completed:', result)
+      
+    } catch (error) {
+      console.error('❌ Workflow failed:', error)
+      setExecutionLog(prev => [...prev, { 
+        status: 'error', 
+        message: `Execution failed: ${error.message}` 
+      }])
+    } finally {
+      setExecuting(false)
+    }
+  }, [nodes, connections, webhook])
 
   return (
     <div className="h-full flex flex-col bg-black">
@@ -186,11 +218,24 @@ export default function WorkflowBuilder() {
           
           <button
             onClick={executeWorkflow}
-            disabled={nodes.length === 0}
-            className="bg-black border border-cyan-500 px-6 py-2 font-mono text-xs text-cyan-400 disabled:opacity-20 disabled:cursor-not-allowed hover:bg-cyan-500/10 transition-all"
+            disabled={nodes.length === 0 || executing}
+            className={`bg-black border px-6 py-2 font-mono text-xs disabled:opacity-20 disabled:cursor-not-allowed transition-all ${
+              executing 
+                ? 'border-cyan-400 text-cyan-400 animate-pulse' 
+                : 'border-cyan-500 text-cyan-400 hover:bg-cyan-500/10'
+            }`}
           >
-            [EXECUTE]
+            {executing ? '[RUNNING...]' : '[EXECUTE]'}
           </button>
+          
+          {executionLog.length > 0 && (
+            <button
+              onClick={() => setExecutionLog([])}
+              className="bg-black border border-gray-700 px-4 py-2 font-mono text-xs text-gray-500 hover:text-gray-400 transition-colors"
+            >
+              [CLEAR_LOG]
+            </button>
+          )}
         </div>
       </div>
 
@@ -249,6 +294,51 @@ export default function WorkflowBuilder() {
           </motion.div>
         )}
       </div>
+
+      {/* Execution Log Panel */}
+      {executionLog.length > 0 && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          className="absolute bottom-4 left-4 right-4 max-w-2xl mx-auto z-40"
+        >
+          <GlassmorphicCard className="p-4 max-h-48 overflow-y-auto">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs font-mono text-cyan-400 font-bold">EXECUTION_LOG</h3>
+              <button 
+                onClick={() => setExecutionLog([])}
+                className="text-gray-600 hover:text-cyan-500 text-xs font-mono"
+              >
+                [X]
+              </button>
+            </div>
+            <div className="space-y-1 text-xs font-mono">
+              {executionLog.map((log, i) => (
+                <div 
+                  key={i}
+                  className={`flex items-start space-x-2 ${
+                    log.status === 'error' ? 'text-red-400' :
+                    log.status === 'success' ? 'text-green-400' :
+                    log.status === 'running' ? 'text-cyan-400' :
+                    'text-gray-400'
+                  }`}
+                >
+                  <span className="opacity-50">{i + 1}.</span>
+                  <span className="flex-1">{log.message || JSON.stringify(log)}</span>
+                </div>
+              ))}
+            </div>
+            {executionResult && (
+              <div className="mt-3 pt-3 border-t border-cyan-500/20">
+                <div className="text-xs text-green-400 font-mono">
+                  ✓ SUCCESS - {Object.keys(executionResult.nodeResults || {}).length} nodes executed
+                </div>
+              </div>
+            )}
+          </GlassmorphicCard>
+        </motion.div>
+      )}
 
       {/* Node Palette */}
       <AnimatePresence>
