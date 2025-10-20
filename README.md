@@ -32,7 +32,7 @@ A production-ready chat application built with React 19, Three.js, and advanced 
 
 1. Clone the repository:
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/bec_macc/beyflow-chat.git
 cd beyflow-chat
 ```
 
