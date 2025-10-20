@@ -4,6 +4,7 @@ import useStore from '../store'
 import { getTheme } from '../config/themes'
 import { omnigenAgents } from '../config/omnigenAgents'
 import GlassmorphicCard from '../components/GlassmorphicCard'
+import OmnigenCube from '../components/OmnigenCube'
 import OpenAI from 'openai'
 
 const openai = new OpenAI({
@@ -66,7 +67,7 @@ export default function AIStudio() {
       {/* Header */}
       <div className={`h-12 ${theme.colors.bg} border-b ${theme.colors.border} flex items-center justify-between px-6`}>
         <h2 className={`text-sm ${theme.font} ${theme.colors.textMuted}`}>
-          {theme.id === 'glassmorphic' ? 'AI Studio' : 'ai_studio'}
+          {theme.id === 'glassmorphic' ? 'AI Studio - Omnigen Team' : 'ai_studio_omnigen_team'}
         </h2>
         <div className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
           {agent.icon} {agent.name}
@@ -74,7 +75,29 @@ export default function AIStudio() {
       </div>
 
       <div className="flex-1 flex">
-        {/* Agent Selector */}
+        {/* 3D Visualization */}
+        <div className={`w-80 ${theme.colors.bg} border-r ${theme.colors.border} p-4`}>
+          <h3 className={`text-xs ${theme.font} font-bold ${theme.colors.accent} mb-3`}>
+            {theme.id === 'glassmorphic' ? '3D Team Structure' : '// 3D_HIERARCHY'}
+          </h3>
+          <div className="h-96 rounded-lg overflow-hidden bg-black/50">
+            <OmnigenCube 
+              onAgentSelect={setSelectedAgent} 
+              activeAgent={selectedAgent}
+            />
+          </div>
+          
+          <div className={`mt-4 p-3 ${theme.rounded} border ${theme.colors.border}`}>
+            <p className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
+              {theme.id === 'glassmorphic' 
+                ? 'Click the cube to explore the agent hierarchy. Each triangle represents a specialized AI agent.'
+                : '> Click cube to fractal_explore\n> Triangles = specialized_agents'
+              }
+            </p>
+          </div>
+        </div>
+
+        {/* Agent Selector List */}
         <div className={`w-64 ${theme.colors.bg} border-r ${theme.colors.border} p-4 overflow-y-auto`}>
           <h3 className={`text-xs ${theme.font} font-bold ${theme.colors.accent} mb-3`}>
             {theme.id === 'glassmorphic' ? 'Select Agent' : '// AGENTS'}

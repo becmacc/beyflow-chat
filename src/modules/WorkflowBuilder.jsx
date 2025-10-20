@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useStore from '../store'
 import GlassmorphicCard from '../components/GlassmorphicCard'
+import OmnigenCube from '../components/OmnigenCube'
 import { WorkflowExecutor } from './workflowExecution'
 import { getTheme } from '../config/themes'
 
@@ -160,6 +161,8 @@ export default function WorkflowBuilder() {
   const [executing, setExecuting] = useState(false)
   const [executionLog, setExecutionLog] = useState([])
   const [executionResult, setExecutionResult] = useState(null)
+  const [show3DView, setShow3DView] = useState(false)
+  const [selectedAgentFor3D, setSelectedAgentFor3D] = useState(null)
 
   const addNode = useCallback((category, type) => {
     const newNode = {
@@ -234,6 +237,15 @@ export default function WorkflowBuilder() {
         </div>
         
         <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setShow3DView(!show3DView)}
+            className={`px-4 py-2 text-xs ${theme.font} ${theme.rounded} transition-colors ${
+              show3DView ? theme.colors.buttonActive : theme.colors.button
+            }`}
+          >
+            {show3DView ? '🔲' : '🧊'} {theme.id === 'glassmorphic' ? '3D View' : '[3D_VIEW]'}
+          </button>
+          
           <button
             onClick={() => setShowPalette(!showPalette)}
             className={`px-4 py-2 text-xs ${theme.colors.button} ${theme.font} ${theme.rounded} transition-colors`}
@@ -374,6 +386,57 @@ export default function WorkflowBuilder() {
           </GlassmorphicCard>
         </motion.div>
       )}
+
+      {/* 3D Agent View */}
+      <AnimatePresence>
+        {show3DView && (
+          <motion.div
+            initial={{ x: 400 }}
+            animate={{ x: 0 }}
+            exit={{ x: 400 }}
+            className={`absolute right-0 top-12 bottom-0 w-96 ${theme.colors.bg} border-l ${theme.colors.border} z-30 ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+          >
+            <div className="h-full flex flex-col p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className={`text-lg ${theme.font} font-bold ${theme.colors.text}`}>
+                  {theme.id === 'glassmorphic' ? 'Omnigen Team Structure' : 'OMNIGEN_HIERARCHY'}
+                </h3>
+                <button
+                  onClick={() => setShow3DView(false)}
+                  className={`${theme.colors.textMuted} hover:${theme.colors.accent} ${theme.font} text-xs`}
+                >
+                  {theme.id === 'glassmorphic' ? '✕' : '[X]'}
+                </button>
+              </div>
+
+              <div className="flex-1 rounded-lg overflow-hidden bg-black/50 mb-4">
+                <OmnigenCube 
+                  onAgentSelect={(agentId) => {
+                    setSelectedAgentFor3D(agentId)
+                    addNode('action', agentId)
+                  }} 
+                  activeAgent={selectedAgentFor3D}
+                />
+              </div>
+
+              <div className={`p-4 ${theme.rounded} border ${theme.colors.border}`}>
+                <p className={`text-xs ${theme.colors.textMuted} ${theme.font} mb-2`}>
+                  {theme.id === 'glassmorphic' 
+                    ? '🧊 Fractal Agent Hierarchy'
+                    : '> FRACTAL_AGENT_SYSTEM'
+                  }
+                </p>
+                <p className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
+                  {theme.id === 'glassmorphic'
+                    ? 'Click the cube to explore. Each triangle piece represents a specialized AI agent that connects to real APIs.'
+                    : '> Cube→Triangles→Agents\n> Click = Add to workflow\n> Each piece = Real API'
+                  }
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Node Palette */}
       <AnimatePresence>

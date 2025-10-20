@@ -29,6 +29,8 @@ import { useAnalytics } from "./hooks/useAnalytics"
 import { useAdvancedAudio } from "./hooks/useAdvancedAudio"
 import OptimizedScene from "./components/OptimizedScene"
 import ThemeToggle from "./components/ThemeToggle"
+import YouTubeMusicPlayer from "./components/YouTubeMusicPlayer"
+import InstagramBrowser from "./components/InstagramBrowser"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -243,6 +245,12 @@ function App() {
           <PerformancePanel isVisible={true} position="bottom-right" />
         </MinimizablePanel>
       )}
+      
+      {/* YouTube Music Player */}
+      <YouTubeMusicPlayer />
+      
+      {/* Instagram Browser */}
+      <InstagramBrowser />
     </div>
     </ErrorBoundary>
   )
