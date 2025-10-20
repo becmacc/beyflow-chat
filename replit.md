@@ -6,7 +6,11 @@ BeyFlow Chat has evolved into a visual workflow automation platform where users 
 
 The platform includes a fully functional visual workflow builder that lets users create automation flows by connecting trigger nodes (ChatGPT, webhooks, schedules), action nodes (Make.com, OpenAI, Gmail, Discord, Twilio), and logic nodes (conditions, delays, filters). The workflow execution engine processes nodes in topological order, makes real API calls to OpenAI (via Replit AI integration) and Make.com webhooks, and displays real-time execution progress with visual node highlighting and detailed logging.
 
-The application emphasizes a dopaminergic, reward-based UI with cyberpunk styling, minimizable panels for performance monitoring and analytics, and a modular architecture ready for Web3 integration including wallet connectivity and 3D avatar identity.
+The application features a **theme persona system** allowing users to switch between different UI aesthetics:
+- **Terminal Hacker**: Dark cyberpunk with monospace fonts, minimal cyan accents, pure black backgrounds
+- **Glassmorphic Modern**: Colorful gradient backgrounds, frosted glass effects, rounded corners, soft shadows
+
+The app emphasizes a dopaminergic, reward-based UI with minimizable panels for performance monitoring and analytics, and a modular architecture ready for Web3 integration.
 
 ## User Preferences
 

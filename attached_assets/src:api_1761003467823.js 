@@ -1,0 +1,19 @@
+const API_URL = 'http://127.0.0.1:5001';
+
+export async function askChatGPT(message) {
+  const res = await fetch(`${API_URL}/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message }),
+  });
+  return res.json();
+}
+
+export async function generateImage(prompt) {
+  const res = await fetch(`${API_URL}/image`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt }),
+  });
+  return res.json();
+}

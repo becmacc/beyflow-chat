@@ -28,6 +28,8 @@ import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts"
 import { useAnalytics } from "./hooks/useAnalytics"
 import { useAdvancedAudio } from "./hooks/useAdvancedAudio"
 import OptimizedScene from "./components/OptimizedScene"
+import ThemeToggle from "./components/ThemeToggle"
+import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
 function Scene({ audioData }) {
@@ -72,7 +74,8 @@ function ModuleRouter() {
 }
 
 function App() {
-  const { ui, audio } = useStore()
+  const { ui, audio, themePersona } = useStore()
+  const theme = getTheme(themePersona)
   const bananaFlow = useBananaFlow()
   const { trackEvent, insights } = useAnalytics()
   const audioData = useAdvancedAudio()
@@ -109,10 +112,25 @@ function App() {
   
   return (
     <ErrorBoundary>
-      <div className="h-screen bg-black overflow-hidden relative">
-      {/* Cutting-edge fluid gradient background */}
-      <FluidGradientBg />
-      <MeshGradient />
+      <div className={`h-screen overflow-hidden relative ${theme.colors.bgGradient}`}>
+      {/* Background Layers - adapt to theme */}
+      {theme.effects.scanlines && <FluidGradientBg />}
+      {theme.effects.grid && <MeshGradient />}
+      
+      {/* Glassmorphic background */}
+      {theme.id === 'glassmorphic' && (
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-teal-900" />
+          <div 
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage: `radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                               radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                               radial-gradient(circle at 40% 80%, rgba(34, 211, 238, 0.3) 0%, transparent 50%)`
+            }}
+          />
+        </div>
+      )}
       
       {/* Brand Watermark */}
       {brandConfig.watermark.enabled && (
@@ -135,22 +153,25 @@ function App() {
         
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
-          {/* Minimal Top Bar - deep in background */}
-          <div className="h-12 bg-black border-b border-cyan-500/5 flex items-center justify-between px-6">
+          {/* Top Bar - adapts to theme */}
+          <div className={`h-12 ${theme.colors.bg} border-b ${theme.colors.border} flex items-center justify-between px-6`}>
             <div className="flex items-center space-x-3">
               <img 
                 src={brandAssets.beyMediaLogo} 
                 alt="BeyMedia" 
                 className="w-6 h-6 object-contain opacity-30"
               />
-              <h1 className="text-sm font-mono text-cyan-700/40">
+              <h1 className={`text-sm ${theme.font} ${theme.colors.textMuted}`}>
                 beyflow_chat
               </h1>
             </div>
             
-            <div className="flex items-center space-x-3 text-xs font-mono text-cyan-800/30">
-              {audio.isListening && <span>[REC]</span>}
-              {audio.playing && <span>[PLAY]</span>}
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+              <div className={`flex items-center space-x-3 text-xs ${theme.font} ${theme.colors.textMuted}`}>
+                {audio.isListening && <span>[REC]</span>}
+                {audio.playing && <span>[PLAY]</span>}
+              </div>
             </div>
           </div>
           

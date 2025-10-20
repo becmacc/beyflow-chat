@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import useStore from '../store'
 import GlassmorphicCard from '../components/GlassmorphicCard'
 import { WorkflowExecutor } from './workflowExecution'
+import { getTheme } from '../config/themes'
 
 // Available workflow nodes
 const nodeTypes = {
@@ -145,7 +146,8 @@ function ConnectionLine({ from, to, nodes }) {
 }
 
 export default function WorkflowBuilder() {
-  const { webhook } = useStore()
+  const { webhook, themePersona } = useStore()
+  const theme = getTheme(themePersona)
   const [nodes, setNodes] = useState([])
   const [connections, setConnections] = useState([])
   const [selectedNode, setSelectedNode] = useState(null)
@@ -217,12 +219,12 @@ export default function WorkflowBuilder() {
   }, [nodes, connections, webhook])
 
   return (
-    <div className="h-full flex flex-col bg-black">
+    <div className={`h-full flex flex-col ${theme.colors.bg}`}>
       {/* Toolbar */}
-      <div className="h-12 bg-black border-b border-cyan-500/5 flex items-center justify-between px-6">
+      <div className={`h-12 ${theme.colors.bg} border-b ${theme.colors.border} flex items-center justify-between px-6`}>
         <div className="flex items-center space-x-4">
-          <h2 className="text-sm font-mono text-cyan-700/50">workflow_builder</h2>
-          <div className="text-xs text-cyan-900/30 font-mono">
+          <h2 className={`text-sm ${theme.font} ${theme.colors.textMuted}`}>workflow_builder</h2>
+          <div className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
             [{nodes.length}] nodes / [{connections.length}] conn
           </div>
         </div>
@@ -230,43 +232,46 @@ export default function WorkflowBuilder() {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShowPalette(!showPalette)}
-            className="bg-black border border-cyan-500/30 px-4 py-2 text-cyan-500 hover:border-cyan-500 transition-colors font-mono text-xs"
+            className={`px-4 py-2 text-xs ${theme.colors.button} ${theme.font} ${theme.rounded} transition-colors`}
           >
-            [+] NODE
+            {theme.id === 'glassmorphic' ? '+ Add Node' : '[+] NODE'}
           </button>
           
           <button
             onClick={executeWorkflow}
             disabled={nodes.length === 0 || executing}
-            className={`bg-black border px-6 py-2 font-mono text-xs disabled:opacity-20 disabled:cursor-not-allowed transition-all ${
+            className={`px-6 py-2 text-xs ${theme.font} ${theme.rounded} disabled:opacity-20 disabled:cursor-not-allowed transition-all ${
               executing 
-                ? 'border-cyan-400 text-cyan-400 animate-pulse' 
-                : 'border-cyan-500 text-cyan-400 hover:bg-cyan-500/10'
+                ? `${theme.colors.buttonActive} animate-pulse` 
+                : theme.colors.buttonActive
             }`}
           >
-            {executing ? '[RUNNING...]' : '[EXECUTE]'}
+            {executing 
+              ? (theme.id === 'glassmorphic' ? 'Running...' : '[RUNNING...]')
+              : (theme.id === 'glassmorphic' ? 'Execute' : '[EXECUTE]')
+            }
           </button>
           
           {executionLog.length > 0 && (
             <button
               onClick={() => setExecutionLog([])}
-              className="bg-black border border-gray-700 px-4 py-2 font-mono text-xs text-gray-500 hover:text-gray-400 transition-colors"
+              className={`px-4 py-2 text-xs ${theme.font} ${theme.rounded} ${theme.colors.button} transition-colors`}
             >
-              [CLEAR_LOG]
+              {theme.id === 'glassmorphic' ? 'Clear Log' : '[CLEAR_LOG]'}
             </button>
           )}
         </div>
       </div>
 
       {/* Canvas */}
-      <div className="flex-1 relative overflow-hidden bg-black"
-        style={{
+      <div className={`flex-1 relative overflow-hidden ${theme.colors.bg}`}
+        style={theme.effects.grid ? {
           backgroundImage: `
             linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px'
-        }}
+        } : {}}
       >
         {/* Connection Lines */}
         {connections.map((conn, i) => (
@@ -304,17 +309,17 @@ export default function WorkflowBuilder() {
           >
             <div className="text-center">
               <div className="text-6xl mb-4">🔗</div>
-              <h3 className="text-2xl font-mono font-bold text-cyan-400 mb-2">
-                INITIALIZE_WORKFLOW
+              <h3 className={`text-2xl ${theme.font} font-bold ${theme.colors.text} mb-2`}>
+                {theme.id === 'glassmorphic' ? 'Create Your First Workflow' : 'INITIALIZE_WORKFLOW'}
               </h3>
-              <p className="text-gray-600 mb-6 font-mono text-sm">
-                {'>'} Connect APIs + LLMs + Agents
+              <p className={`${theme.colors.textMuted} mb-6 ${theme.font} text-sm`}>
+                {theme.id === 'glassmorphic' ? 'Connect APIs, LLMs, and Agents' : '> Connect APIs + LLMs + Agents'}
               </p>
               <button
                 onClick={() => setShowPalette(true)}
-                className="bg-black border border-cyan-500/30 px-6 py-3 text-cyan-500 hover:border-cyan-500 transition-colors font-mono text-xs"
+                className={`px-6 py-3 text-xs ${theme.colors.buttonActive} ${theme.font} ${theme.rounded} transition-colors`}
               >
-                [+] ADD_NODE
+                {theme.id === 'glassmorphic' ? '+ Add Node' : '[+] ADD_NODE'}
               </button>
             </div>
           </motion.div>
@@ -373,22 +378,26 @@ export default function WorkflowBuilder() {
             initial={{ x: 400 }}
             animate={{ x: 0 }}
             exit={{ x: 400 }}
-            className="absolute right-0 top-12 bottom-0 w-96 bg-black border-l border-cyan-500/10 overflow-y-auto z-30"
+            className={`absolute right-0 top-12 bottom-0 w-96 ${theme.colors.bg} border-l ${theme.colors.border} overflow-y-auto z-30 ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-mono font-bold text-cyan-400">NODE_PALETTE</h3>
+                <h3 className={`text-lg ${theme.font} font-bold ${theme.colors.text}`}>
+                  {theme.id === 'glassmorphic' ? 'Node Palette' : 'NODE_PALETTE'}
+                </h3>
                 <button
                   onClick={() => setShowPalette(false)}
-                  className="text-gray-600 hover:text-cyan-500 font-mono text-xs"
+                  className={`${theme.colors.textMuted} hover:${theme.colors.accent} ${theme.font} text-xs`}
                 >
-                  [X]
+                  {theme.id === 'glassmorphic' ? '✕' : '[X]'}
                 </button>
               </div>
 
               {/* Triggers */}
               <div className="mb-6">
-                <h4 className="text-xs font-mono font-bold text-cyan-600 mb-3">// TRIGGERS</h4>
+                <h4 className={`text-xs ${theme.font} font-bold ${theme.colors.accent} mb-3`}>
+                  {theme.id === 'glassmorphic' ? '⚡ Triggers' : '// TRIGGERS'}
+                </h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(nodeTypes.trigger).map(([type, config]) => (
                     <motion.button
@@ -407,7 +416,9 @@ export default function WorkflowBuilder() {
 
               {/* Actions */}
               <div className="mb-6">
-                <h4 className="text-xs font-mono font-bold text-cyan-600 mb-3">// ACTIONS</h4>
+                <h4 className={`text-xs ${theme.font} font-bold ${theme.colors.accent} mb-3`}>
+                  {theme.id === 'glassmorphic' ? '🔧 Actions' : '// ACTIONS'}
+                </h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(nodeTypes.action).map(([type, config]) => (
                     <motion.button
@@ -427,7 +438,9 @@ export default function WorkflowBuilder() {
 
               {/* Logic */}
               <div>
-                <h4 className="text-xs font-mono font-bold text-cyan-600 mb-3">// LOGIC</h4>
+                <h4 className={`text-xs ${theme.font} font-bold ${theme.colors.accent} mb-3`}>
+                  {theme.id === 'glassmorphic' ? '🧠 Logic' : '// LOGIC'}
+                </h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(nodeTypes.logic).map(([type, config]) => (
                     <motion.button

@@ -30,6 +30,10 @@ const useStore = create((set, get) => ({
     ui: { ...state.ui, ...uiUpdates }
   })),
 
+  // Theme persona
+  themePersona: 'terminal',
+  setThemePersona: (persona) => set({ themePersona: persona }),
+
   // Current module
   currentModule: 'chat',
   setModule: (module) => set({ currentModule: module }),
