@@ -25,25 +25,32 @@ export default function MinimizablePanel({
       {isMinimized ? (
         <motion.button
           onClick={() => setIsMinimized(false)}
-          className="cyber-card px-3 py-2 neon-text hover:shadow-neon-cyan transition-all"
+          className="bg-black/60 backdrop-blur-sm border border-neon-cyan/30 px-2 py-1 rounded text-neon-cyan text-xs hover:border-neon-cyan hover:shadow-neon-cyan transition-all"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          📊 {title}
+          📊
         </motion.button>
       ) : (
-        <div className="cyber-card p-4 text-white text-xs max-w-xs">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-sm neon-text">{title}</h3>
+        <motion.div 
+          className="bg-black/70 backdrop-blur-md border border-neon-cyan/40 rounded px-2 py-2 text-white"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ fontSize: '10px', maxWidth: '180px' }}
+        >
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="font-mono text-neon-cyan" style={{ fontSize: '10px' }}>{title}</h3>
             <button
               onClick={() => setIsMinimized(true)}
-              className="text-gray-400 hover:text-neon-cyan transition-colors"
+              className="text-gray-400 hover:text-neon-cyan transition-colors text-xs leading-none"
             >
               ━
             </button>
           </div>
-          {children}
-        </div>
+          <div style={{ fontSize: '9px' }}>
+            {children}
+          </div>
+        </motion.div>
       )}
     </motion.div>
   )

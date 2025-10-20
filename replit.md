@@ -1,10 +1,12 @@
-# BeyFlow Chat - Dopaminergic Web3 Chat Experience
+# BeyFlow Chat - Visual Workflow Automation Platform
 
 ## Overview
 
-BeyFlow Chat is a cutting-edge chat application that combines modern web technologies to create an immersive, dopaminergic user experience. Built with React 19 and Vite, it features 3D visualizations powered by Three.js, advanced audio processing with ElevenLabs TTS and Web Speech API, and a lightweight automation system called "Banana Flow" for background orchestration.
+BeyFlow Chat has evolved into a visual workflow automation platform where users can connect APIs (ChatGPT, Make.com scenarios), LLMs, agents, and tools together through an intuitive drag-and-drop interface. Built with React 19 and Vite, it features a cyberpunk-styled Web3 aesthetic with neon colors, glitch effects, and smooth animations.
 
-The application emphasizes smooth animations, reward-based UI patterns, and seamless integrations with external services like Make.com webhooks, Gmail, and AI providers (OpenAI, Gemini). It's designed as a modular, extensible platform with hooks for future Web3 integration including wallet connectivity and 3D avatar identity.
+The platform includes a visual workflow builder that lets users create automation flows by connecting trigger nodes (ChatGPT, webhooks, schedules), action nodes (Make.com, OpenAI, Gmail, Discord, Twilio), and logic nodes (conditions, delays, filters). It leverages the existing "Banana Flow" automation system for workflow execution and integrates seamlessly with external services.
+
+The application emphasizes a dopaminergic, reward-based UI with cyberpunk styling, minimizable panels for performance monitoring and analytics, and a modular architecture ready for Web3 integration including wallet connectivity and 3D avatar identity.
 
 ## User Preferences
 
@@ -27,12 +29,14 @@ Preferred communication style: Simple, everyday language.
 - `immer` middleware for immutable state updates with mutable syntax
 - Legacy store bridge for backward compatibility during migration
 
-**Styling System**: TailwindCSS v3 with custom dopamine theme
-- Custom color palette featuring primary (#4CC3D9), accent, and gradient colors
+**Styling System**: TailwindCSS v3 with cyberpunk/Web3 theme
+- Neon color palette: neon-cyan (#00F0FF), neon-magenta (#FF00FF), neon-green (#00FF41)
+- Cyberpunk effects: scanlines, glitch effects, tech-focused grid backgrounds
 - Custom animations (float, pulse-slow, bounce-slow) for dopaminergic effects
-- Glassmorphism design patterns with backdrop blur utilities
-- Custom scrollbar styling with brand colors
-- Google Fonts integration (Inter, Space Grotesk)
+- Glassmorphism design patterns with backdrop blur utilities (cyber-card class)
+- Custom scrollbar styling with neon accents
+- Google Fonts integration (Inter, Space Grotesk, Orbitron for tech text)
+- Shadow effects with neon glow (shadow-neon-cyan, shadow-neon-magenta)
 
 **Animation Framework**: Framer Motion v11
 - Smooth page transitions and component animations
@@ -46,6 +50,27 @@ Preferred communication style: Simple, everyday language.
 - Interactive particle systems with recursive patterns
 - Audio-reactive lighting and transformations
 - Orbit controls with auto-rotation capabilities
+
+### Workflow Builder Module
+
+**Visual Workflow Canvas**: Drag-and-drop node-based automation designer
+- 15+ pre-configured node types across 3 categories (triggers, actions, logic)
+- Drag-and-drop positioning with smooth Framer Motion animations
+- Visual connection lines with gradient effects between nodes
+- Real-time workflow validation and connection management
+- Node palette sidebar with searchable, categorized nodes
+- Execute button to run workflows through Banana Flow engine
+
+**Node Categories**:
+1. **Triggers**: ChatGPT, Webhook, Schedule, Chat Message
+2. **Actions**: Make.com, OpenAI, Gmail, Notion, Google Sheets, Discord, Twilio
+3. **Logic**: Condition (if/then/else), Delay, Filter, Transform
+
+**OpenAI Integration**: Via Replit AI Integrations (no API key needed)
+- Charges billed directly to Replit credits
+- Environment variables auto-configured: `AI_INTEGRATIONS_OPENAI_BASE_URL`, `AI_INTEGRATIONS_OPENAI_API_KEY`
+- GPT-4/GPT-5 access through standardized interface
+- npm package `openai` installed for SDK usage
 
 ### Backend Architecture
 
@@ -158,13 +183,28 @@ Preferred communication style: Simple, everyday language.
 ### Modular Architecture
 
 **Component Organization**:
-- `/src/components/` - Reusable UI components (BrandAssets, AudioComponents, DopamineUI)
-- `/src/modules/` - Feature modules (ChatPanel, Visualizer3D, AIStudio, SessionManager)
+- `/src/components/` - Reusable UI components (BrandAssets, MinimizablePanel, AudioComponents, DopamineUI)
+- `/src/modules/` - Feature modules (ChatPanel, WorkflowBuilder, Visualizer3D, AIStudio, SessionManager)
 - `/src/hooks/` - Custom React hooks (useAdvancedAudio, useAnalytics, useKeyboardShortcuts, useWebhook, useWeb3)
 - `/src/store/` - State management with multiple specialized stores
 - `/src/automation/` - Banana Flow automation system
 - `/src/config/` - Configuration files (brand assets, API endpoints)
 - `/src/utils/` - Utility functions (patterns, gradients, particles, color interpolation)
+
+**Navigation Modules**:
+1. **Chat** - Real-time messaging with AI
+2. **Workflows** - Visual workflow builder (NEW - primary feature)
+3. **Sessions** - Saved conversations and session management
+4. **AI Studio** - AI playground and experimentation
+5. **Settings** - Configuration and preferences
+
+**Minimizable Panels**: Collapsible UI components for non-intrusive monitoring
+- `MinimizablePanel` component for analytics and performance displays
+- Minimized state shows compact button with icon and title
+- Expanded state shows full panel with cyber-card styling
+- Positioned at screen corners (top-left, top-right, bottom-left, bottom-right)
+- Live Analytics panel (top-right) - minimizable
+- Performance Monitor panel (bottom-right) - minimizable, default minimized in dev mode
 
 **Extension Points**:
 - Web3 wallet integration hooks (placeholder for MetaMask/WalletConnect)
@@ -188,10 +228,12 @@ Preferred communication style: Simple, everyday language.
 - Audio synthesis endpoint: `https://api.elevenlabs.io/v1/text-to-speech/{voiceId}`
 - Returns audio/mpeg format for playback
 
-**AI Providers** (Future/Planned):
-- OpenAI API for AI Studio functionality
-- Google Gemini for AI-powered content analysis
-- Integration structure prepared but API keys not yet configured
+**AI Providers**:
+- **OpenAI**: Via Replit AI Integrations (charges billed to Replit credits, no separate API key needed)
+  - Auto-configured environment variables: `AI_INTEGRATIONS_OPENAI_BASE_URL`, `AI_INTEGRATIONS_OPENAI_API_KEY`
+  - OpenAI npm package installed
+  - GPT-4/GPT-5 access for AI Studio and workflow nodes
+- **Google Gemini** (Future/Planned): AI-powered content analysis
 
 ### NPM Dependencies
 

@@ -269,12 +269,11 @@ function App() {
       
       {/* Minimizable Analytics Display */}
       {import.meta.env.DEV && insights && (
-        <MinimizablePanel title="Live Analytics" position="top-right">
-          <div className="space-y-1">
-            <div className="flex justify-between"><span className="text-gray-400">Active Users:</span> <span>{insights.realTimeData?.activeUsers || 0}</span></div>
-            <div className="flex justify-between"><span className="text-gray-400">Messages/min:</span> <span>{insights.realTimeData?.messagesPerMinute || 0}</span></div>
-            <div className="flex justify-between"><span className="text-gray-400">Error Rate:</span> <span>{(insights.realTimeData?.errorRate || 0).toFixed(2)}%</span></div>
-            <div className="flex justify-between"><span className="text-gray-400">Engagement:</span> <span>{insights.users?.engagementScore || 0}/100</span></div>
+        <MinimizablePanel title="LIVE" position="top-right">
+          <div className="space-y-0.5 font-mono">
+            <div className="flex justify-between gap-2"><span className="text-gray-500">USR</span> <span className="text-neon-green">{insights.realTimeData?.activeUsers || 0}</span></div>
+            <div className="flex justify-between gap-2"><span className="text-gray-500">MSG</span> <span className="text-neon-cyan">{insights.realTimeData?.messagesPerMinute || 0}</span></div>
+            <div className="flex justify-between gap-2"><span className="text-gray-500">ERR</span> <span className="text-neon-magenta">{(insights.realTimeData?.errorRate || 0).toFixed(1)}%</span></div>
           </div>
         </MinimizablePanel>
       )}
