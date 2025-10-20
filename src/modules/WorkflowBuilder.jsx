@@ -166,46 +166,42 @@ export default function WorkflowBuilder() {
   }, [nodes, connections])
 
   return (
-    <div className="h-full flex flex-col bg-black/20 backdrop-blur-sm">
+    <div className="h-full flex flex-col bg-black">
       {/* Toolbar */}
-      <div className="h-16 bg-black/40 backdrop-blur-xl border-b border-white/20 flex items-center justify-between px-6">
+      <div className="h-12 bg-black border-b border-cyan-500/5 flex items-center justify-between px-6">
         <div className="flex items-center space-x-4">
-          <h2 className="text-xl font-tech font-bold neon-text">Workflow Builder</h2>
-          <div className="text-xs text-gray-400">
-            {nodes.length} nodes • {connections.length} connections
+          <h2 className="text-sm font-mono text-cyan-700/50">workflow_builder</h2>
+          <div className="text-xs text-cyan-900/30 font-mono">
+            [{nodes.length}] nodes / [{connections.length}] conn
           </div>
         </div>
         
         <div className="flex items-center space-x-2">
-          <motion.button
+          <button
             onClick={() => setShowPalette(!showPalette)}
-            className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-lg neon-text hover:bg-white/20 hover:border-neon-cyan/50 hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="bg-black border border-cyan-500/30 px-4 py-2 text-cyan-500 hover:border-cyan-500 transition-colors font-mono text-xs"
           >
-            ➕ Add Node
-          </motion.button>
+            [+] NODE
+          </button>
           
-          <motion.button
+          <button
             onClick={executeWorkflow}
             disabled={nodes.length === 0}
-            className="relative overflow-hidden bg-gradient-to-r from-neon-cyan to-neon-magenta px-6 py-2 rounded-lg font-bold text-black disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(0,240,255,0.5)]"
-            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(0,240,255,0.8)' }}
-            whileTap={{ scale: 0.95 }}
+            className="bg-black border border-cyan-500 px-6 py-2 font-mono text-xs text-cyan-400 disabled:opacity-20 disabled:cursor-not-allowed hover:bg-cyan-500/10 transition-all"
           >
-            ▶️ Execute
-          </motion.button>
+            [EXECUTE]
+          </button>
         </div>
       </div>
 
       {/* Canvas */}
-      <div className="flex-1 relative overflow-hidden"
+      <div className="flex-1 relative overflow-hidden bg-black"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,240,255,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,240,255,0.05) 1px, transparent 1px)
+            linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px)
           `,
-          backgroundSize: '50px 50px'
+          backgroundSize: '40px 40px'
         }}
       >
         {/* Connection Lines */}
@@ -237,20 +233,18 @@ export default function WorkflowBuilder() {
           >
             <div className="text-center">
               <div className="text-6xl mb-4">🔗</div>
-              <h3 className="text-2xl font-tech font-bold neon-text mb-2">
-                Start Building Your Workflow
+              <h3 className="text-2xl font-mono font-bold text-cyan-400 mb-2">
+                INITIALIZE_WORKFLOW
               </h3>
-              <p className="text-gray-400 mb-6">
-                Connect ChatGPT, Make.com, and other tools together
+              <p className="text-gray-600 mb-6 font-mono text-sm">
+                {'>'} Connect APIs + LLMs + Agents
               </p>
-              <motion.button
+              <button
                 onClick={() => setShowPalette(true)}
-                className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-lg neon-text hover:bg-white/20 hover:border-neon-cyan/50 hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="bg-black border border-cyan-500/30 px-6 py-3 text-cyan-500 hover:border-cyan-500 transition-colors font-mono text-xs"
               >
-                ➕ Add Your First Node
-              </motion.button>
+                [+] ADD_NODE
+              </button>
             </div>
           </motion.div>
         )}
@@ -263,30 +257,29 @@ export default function WorkflowBuilder() {
             initial={{ x: 400 }}
             animate={{ x: 0 }}
             exit={{ x: 400 }}
-            className="absolute right-0 top-16 bottom-0 w-96 bg-black/60 backdrop-blur-2xl border-l border-white/20 overflow-y-auto z-30"
+            className="absolute right-0 top-12 bottom-0 w-96 bg-black border-l border-cyan-500/10 overflow-y-auto z-30"
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-tech font-bold neon-text">Add Node</h3>
+                <h3 className="text-lg font-mono font-bold text-cyan-400">NODE_PALETTE</h3>
                 <button
                   onClick={() => setShowPalette(false)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-gray-600 hover:text-cyan-500 font-mono text-xs"
                 >
-                  ✕
+                  [X]
                 </button>
               </div>
 
               {/* Triggers */}
               <div className="mb-6">
-                <h4 className="text-sm font-bold text-neon-green mb-3">⚡ TRIGGERS</h4>
+                <h4 className="text-xs font-mono font-bold text-cyan-600 mb-3">// TRIGGERS</h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(nodeTypes.trigger).map(([type, config]) => (
                     <motion.button
                       key={type}
                       onClick={() => addNode('trigger', type)}
-                      className="bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-lg text-left hover:bg-white/10 hover:border-neon-cyan/30 hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      className="bg-black border border-gray-800 p-3 text-left hover:border-neon-cyan/40 hover:bg-black hover:shadow-[0_0_6px_rgba(0,240,255,0.2)] transition-all"
+                      whileTap={{ scale: 0.98 }}
                     >
                       <div className="text-2xl mb-1">{config.icon}</div>
                       <div className="text-xs font-bold text-white">{config.name}</div>
@@ -298,7 +291,7 @@ export default function WorkflowBuilder() {
 
               {/* Actions */}
               <div className="mb-6">
-                <h4 className="text-sm font-bold text-neon-cyan mb-3">🔧 ACTIONS</h4>
+                <h4 className="text-xs font-mono font-bold text-cyan-600 mb-3">// ACTIONS</h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(nodeTypes.action).map(([type, config]) => (
                     <motion.button
@@ -318,7 +311,7 @@ export default function WorkflowBuilder() {
 
               {/* Logic */}
               <div>
-                <h4 className="text-sm font-bold text-neon-magenta mb-3">🧠 LOGIC</h4>
+                <h4 className="text-xs font-mono font-bold text-cyan-600 mb-3">// LOGIC</h4>
                 <div className="grid grid-cols-2 gap-2">
                   {Object.entries(nodeTypes.logic).map(([type, config]) => (
                     <motion.button

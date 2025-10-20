@@ -16,82 +16,42 @@ export default function Sidebar() {
 
   return (
     <motion.div
-      className="w-64 bg-black/40 backdrop-blur-2xl border-r border-white/10 flex flex-col relative overflow-hidden"
+      className="w-64 bg-black border-r border-cyan-500/5 flex flex-col relative overflow-hidden"
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Glassmorphic effect overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
+      {/* Vertical scanlines */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,240,255,0.05) 1px, rgba(0,240,255,0.05) 2px)'
+        }}
+      />
       {/* Logo/Brand */}
-      <div className="p-6 border-b border-neon-cyan/30 relative overflow-hidden">
+      <div className="p-6 border-b border-cyan-500/10 relative overflow-hidden">
         <motion.div
           className="flex flex-col items-center space-y-3 relative z-10"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <motion.div
-            className="relative"
-            animate={{ 
-              rotate: [0, 2, -2, 0],
-              scale: [1, 1.02, 1]
-            }}
-            transition={{ 
-              duration: 4, 
-              repeat: Infinity,
-              ease: "easeInOut" 
-            }}
-          >
-            <motion.div
-              className="absolute inset-0 rounded-full blur-xl"
-              style={{
-                background: 'radial-gradient(circle, rgba(0,240,255,0.6), rgba(255,0,255,0.4), transparent)'
-              }}
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.6, 0.9, 0.6]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
+          <div className="relative">
             <img 
               src={brandAssets.beyMediaLogo} 
               alt="BeyMedia" 
-              className="w-24 h-24 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(0,240,255,0.8)]"
+              className="w-24 h-24 object-contain opacity-80"
               style={{
-                filter: 'drop-shadow(0 0 8px rgba(0,240,255,0.9)) drop-shadow(0 0 20px rgba(255,0,255,0.5))'
+                filter: 'drop-shadow(0 0 4px rgba(0,255,255,0.3))'
               }}
             />
-          </motion.div>
+          </div>
           <div className="text-center">
-            <motion.h3 
-              className="text-2xl font-bold neon-text font-tech tracking-wider"
-              animate={{
-                textShadow: [
-                  '0 0 10px rgba(0,240,255,0.8), 0 0 20px rgba(0,240,255,0.5)',
-                  '0 0 15px rgba(0,240,255,1), 0 0 30px rgba(255,0,255,0.6)',
-                  '0 0 10px rgba(0,240,255,0.8), 0 0 20px rgba(0,240,255,0.5)'
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
+            <h3 className="text-2xl font-mono font-bold text-cyan-400 tracking-wide">
               BeyFlow
-            </motion.h3>
-            <p className="text-neon-cyan/70 text-xs font-mono mt-1 tracking-widest">WORKFLOW_STUDIO</p>
+            </h3>
+            <p className="text-cyan-600/50 text-xs font-mono mt-1 tracking-widest">WORKFLOW_STUDIO</p>
           </div>
         </motion.div>
-        
-        <motion.div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,240,255,0.1) 2px, rgba(0,240,255,0.1) 4px)'
-          }}
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-        />
       </div>
 
       {/* Navigation */}
@@ -101,10 +61,10 @@ export default function Sidebar() {
             <motion.button
               key={module.id}
               onClick={() => setModule(module.id)}
-              className={`w-full text-left p-3 rounded-xl transition-all relative overflow-hidden ${
+              className={`w-full text-left p-3 transition-all relative overflow-hidden border font-mono text-sm ${
                 currentModule === module.id
-                  ? 'bg-gradient-to-r from-neon-cyan/20 via-neon-magenta/10 to-neon-cyan/20 border border-neon-cyan/50 shadow-[0_0_20px_rgba(0,240,255,0.3)]'
-                  : 'text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-transparent hover:border-neon-cyan/30 backdrop-blur-sm'
+                  ? 'bg-black border-cyan-500/40 text-cyan-400'
+                  : 'text-gray-500 hover:text-cyan-500 bg-transparent border-transparent hover:border-cyan-500/20'
               }`}
               whileHover={{ scale: 1.02, x: 4 }}
               whileTap={{ scale: 0.98 }}
@@ -133,27 +93,13 @@ export default function Sidebar() {
       </nav>
 
       {/* Status */}
-      <div className="p-4 border-t border-neon-cyan/20">
-        <motion.div
-          className="flex items-center space-x-2 text-neon-green/80 text-xs font-mono"
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <motion.div 
-            className="w-2 h-2 bg-neon-green rounded-full shadow-neon-green"
-            animate={{ 
-              boxShadow: [
-                '0 0 5px rgba(0,255,65,0.8)',
-                '0 0 15px rgba(0,255,65,1)',
-                '0 0 5px rgba(0,255,65,0.8)'
-              ]
-            }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
+      <div className="p-4 border-t border-cyan-500/10">
+        <div className="flex items-center space-x-2 text-cyan-500/60 text-xs font-mono">
+          <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
           <span>ONLINE</span>
-        </motion.div>
+        </div>
         
-        <div className="mt-2 text-xs text-neon-cyan/40 font-mono space-y-0.5">
+        <div className="mt-2 text-xs text-cyan-700/40 font-mono space-y-0.5">
           <p>MSG: {messages.length}</p>
           <p>MOD: {currentModule.toUpperCase()}</p>
         </div>

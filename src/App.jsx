@@ -126,12 +126,7 @@ function App() {
         />
       )}
       
-      {/* 3D Background - very subtle */}
-      <div className="absolute inset-0 opacity-10">
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-          <Scene audioData={audioData} />
-        </Canvas>
-      </div>
+      {/* Removed 3D - pure cyberpunk doesn't need it */}
 
       
       {/* Main UI */}
@@ -140,80 +135,30 @@ function App() {
         
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
-          {/* Enhanced Top Bar */}
-          <motion.div 
-            className="h-16 bg-black/20 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-6"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex items-center space-x-4">
+          {/* Minimal Top Bar - deep in background */}
+          <div className="h-12 bg-black border-b border-cyan-500/5 flex items-center justify-between px-6">
+            <div className="flex items-center space-x-3">
               <img 
                 src={brandAssets.beyMediaLogo} 
                 alt="BeyMedia" 
-                className="w-8 h-8 object-contain opacity-80"
+                className="w-6 h-6 object-contain opacity-30"
               />
-              <h1 className="text-2xl font-bold gradient-text">
-                BeyFlow Chat
+              <h1 className="text-sm font-mono text-cyan-700/40">
+                beyflow_chat
               </h1>
-              {audio.playing && (
-                <motion.div
-                  className="text-cyan-400 text-sm"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                >
-                  🎵 Playing
-                </motion.div>
-              )}
             </div>
             
-            <div className="flex items-center space-x-4">
-              {/* Audio status indicator */}
-              <motion.div 
-                className={`w-3 h-3 rounded-full ${
-                  audio.isListening ? 'bg-red-400' : 
-                  audio.playing ? 'bg-green-400' : 'bg-gray-400'
-                }`}
-                animate={audio.isListening ? { scale: [1, 1.2, 1] } : {}}
-                transition={{ duration: 0.8, repeat: Infinity }}
-              />
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+            <div className="flex items-center space-x-3 text-xs font-mono text-cyan-800/30">
+              {audio.isListening && <span>[REC]</span>}
+              {audio.playing && <span>[PLAY]</span>}
             </div>
-          </motion.div>
+          </div>
           
           {/* Module Content */}
           <ModuleRouter />
         </div>
       </div>
       
-      {/* Floating ambient orbs */}
-      {[...Array(3)].map((_, i) => (
-        <motion.div
-          key={`orb-${i}`}
-          className="absolute w-96 h-96 rounded-full blur-3xl pointer-events-none"
-          style={{
-            background: `radial-gradient(circle, ${
-              i === 0 ? 'rgba(0,240,255,0.15)' :
-              i === 1 ? 'rgba(255,0,255,0.12)' :
-              'rgba(0,255,65,0.10)'
-            } 0%, transparent 70%)`,
-            top: `${20 + i * 30}%`,
-            left: `${10 + i * 35}%`,
-            zIndex: 1
-          }}
-          animate={{
-            x: [0, 50, -30, 0],
-            y: [0, -40, 60, 0],
-            scale: [1, 1.2, 0.9, 1]
-          }}
-          transition={{
-            duration: 15 + i * 5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: i * 2
-          }}
-        />
-      ))}
       
       {/* Smaller particles */}
       <div className="absolute inset-0 pointer-events-none">

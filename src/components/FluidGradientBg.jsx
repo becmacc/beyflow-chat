@@ -2,43 +2,27 @@ import { useEffect, useRef } from 'react'
 import Granim from 'granim'
 
 export default function FluidGradientBg() {
-  const canvasRef = useRef(null)
-  const granimRef = useRef(null)
-
-  useEffect(() => {
-    if (canvasRef.current && !granimRef.current) {
-      granimRef.current = new Granim({
-        element: canvasRef.current,
-        direction: 'diagonal',
-        isPausedWhenNotInView: true,
-        stateTransitionSpeed: 500,
-        states: {
-          "default-state": {
-            gradients: [
-              ['#0F0F23', '#1a0b2e', '#16213e', '#0f3460', '#533483'],
-              ['#16213e', '#0f3460', '#533483', '#1a0b2e', '#0F0F23'],
-              ['#533483', '#16213e', '#1a0b2e', '#0f3460', '#0F0F23']
-            ],
-            transitionSpeed: 8000,
-            loop: true
-          }
-        }
-      })
-    }
-
-    return () => {
-      if (granimRef.current) {
-        granimRef.current.destroy()
-        granimRef.current = null
-      }
-    }
-  }, [])
-
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 w-full h-full -z-10"
-      style={{ opacity: 0.4 }}
-    />
+    <div className="fixed inset-0 bg-black -z-10">
+      {/* Matrix-style scanlines */}
+      <div 
+        className="absolute inset-0 opacity-[0.015]"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.03) 2px, rgba(0,255,255,0.03) 4px)'
+        }}
+      />
+      
+      {/* Subtle grid */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,255,255,0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: '100px 100px'
+        }}
+      />
+    </div>
   )
 }
