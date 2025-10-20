@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Minimize2, Maximize2, Instagram } from 'lucide-react'
+import { Minimize2, Maximize2, Instagram, ExternalLink, Search, Home, Compass } from 'lucide-react'
 import useStore from '../store'
 import { getTheme } from '../config/themes'
 
@@ -11,10 +11,14 @@ export default function InstagramBrowser() {
   const [isMinimized, setIsMinimized] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   
+  const openInstagram = (path = '') => {
+    window.open(`https://www.instagram.com${path}`, '_blank', 'width=800,height=900')
+  }
+  
   const handleSearch = (e) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      window.open(`https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(searchQuery)}`, '_blank')
+      openInstagram(`/explore/search/keyword/?q=${encodeURIComponent(searchQuery)}`)
     }
   }
 
@@ -43,14 +47,14 @@ export default function InstagramBrowser() {
           initial={{ x: 400, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 400, opacity: 0 }}
-          className={`fixed right-4 top-20 bottom-4 w-96 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-50 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+          className={`fixed right-4 top-20 bottom-4 w-80 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-50 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
         >
           {/* Header */}
           <div className={`flex items-center justify-between p-3 border-b ${theme.colors.border}`}>
             <div className="flex items-center space-x-2">
               <Instagram size={18} className="text-pink-500" />
               <span className={`${theme.font} text-sm ${theme.colors.text}`}>
-                {theme.id === 'glassmorphic' ? 'Instagram Browser' : 'INSTAGRAM_BROWSER'}
+                {theme.id === 'glassmorphic' ? 'Instagram' : 'INSTAGRAM'}
               </span>
             </div>
             <button
@@ -61,42 +65,61 @@ export default function InstagramBrowser() {
             </button>
           </div>
 
-          {/* Search Bar */}
-          <div className={`p-3 border-b ${theme.colors.border}`}>
-            <form onSubmit={handleSearch} className="flex gap-2">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Instagram..."
-                className={`flex-1 px-3 py-2 ${theme.colors.input} ${theme.font} ${theme.rounded} text-sm focus:outline-none`}
-              />
+          {/* Quick Actions */}
+          <div className="p-4 space-y-3">
+            <button
+              onClick={() => openInstagram('/')}
+              className={`w-full flex items-center justify-between px-4 py-3 ${theme.colors.input} ${theme.rounded} hover:${theme.colors.border} transition-all group`}
+            >
+              <div className="flex items-center space-x-3">
+                <Home size={18} className="text-pink-500" />
+                <span className={`${theme.font} text-sm ${theme.colors.text}`}>
+                  {theme.id === 'glassmorphic' ? 'Open Feed' : 'FEED'}
+                </span>
+              </div>
+              <ExternalLink size={14} className={`${theme.colors.textMuted} group-hover:${theme.colors.text}`} />
+            </button>
+
+            <button
+              onClick={() => openInstagram('/explore/')}
+              className={`w-full flex items-center justify-between px-4 py-3 ${theme.colors.input} ${theme.rounded} hover:${theme.colors.border} transition-all group`}
+            >
+              <div className="flex items-center space-x-3">
+                <Compass size={18} className="text-purple-500" />
+                <span className={`${theme.font} text-sm ${theme.colors.text}`}>
+                  {theme.id === 'glassmorphic' ? 'Explore' : 'EXPLORE'}
+                </span>
+              </div>
+              <ExternalLink size={14} className={`${theme.colors.textMuted} group-hover:${theme.colors.text}`} />
+            </button>
+
+            {/* Search Form */}
+            <form onSubmit={handleSearch} className="space-y-2">
+              <div className={`flex items-center space-x-2 px-3 py-2 ${theme.colors.input} ${theme.rounded}`}>
+                <Search size={16} className={theme.colors.textMuted} />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={theme.id === 'glassmorphic' ? 'Search...' : 'SEARCH...'}
+                  className={`flex-1 bg-transparent ${theme.font} text-sm ${theme.colors.text} focus:outline-none placeholder:${theme.colors.textMuted}`}
+                />
+              </div>
               <button
                 type="submit"
-                className={`px-4 py-2 ${theme.font} ${theme.rounded} text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white`}
+                className={`w-full px-4 py-2 ${theme.font} ${theme.rounded} text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all`}
               >
-                {theme.id === 'glassmorphic' ? 'Search' : '[GO]'}
+                {theme.id === 'glassmorphic' ? 'Search Instagram' : '[SEARCH]'}
               </button>
             </form>
           </div>
 
-          {/* Instagram Embed */}
-          <div className="flex-1 bg-black overflow-hidden">
-            <iframe
-              src="https://www.instagram.com"
-              title="Instagram Browser"
-              className="w-full h-full"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            />
-          </div>
-
-          {/* Instructions */}
-          <div className={`p-3 border-t ${theme.colors.border}`}>
+          {/* Info */}
+          <div className={`absolute bottom-0 left-0 right-0 p-4 border-t ${theme.colors.border} ${theme.colors.bg}`}>
             <p className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
               {theme.id === 'glassmorphic'
-                ? '📸 Login to browse your feed. Use search to explore.'
-                : '> LOGIN_TO_BROWSE\n> SEARCH_TO_EXPLORE'
+                ? '📸 Opens in new window. Log in to access your account.'
+                : '> OPENS_NEW_WINDOW\n> LOGIN_REQUIRED'
               }
             </p>
           </div>
