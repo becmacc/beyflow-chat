@@ -1,0 +1,5 @@
+Connect chat text to ElevenLabs API via generateSpeech().
+After response received, pass audio URL to AudioPlayer component.
+Use mic_input.jsx to allow voice-to-text commands.
+Map audio state to Zustand store.
+Copilot: treat audio integration as optional enhancement layer.

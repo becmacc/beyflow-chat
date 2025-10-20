@@ -1,0 +1,1 @@
+Deployment priority: Replit VM, GitHub Pages fallback. Node.js runtime, auto build via Vite.

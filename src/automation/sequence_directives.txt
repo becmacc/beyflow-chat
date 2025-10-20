@@ -1,0 +1,4 @@
+Nano Banana agent manages lightweight parallel flows.
+Each sequence links BeyFlow (Make), AI Studio, or external APIs.
+All sequences should log start/end times.
+Use async/await for non-blocking execution.

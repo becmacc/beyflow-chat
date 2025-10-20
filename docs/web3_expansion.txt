@@ -1,0 +1,1 @@
+Future layer: connect wallet.js + 3D avatar identity (Three.js / WebXR). No implementation now, only hooks.

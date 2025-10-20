@@ -1,0 +1,3 @@
+Nano Banana Layer: Autonomous node handling subflows.
+Connected systems: BeyFlow, Gemini, ElevenLabs, Gmail, Outlook.
+Purpose: background orchestration, low-latency event handling.

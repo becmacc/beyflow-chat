@@ -1,0 +1,68 @@
+{
+  "bananaFlows": {
+    "version": "1.0.0",
+    "description": "Lightweight parallel automation flows for BeyFlow Chat",
+    "flows": [
+      {
+        "name": "ChatToGmailSync",
+        "trigger": "chat_message",
+        "description": "Sync chat messages to Gmail and spreadsheet",
+        "actions": ["format_email", "send_to_gmail", "log_to_sheet"],
+        "priority": "low",
+        "delay": 500,
+        "enabled": true
+      },
+      {
+        "name": "VoiceFeedbackLoop", 
+        "trigger": "audio_played",
+        "description": "Analyze audio sentiment and update UI",
+        "actions": ["capture_sentiment", "update_ui_state", "adjust_gradient"],
+        "priority": "high",
+        "delay": 200,
+        "enabled": true
+      },
+      {
+        "name": "GeminiAssist",
+        "trigger": "ai_prompt",
+        "description": "Send prompts to Gemini and update dashboard",
+        "actions": ["send_to_gemini", "receive_summary", "update_dashboard"],
+        "priority": "medium", 
+        "delay": 300,
+        "enabled": true
+      },
+      {
+        "name": "BrandAssetReaction",
+        "trigger": "brand_interaction",
+        "description": "React to brand asset interactions with dopamine effects",
+        "actions": ["capture_sentiment", "adjust_gradient", "update_ui_state"],
+        "priority": "high",
+        "delay": 100,
+        "enabled": true
+      },
+      {
+        "name": "SessionAnalytics",
+        "trigger": "session_event", 
+        "description": "Log session events and update analytics",
+        "actions": ["log_to_sheet", "update_dashboard"],
+        "priority": "low",
+        "delay": 1000,
+        "enabled": true
+      },
+      {
+        "name": "ImageGenerationPrep",
+        "trigger": "image_request",
+        "description": "Prepare data for AI image generation",
+        "actions": ["format_email", "send_to_gemini", "update_dashboard"],
+        "priority": "medium",
+        "delay": 400,
+        "enabled": true
+      }
+    ],
+    "globalSettings": {
+      "maxConcurrentSequences": 5,
+      "defaultDelay": 250,
+      "logLevel": "info",
+      "enableStats": true
+    }
+  }
+}

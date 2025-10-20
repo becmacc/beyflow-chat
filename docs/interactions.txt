@@ -1,0 +1,4 @@
+Sliders control intensity of gradients and pattern depth.
+Bouncing gradient responds to chat activity (use CSS animation).
+Recursive patterns visualized via Three.js or Canvas overlays.
+Copilot should map UI state fields to Zustand store for real-time updates.

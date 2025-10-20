@@ -1,0 +1,4 @@
+Use vibrant dopamine gradients, animated sliders, and recursive visual patterns.
+Adopt motion behaviors inspired by fluid dynamics (easeInOut, spring, bounce).
+Leverage Framer Motion and Tailwind utilities for transitions and state changes.
+Chat bubbles and panels should pulse or glow softly on interaction.
