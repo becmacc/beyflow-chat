@@ -181,6 +181,11 @@ function App() {
             transition={{ duration: 0.5 }}
           >
             <div className="flex items-center space-x-4">
+              <img 
+                src={brandAssets.beyMediaLogo} 
+                alt="BeyMedia" 
+                className="w-8 h-8 object-contain opacity-80"
+              />
               <h1 className="text-2xl font-bold gradient-text">
                 BeyFlow Chat
               </h1>
