@@ -11,6 +11,8 @@ import SessionManager from "./modules/SessionManager"
 import AIStudio from "./modules/AIStudio"
 import WorkflowBuilder from "./modules/WorkflowBuilder"
 import { GradientBackground, RecursivePattern } from "./components/DopamineUI"
+import FluidGradientBg from "./components/FluidGradientBg"
+import MeshGradient from "./components/MeshGradient"
 import { 
   BrandWatermark, 
   FloatingBrandElements, 
@@ -107,22 +109,12 @@ function App() {
   
   return (
     <ErrorBoundary>
-      <div className="h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden relative">
-      {/* Brand Background Layer (Ultra-faded) */}
-            {/* Background Brand Layer */}
-      {brandConfig.background.enabled && (
-        <BackgroundBrandLayer 
-          patternSrc={brandAssets.backgroundPattern}
-          patternAltSrc={brandAssets.backgroundPatternAlt}
-          opacity={brandConfig.background.intensity}
-        />
-      )}
+      <div className="h-screen bg-black overflow-hidden relative">
+      {/* Cutting-edge fluid gradient background */}
+      <FluidGradientBg />
+      <MeshGradient />
       
-      {/* Enhanced Gradient Background */}
-      <GradientBackground intensity={ui.sliderValue / 100} />
-      
-      {/* Brand Watermark (Subtle center logo) */}
-            {/* BeyMedia Brand Watermark */}
+      {/* Brand Watermark */}
       {brandConfig.watermark.enabled && (
         <BrandWatermark 
           logoSrc={brandAssets.beyMediaLogo}
@@ -134,41 +126,13 @@ function App() {
         />
       )}
       
-      {/* 3D Background */}
-      <div className="absolute inset-0 opacity-40">
+      {/* 3D Background - very subtle */}
+      <div className="absolute inset-0 opacity-10">
         <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
           <Scene audioData={audioData} />
         </Canvas>
       </div>
 
-      {/* Floating Brand Elements */}
-      {brandConfig.floating.enabled && (
-        <FloatingBrandElements images={brandAssets.floatingElements} />
-      )}
-
-      {/* Brand Particles */}
-      {brandConfig.particles.enabled && (
-        <BrandParticles 
-          logoSrc={brandAssets.beyMediaLogo}
-          count={brandConfig.particles.count}
-        />
-      )}
-
-      {/* Recursive Pattern Overlays */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute"
-            style={{
-              left: `${20 + i * 20}%`,
-              top: `${10 + i * 15}%`,
-            }}
-          >
-            <RecursivePattern depth={ui.patternDepth} size={30 + i * 10} />
-          </div>
-        ))}
-      </div>
       
       {/* Main UI */}
       <div className="relative z-10 flex h-full">
@@ -222,9 +186,38 @@ function App() {
         </div>
       </div>
       
-      {/* Enhanced floating particles effect */}
+      {/* Floating ambient orbs */}
+      {[...Array(3)].map((_, i) => (
+        <motion.div
+          key={`orb-${i}`}
+          className="absolute w-96 h-96 rounded-full blur-3xl pointer-events-none"
+          style={{
+            background: `radial-gradient(circle, ${
+              i === 0 ? 'rgba(0,240,255,0.15)' :
+              i === 1 ? 'rgba(255,0,255,0.12)' :
+              'rgba(0,255,65,0.10)'
+            } 0%, transparent 70%)`,
+            top: `${20 + i * 30}%`,
+            left: `${10 + i * 35}%`,
+            zIndex: 1
+          }}
+          animate={{
+            x: [0, 50, -30, 0],
+            y: [0, -40, 60, 0],
+            scale: [1, 1.2, 0.9, 1]
+          }}
+          transition={{
+            duration: 15 + i * 5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: i * 2
+          }}
+        />
+      ))}
+      
+      {/* Smaller particles */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-cyan-400 rounded-full"

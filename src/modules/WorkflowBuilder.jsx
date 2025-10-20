@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useStore from '../store'
+import GlassmorphicCard from '../components/GlassmorphicCard'
 
 // Available workflow nodes
 const nodeTypes = {
@@ -47,7 +48,7 @@ function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick }
         node.y += info.offset.y
       }}
     >
-      <div className={`cyber-card w-48 p-4 ${isSelected ? 'ring-2 ring-neon-cyan shadow-neon-cyan' : ''}`}>
+      <GlassmorphicCard className={`w-48 p-4 ${isSelected ? 'ring-2 ring-neon-cyan shadow-[0_0_30px_rgba(0,240,255,0.5)]' : ''}`} hover={!isSelected}>
         <div className="flex items-center justify-between mb-2">
           <div className={`text-3xl bg-gradient-to-r ${nodeConfig?.color || 'from-gray-500 to-gray-700'} bg-clip-text`}>
             {nodeConfig?.icon || '⚙️'}
@@ -85,7 +86,7 @@ function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick }
             title="Output"
           />
         </div>
-      </div>
+      </GlassmorphicCard>
     </motion.div>
   )
 }
@@ -165,9 +166,9 @@ export default function WorkflowBuilder() {
   }, [nodes, connections])
 
   return (
-    <div className="h-full flex flex-col bg-matrix-dark">
+    <div className="h-full flex flex-col bg-black/20 backdrop-blur-sm">
       {/* Toolbar */}
-      <div className="h-16 cyber-card border-b border-neon-cyan/30 flex items-center justify-between px-6">
+      <div className="h-16 bg-black/40 backdrop-blur-xl border-b border-white/20 flex items-center justify-between px-6">
         <div className="flex items-center space-x-4">
           <h2 className="text-xl font-tech font-bold neon-text">Workflow Builder</h2>
           <div className="text-xs text-gray-400">
@@ -178,7 +179,7 @@ export default function WorkflowBuilder() {
         <div className="flex items-center space-x-2">
           <motion.button
             onClick={() => setShowPalette(!showPalette)}
-            className="cyber-card px-4 py-2 neon-text hover:shadow-neon-cyan transition-all"
+            className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-lg neon-text hover:bg-white/20 hover:border-neon-cyan/50 hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -188,8 +189,8 @@ export default function WorkflowBuilder() {
           <motion.button
             onClick={executeWorkflow}
             disabled={nodes.length === 0}
-            className="bg-gradient-to-r from-neon-cyan to-neon-magenta px-6 py-2 rounded font-bold text-black disabled:opacity-50 disabled:cursor-not-allowed shadow-cyber"
-            whileHover={{ scale: 1.05 }}
+            className="relative overflow-hidden bg-gradient-to-r from-neon-cyan to-neon-magenta px-6 py-2 rounded-lg font-bold text-black disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(0,240,255,0.5)]"
+            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(0,240,255,0.8)' }}
             whileTap={{ scale: 0.95 }}
           >
             ▶️ Execute
@@ -198,7 +199,15 @@ export default function WorkflowBuilder() {
       </div>
 
       {/* Canvas */}
-      <div className="flex-1 relative overflow-hidden bg-cyber-grid bg-grid">
+      <div className="flex-1 relative overflow-hidden"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,240,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,240,255,0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}
+      >
         {/* Connection Lines */}
         {connections.map((conn, i) => (
           <ConnectionLine key={i} from={conn.from} to={conn.to} nodes={nodes} />
@@ -234,12 +243,14 @@ export default function WorkflowBuilder() {
               <p className="text-gray-400 mb-6">
                 Connect ChatGPT, Make.com, and other tools together
               </p>
-              <button
+              <motion.button
                 onClick={() => setShowPalette(true)}
-                className="cyber-card px-6 py-3 neon-text hover:shadow-neon-cyan transition-all"
+                className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-lg neon-text hover:bg-white/20 hover:border-neon-cyan/50 hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 ➕ Add Your First Node
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         )}
@@ -252,7 +263,7 @@ export default function WorkflowBuilder() {
             initial={{ x: 400 }}
             animate={{ x: 0 }}
             exit={{ x: 400 }}
-            className="absolute right-0 top-16 bottom-0 w-96 cyber-card border-l border-neon-cyan/30 overflow-y-auto z-30"
+            className="absolute right-0 top-16 bottom-0 w-96 bg-black/60 backdrop-blur-2xl border-l border-white/20 overflow-y-auto z-30"
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -273,7 +284,7 @@ export default function WorkflowBuilder() {
                     <motion.button
                       key={type}
                       onClick={() => addNode('trigger', type)}
-                      className="cyber-card p-3 text-left hover:shadow-neon-cyan transition-all"
+                      className="bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-lg text-left hover:bg-white/10 hover:border-neon-cyan/30 hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -293,7 +304,7 @@ export default function WorkflowBuilder() {
                     <motion.button
                       key={type}
                       onClick={() => addNode('action', type)}
-                      className="cyber-card p-3 text-left hover:shadow-neon-cyan transition-all"
+                      className="bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-lg text-left hover:bg-white/10 hover:border-neon-cyan/30 hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -313,7 +324,7 @@ export default function WorkflowBuilder() {
                     <motion.button
                       key={type}
                       onClick={() => addNode('logic', type)}
-                      className="cyber-card p-3 text-left hover:shadow-neon-cyan transition-all"
+                      className="bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-lg text-left hover:bg-white/10 hover:border-neon-cyan/30 hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >

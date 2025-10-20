@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import useStore from "../store"
 import { brandAssets } from "../config/brandConfig"
+import GlassmorphicCard from "../components/GlassmorphicCard"
 
 const modules = [
   { id: 'chat', name: 'Chat', icon: '💬', description: 'Real-time messaging' },
@@ -15,11 +16,13 @@ export default function Sidebar() {
 
   return (
     <motion.div
-      className="w-64 cyber-card border-r border-neon-cyan/30 flex flex-col"
+      className="w-64 bg-black/40 backdrop-blur-2xl border-r border-white/10 flex flex-col relative overflow-hidden"
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {/* Glassmorphic effect overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
       {/* Logo/Brand */}
       <div className="p-6 border-b border-neon-cyan/30 relative overflow-hidden">
         <motion.div
@@ -98,10 +101,10 @@ export default function Sidebar() {
             <motion.button
               key={module.id}
               onClick={() => setModule(module.id)}
-              className={`w-full text-left p-3 rounded-xl transition-all ${
+              className={`w-full text-left p-3 rounded-xl transition-all relative overflow-hidden ${
                 currentModule === module.id
-                  ? 'bg-gradient-to-r from-neon-cyan/20 to-neon-magenta/20 border border-neon-cyan shadow-neon-cyan'
-                  : 'text-white/70 hover:text-white hover:bg-neon-cyan/5 hover:border hover:border-neon-cyan/20'
+                  ? 'bg-gradient-to-r from-neon-cyan/20 via-neon-magenta/10 to-neon-cyan/20 border border-neon-cyan/50 shadow-[0_0_20px_rgba(0,240,255,0.3)]'
+                  : 'text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-transparent hover:border-neon-cyan/30 backdrop-blur-sm'
               }`}
               whileHover={{ scale: 1.02, x: 4 }}
               whileTap={{ scale: 0.98 }}
