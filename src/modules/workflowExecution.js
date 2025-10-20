@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import { omnigenAgents } from '../config/omnigenAgents'
 
 const openai = new OpenAI({
   baseURL: import.meta.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
@@ -110,6 +111,12 @@ export class WorkflowExecutor {
       case 'openai':
         return await this.callOpenAI(inputData)
       
+      case 'omnigen':
+      case 'gptMarketer':
+      case 'gptEngineer':
+      case 'dalle':
+        return await this.callOmnigenAgent(node.type, inputData)
+      
       case 'make':
         return await this.callMakeWebhook(inputData)
       
@@ -174,6 +181,41 @@ export class WorkflowExecutor {
     return {
       type: 'openai',
       response: completion.choices[0].message.content,
+      model: completion.model,
+      usage: completion.usage
+    }
+  }
+
+  async callOmnigenAgent(agentType, inputData) {
+    const agent = omnigenAgents[agentType]
+    const prompt = inputData.content || inputData.message || inputData.response || 'Process this task'
+    
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: agent.systemPrompt },
+        { role: 'user', content: prompt }
+      ],
+      max_tokens: 800
+    })
+
+    const response = completion.choices[0].message.content
+
+    // If DALL-E agent, check if it generated an image prompt
+    if (agentType === 'dalle' && response) {
+      return {
+        type: 'agent',
+        agent: agent.name,
+        response,
+        imagePrompt: response,
+        usage: completion.usage
+      }
+    }
+
+    return {
+      type: 'agent',
+      agent: agent.name,
+      response,
       model: completion.model,
       usage: completion.usage
     }

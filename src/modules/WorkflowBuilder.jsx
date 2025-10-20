@@ -16,6 +16,10 @@ const nodeTypes = {
   action: {
     make: { name: 'Make.com', icon: '⚡', color: 'from-orange-500 to-red-600', description: 'Make Scenario' },
     openai: { name: 'OpenAI', icon: '✨', color: 'from-violet-500 to-purple-600', description: 'GPT-4/GPT-5' },
+    omnigen: { name: 'Omnigen', icon: '🧠', color: 'from-purple-500 to-pink-600', description: 'Agent Orchestrator' },
+    gptMarketer: { name: 'GPT-Marketer', icon: '📈', color: 'from-blue-500 to-cyan-600', description: 'Marketing Agent' },
+    gptEngineer: { name: 'GPT-Engineer', icon: '⚙️', color: 'from-green-500 to-emerald-600', description: 'Technical Agent' },
+    dalle: { name: 'DALL-E', icon: '🎨', color: 'from-orange-500 to-red-600', description: 'Image Generation' },
     gmail: { name: 'Gmail', icon: '📧', color: 'from-red-500 to-pink-600', description: 'Send Email' },
     notion: { name: 'Notion', icon: '📝', color: 'from-gray-700 to-gray-900', description: 'Update Database' },
     sheets: { name: 'Google Sheets', icon: '📊', color: 'from-green-600 to-teal-600', description: 'Log Data' },
