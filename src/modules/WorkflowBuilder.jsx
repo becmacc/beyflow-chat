@@ -29,7 +29,7 @@ const nodeTypes = {
   }
 }
 
-function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick }) {
+function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick, isExecuting }) {
   const nodeConfig = nodeTypes[node.category]?.[node.type]
   
   return (
@@ -37,9 +37,22 @@ function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick }
       layout
       onClick={() => onClick(node.id)}
       initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      animate={{ 
+        scale: 1, 
+        opacity: 1,
+        ...(isExecuting && {
+          boxShadow: [
+            '0 0 0px rgba(0,255,255,0)',
+            '0 0 20px rgba(0,255,255,0.8)',
+            '0 0 0px rgba(0,255,255,0)'
+          ]
+        })
+      }}
       exit={{ scale: 0, opacity: 0 }}
       whileHover={{ scale: 1.05 }}
+      transition={{ 
+        boxShadow: { duration: 1, repeat: Infinity }
+      }}
       className={`absolute cursor-pointer ${isSelected ? 'z-20' : 'z-10'}`}
       style={{ left: node.x, top: node.y }}
       drag
@@ -49,7 +62,13 @@ function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick }
         node.y += info.offset.y
       }}
     >
-      <GlassmorphicCard className={`w-48 p-4 ${isSelected ? 'ring-2 ring-neon-cyan shadow-[0_0_30px_rgba(0,240,255,0.5)]' : ''}`} hover={!isSelected}>
+      <GlassmorphicCard 
+        className={`w-48 p-4 ${
+          isExecuting ? 'ring-2 ring-cyan-400 border-cyan-400' :
+          isSelected ? 'ring-2 ring-cyan-500/40' : ''
+        }`} 
+        hover={!isSelected && !isExecuting}
+      >
         <div className="flex items-center justify-between mb-2">
           <div className={`text-3xl bg-gradient-to-r ${nodeConfig?.color || 'from-gray-500 to-gray-700'} bg-clip-text`}>
             {nodeConfig?.icon || '⚙️'}
@@ -256,17 +275,24 @@ export default function WorkflowBuilder() {
         
         {/* Nodes */}
         <AnimatePresence>
-          {nodes.map(node => (
-            <WorkflowNode
-              key={node.id}
-              node={node}
-              isSelected={selectedNode === node.id}
-              onClick={setSelectedNode}
-              onEdit={(id) => console.log('Edit', id)}
-              onDelete={deleteNode}
-              onConnect={handleConnect}
-            />
-          ))}
+          {nodes.map(node => {
+            const currentlyExecuting = executionLog.some(
+              log => log.nodeId === node.id && log.status === 'running'
+            )
+            
+            return (
+              <WorkflowNode
+                key={node.id}
+                node={node}
+                isSelected={selectedNode === node.id}
+                isExecuting={currentlyExecuting}
+                onClick={setSelectedNode}
+                onEdit={(id) => console.log('Edit', id)}
+                onDelete={deleteNode}
+                onConnect={handleConnect}
+              />
+            )
+          })}
         </AnimatePresence>
 
         {/* Empty State */}

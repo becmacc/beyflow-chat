@@ -24,5 +24,9 @@ export default defineConfig({
   preview: {
     host: '0.0.0.0',
     port: 5000
+  },
+  define: {
+    'import.meta.env.AI_INTEGRATIONS_OPENAI_BASE_URL': JSON.stringify(process.env.AI_INTEGRATIONS_OPENAI_BASE_URL),
+    'import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY': JSON.stringify(process.env.AI_INTEGRATIONS_OPENAI_API_KEY)
   }
 })
