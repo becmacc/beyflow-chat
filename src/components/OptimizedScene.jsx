@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useLayoutEffect } from 'react'
+import React, { useRef, useMemo, useLayoutEffect, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -138,3 +138,6 @@ export const AdaptiveLODScene = () => {
 
   return <OptimizedInstancedBoxes count={instanceCount} />
 }
+
+// Default export for easy importing
+export default OptimizedInstancedBoxes

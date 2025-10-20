@@ -1,7 +1,7 @@
 // Audio API integration for BeyFlow Chat
 export async function generateSpeech(text, voice = "Rachel") {
   // Note: In Replit, set ELEVEN_API_KEY in Secrets
-  const apiKey = import.meta.env.VITE_ELEVEN_API_KEY || process.env.ELEVEN_API_KEY;
+  const apiKey = import.meta.env.VITE_ELEVEN_API_KEY;
   
   if (!apiKey) {
     console.warn('ElevenLabs API key not found. Audio synthesis disabled.');

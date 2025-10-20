@@ -260,7 +260,7 @@ function App() {
       <BananaFlowStatus />
       
       {/* Development Analytics Display */}
-      {process.env.NODE_ENV === 'development' && insights && (
+      {import.meta.env.DEV && insights && (
         <div className="absolute top-20 right-4 bg-black/80 text-white p-4 rounded-lg text-xs max-w-xs">
           <h3 className="font-bold mb-2">Live Analytics</h3>
           <div>Active Users: {insights.realTimeData?.activeUsers || 0}</div>
@@ -272,7 +272,7 @@ function App() {
       
       {/* Performance Monitor */}
       <PerformancePanel 
-        isVisible={process.env.NODE_ENV === 'development'} 
+        isVisible={import.meta.env.DEV} 
         position="bottom-right" 
       />
     </div>

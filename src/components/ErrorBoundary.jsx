@@ -53,7 +53,7 @@ class ErrorBoundary extends React.Component {
           componentStack: errorInfo.componentStack,
           errorId: this.state.errorId,
           timestamp: Date.now(),
-          buildVersion: process.env.VITE_APP_VERSION || 'unknown'
+          buildVersion: import.meta.env.VITE_APP_VERSION || 'unknown'
         })
       }
 
@@ -71,7 +71,7 @@ class ErrorBoundary extends React.Component {
           timestamp: Date.now(),
           userAgent: navigator.userAgent,
           url: window.location.href,
-          buildVersion: process.env.VITE_APP_VERSION
+          buildVersion: import.meta.env.VITE_APP_VERSION
         })
       }).catch(err => {
         console.warn('Failed to report error to monitoring service:', err)
@@ -117,7 +117,7 @@ class ErrorBoundary extends React.Component {
 **Additional Context:**
 - Browser: ${navigator.userAgent}
 - URL: ${window.location.href}
-- Build Version: ${process.env.VITE_APP_VERSION || 'unknown'}
+- Build Version: ${import.meta.env.VITE_APP_VERSION || 'unknown'}
 
 **Technical Details:**
 \`\`\`
@@ -173,7 +173,7 @@ ${this.state.error?.stack || 'No stack trace available'}
             </motion.p>
 
             {/* Error Details (Developer Mode) */}
-            {process.env.NODE_ENV === 'development' && (
+            {import.meta.env.DEV && (
               <motion.details 
                 className="text-left bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/10"
                 initial={{ y: 20, opacity: 0 }}

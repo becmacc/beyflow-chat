@@ -5,10 +5,10 @@
   "type": "module",
   "description": "BeyFlow Chat - Dopaminergic Web3 Chat Experience with 3D visuals",
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 3000",
+    "dev": "vite --host 0.0.0.0 --port 5000",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --host 0.0.0.0 --port 3000"
+    "preview": "vite preview --host 0.0.0.0 --port 5000"
   },
   "dependencies": {
     "@react-three/drei": "^9.105.4",
@@ -18,8 +18,8 @@
     "framer-motion": "^11.1.7",
     "lucide-react": "^0.376.0",
     "postcss": "^8.4.38",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.3",
     "three": "^0.163.0",
     "zustand": "^4.5.2"
