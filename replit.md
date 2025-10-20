@@ -4,7 +4,7 @@
 
 BeyFlow Chat has evolved into a visual workflow automation platform where users can connect APIs (ChatGPT, Make.com scenarios), LLMs, agents, and tools together through an intuitive drag-and-drop interface. Built with React 19 and Vite, it features a cyberpunk-styled Web3 aesthetic with neon colors, glitch effects, and smooth animations.
 
-The platform includes a visual workflow builder that lets users create automation flows by connecting trigger nodes (ChatGPT, webhooks, schedules), action nodes (Make.com, OpenAI, Gmail, Discord, Twilio), and logic nodes (conditions, delays, filters). It leverages the existing "Banana Flow" automation system for workflow execution and integrates seamlessly with external services.
+The platform includes a fully functional visual workflow builder that lets users create automation flows by connecting trigger nodes (ChatGPT, webhooks, schedules), action nodes (Make.com, OpenAI, Gmail, Discord, Twilio), and logic nodes (conditions, delays, filters). The workflow execution engine processes nodes in topological order, makes real API calls to OpenAI (via Replit AI integration) and Make.com webhooks, and displays real-time execution progress with visual node highlighting and detailed logging.
 
 The application emphasizes a dopaminergic, reward-based UI with cyberpunk styling, minimizable panels for performance monitoring and analytics, and a modular architecture ready for Web3 integration including wallet connectivity and 3D avatar identity.
 
@@ -53,13 +53,19 @@ Preferred communication style: Simple, everyday language.
 
 ### Workflow Builder Module
 
-**Visual Workflow Canvas**: Drag-and-drop node-based automation designer
+**Visual Workflow Canvas**: Drag-and-drop node-based automation designer with real execution
 - 15+ pre-configured node types across 3 categories (triggers, actions, logic)
 - Drag-and-drop positioning with smooth Framer Motion animations
 - Visual connection lines with gradient effects between nodes
 - Real-time workflow validation and connection management
 - Node palette sidebar with searchable, categorized nodes
-- Execute button to run workflows through Banana Flow engine
+- Fully functional execution engine that:
+  - Builds topological execution order from node graph
+  - Executes nodes sequentially with data flow between nodes
+  - Makes real API calls (OpenAI GPT-4, Make.com webhooks)
+  - Shows real-time progress with node highlighting during execution
+  - Displays detailed execution log with success/error states
+  - Returns complete execution results with all node outputs
 
 **Node Categories**:
 1. **Triggers**: ChatGPT, Webhook, Schedule, Chat Message
@@ -69,8 +75,10 @@ Preferred communication style: Simple, everyday language.
 **OpenAI Integration**: Via Replit AI Integrations (no API key needed)
 - Charges billed directly to Replit credits
 - Environment variables auto-configured: `AI_INTEGRATIONS_OPENAI_BASE_URL`, `AI_INTEGRATIONS_OPENAI_API_KEY`
-- GPT-4/GPT-5 access through standardized interface
-- npm package `openai` installed for SDK usage
+- Exposed to client-side via Vite define config for browser access
+- GPT-4o model access through standardized OpenAI SDK
+- Used in workflow execution for OpenAI action nodes
+- Returns full completion responses with usage metrics
 
 ### Backend Architecture
 
