@@ -18,10 +18,7 @@ export const brandAssets = {
   // Floating elements (small icons that float around)
   floatingElements: [
     '/brand/beymedia-logo.png',
-    '/brand/logo-primary.png',
-    '/brand/logo-secondary.png',
-    '/brand/icon-main.png',
-    '/brand/icon-accent.png'
+    '/brand/logo-primary.png'
   ],
   
   // Chat accent (tiny logo in chat bubbles)
@@ -62,10 +59,10 @@ export const brandConfig = {
   // BeyMedia Watermark settings (primary brand presence)
   watermark: {
     enabled: true,
-    opacity: 0.04,           // Slightly more visible for BeyMedia logo
-    position: 'center',      // center, topLeft, topRight, etc.
+    opacity: 0.12,           // More visible for better brand presence
+    position: 'bottomRight', // Professional, non-intrusive placement
     rotateWithAudio: true,   // Gentle rotation when audio plays
-    scale: 1.1,              // Slightly larger for BeyMedia prominence
+    scale: 0.8,              // Smaller for corner placement
     pulseWithReward: true    // Subtle pulse on dopamine rewards
   },
   
@@ -80,8 +77,8 @@ export const brandConfig = {
   // Floating elements settings
   floating: {
     enabled: true,
-    count: 4,                // Increased for more brand presence
-    opacity: 0.06,           // Slightly more subtle with more elements
+    count: 2,                // Reduced for cleaner UI
+    opacity: 0.10,           // More visible with fewer elements
     size: 'small',           // small, medium, large  
     speed: 'slow',           // slow, medium, fast
     beyMediaPriority: true   // Give BeyMedia logo priority in floating sequence
