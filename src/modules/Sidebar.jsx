@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import useStore from "../store"
+import { brandAssets } from "../config/brandConfig"
 
 const modules = [
   { id: 'chat', name: 'Chat', icon: '💬', description: 'Real-time messaging' },
@@ -25,9 +26,11 @@ export default function Sidebar() {
           className="flex items-center space-x-3"
           whileHover={{ scale: 1.05 }}
         >
-          <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-lg">B</span>
-          </div>
+          <img 
+            src={brandAssets.beyMediaLogo} 
+            alt="BeyMedia" 
+            className="w-10 h-10 object-contain"
+          />
           <div>
             <h3 className="text-white font-bold">BeyFlow</h3>
             <p className="text-white/60 text-sm">Chat System</p>
