@@ -8,7 +8,7 @@ export default function YouTubeMusicPlayer() {
   const { themePersona } = useStore()
   const theme = getTheme(themePersona)
   
-  const [isMinimized, setIsMinimized] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   
   // You can replace this with your own YouTube playlist ID
