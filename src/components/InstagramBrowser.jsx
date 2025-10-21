@@ -29,7 +29,6 @@ export default function InstagramBrowser() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
-          className="fixed bottom-20 left-24 z-30"
         >
           <button
             onClick={() => setIsMinimized(false)}
@@ -47,7 +46,7 @@ export default function InstagramBrowser() {
           initial={{ x: 400, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 400, opacity: 0 }}
-          className={`fixed left-4 bottom-20 w-64 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-30 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+          className={`w-64 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
         >
           {/* Header */}
           <div className={`flex items-center justify-between px-3 py-2 border-b ${theme.colors.border}`}>

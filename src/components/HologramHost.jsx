@@ -167,7 +167,7 @@ export default function HologramHost() {
   
   return (
     <motion.div
-      className={`fixed bottom-4 right-1/4 -translate-x-1/2 ${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
+      className={`${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
       style={{
         background: theme.id === 'terminal' 
           ? 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,40,40,0.4) 100%)'

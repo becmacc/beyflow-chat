@@ -15,7 +15,7 @@ export default function WhatsAppBusiness() {
   
   return (
     <motion.div
-      className={`fixed bottom-4 right-4 ${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
+      className={`${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
       style={{
         background: theme.id === 'terminal' 
           ? 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,40,20,0.4) 100%)'
