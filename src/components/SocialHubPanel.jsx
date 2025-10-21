@@ -16,7 +16,7 @@ const PinterestIcon = ({ size = 16 }) => (
 )
 
 export default function SocialHubPanel() {
-  const { themePersona, setFloatingBrowser } = useStore()
+  const { themePersona } = useStore()
   const theme = getTheme(themePersona)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isYoutubePlaying, setIsYoutubePlaying] = useState(false)
@@ -45,14 +45,7 @@ export default function SocialHubPanel() {
   }
 
   const openSocial = (url) => {
-    setFloatingBrowser({ 
-      isOpen: true, 
-      url: url,
-      x: 100, 
-      y: 100, 
-      width: 900, 
-      height: 700 
-    })
+    window.open(url, '_blank', 'width=900,height=700')
   }
 
   const apps = [

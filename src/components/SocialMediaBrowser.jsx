@@ -47,7 +47,7 @@ const platforms = [
 ]
 
 export default function SocialMediaBrowser() {
-  const { themePersona, setFloatingBrowser } = useStore()
+  const { themePersona } = useStore()
   const theme = getTheme(themePersona)
   
   const [isMinimized, setIsMinimized] = useState(true)
@@ -57,18 +57,11 @@ export default function SocialMediaBrowser() {
   
   const openSocial = (platform) => {
     setActivePlatform(platform.id)
-    setFloatingBrowser({ 
-      isOpen: true, 
-      url: platform.url,
-      x: 100, 
-      y: 100, 
-      width: 900, 
-      height: 700 
-    })
+    window.open(platform.url, '_blank', 'width=900,height=700')
   }
 
   const openInNewTab = (url) => {
-    window.open(url, '_blank', 'width=1000,height=800')
+    window.open(url, '_blank', 'width=900,height=700')
   }
 
   return (
@@ -129,8 +122,8 @@ export default function SocialMediaBrowser() {
               
               <p className={`${theme.font} text-xs ${theme.colors.textMuted} mb-4`}>
                 {theme.id === 'glassmorphic' 
-                  ? 'Click any platform to open in floating browser' 
-                  : 'CLICK_TO_LAUNCH_FLOATING_BROWSER'}
+                  ? 'Click any platform to open in new browser tab' 
+                  : 'CLICK_TO_LAUNCH_NEW_TAB'}
               </p>
             </div>
             
@@ -216,8 +209,8 @@ export default function SocialMediaBrowser() {
             <div className={`p-3 border-t-2 ${theme.colors.border}`}>
               <div className={`${theme.font} text-[10px] ${theme.colors.textMuted} text-center`}>
                 {theme.id === 'glassmorphic' 
-                  ? '💡 Floating browser avoids iframe blocking issues' 
-                  : 'ℹ️ FLOATING_BROWSER_AVOIDS_IFRAME_BLOCKS'}
+                  ? '💡 Opens in new browser tabs for best compatibility' 
+                  : 'ℹ️ NEW_TAB_OPENS_FULL_FEATURES'}
               </div>
             </div>
           </motion.div>

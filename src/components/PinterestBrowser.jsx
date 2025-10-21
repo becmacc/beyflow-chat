@@ -15,18 +15,11 @@ const PinterestIcon = ({ size = 18, className = '' }) => (
 )
 
 export default function PinterestBrowser() {
-  const { themePersona, setFloatingBrowser } = useStore()
+  const { themePersona } = useStore()
   const theme = getTheme(themePersona)
   
   const openPinterest = () => {
-    setFloatingBrowser({ 
-      isOpen: true, 
-      url: 'https://www.pinterest.com/',
-      x: 100, 
-      y: 100, 
-      width: 900, 
-      height: 700 
-    })
+    window.open('https://www.pinterest.com/', '_blank')
   }
 
   return (

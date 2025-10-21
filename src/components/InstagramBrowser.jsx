@@ -4,18 +4,11 @@ import useStore from '../store'
 import { getTheme } from '../config/themes'
 
 export default function InstagramBrowser() {
-  const { themePersona, setFloatingBrowser } = useStore()
+  const { themePersona } = useStore()
   const theme = getTheme(themePersona)
   
   const openInstagram = () => {
-    setFloatingBrowser({ 
-      isOpen: true, 
-      url: 'https://www.instagram.com/',
-      x: 100, 
-      y: 100, 
-      width: 900, 
-      height: 700 
-    })
+    window.open('https://www.instagram.com/', '_blank')
   }
 
   return (

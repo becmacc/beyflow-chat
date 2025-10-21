@@ -4,18 +4,11 @@ import useStore from '../store'
 import { getTheme } from '../config/themes'
 
 export default function WhatsAppBusiness() {
-  const { themePersona, setFloatingBrowser } = useStore()
+  const { themePersona } = useStore()
   const theme = getTheme(themePersona)
   
   const openWhatsApp = () => {
-    setFloatingBrowser({ 
-      isOpen: true, 
-      url: 'https://web.whatsapp.com',
-      x: 100, 
-      y: 100, 
-      width: 900, 
-      height: 700 
-    })
+    window.open('https://web.whatsapp.com', '_blank', 'width=1200,height=800')
   }
 
   return (
