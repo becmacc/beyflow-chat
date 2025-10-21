@@ -31,8 +31,8 @@ export default function MotivationalQuote() {
           : '0 4px 16px rgba(139,92,246,0.1)'
       }}
       animate={{ 
-        width: isMinimized ? '48px' : 'auto',
-        height: isMinimized ? '48px' : 'auto'
+        width: isMinimized ? '40px' : 'auto',
+        height: isMinimized ? '40px' : 'auto'
       }}
       transition={{ duration: 0.3 }}
     >
@@ -41,10 +41,10 @@ export default function MotivationalQuote() {
           onClick={() => setIsMinimized(false)}
           className={`w-full h-full flex items-center justify-center transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
         >
-          <Quote className={theme.colors.accent} size={20} />
+          <Quote className={theme.colors.accent} size={16} />
         </button>
       ) : (
-        <div className="p-4">
+        <div className="p-3">
           <AnimatePresence mode="wait">
             <motion.div
               key={key}
@@ -52,35 +52,35 @@ export default function MotivationalQuote() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="space-y-3"
+              className="space-y-2"
             >
-              <div className="flex items-start justify-between gap-2">
-                <Quote className={`${theme.colors.accent} ${theme.id === 'terminal' ? 'opacity-40' : 'opacity-60'} flex-shrink-0`} size={20} />
-                <div className="flex gap-1">
+              <div className="flex items-start justify-between gap-1.5">
+                <Quote className={`${theme.colors.accent} ${theme.id === 'terminal' ? 'opacity-40' : 'opacity-60'} flex-shrink-0`} size={16} />
+                <div className="flex gap-0.5">
                   <button
                     onClick={refreshQuote}
-                    className={`p-1.5 ${theme.rounded} transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
+                    className={`p-1 ${theme.rounded} transition-all min-w-[24px] min-h-[24px] flex items-center justify-center ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
                   >
-                    <RefreshCw className={theme.colors.textMuted} size={14} />
+                    <RefreshCw className={theme.colors.textMuted} size={12} />
                   </button>
                   <button
                     onClick={() => setIsMinimized(true)}
-                    className={`p-1.5 ${theme.rounded} transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
+                    className={`p-1 ${theme.rounded} transition-all min-w-[24px] min-h-[24px] flex items-center justify-center ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
                   >
-                    <Minimize2 className={theme.colors.textMuted} size={14} />
+                    <Minimize2 className={theme.colors.textMuted} size={12} />
                   </button>
                 </div>
               </div>
 
-              <blockquote className={`${theme.font} ${theme.colors.text} text-xs leading-relaxed italic`}>
+              <blockquote className={`${theme.font} ${theme.colors.text} text-[10px] leading-relaxed italic`}>
                 "{quote.text}"
               </blockquote>
 
-              <div className="flex items-center justify-between gap-2">
-                <cite className={`${theme.font} ${theme.colors.textMuted} text-[10px] not-italic truncate`}>
+              <div className="flex items-center justify-between gap-1.5">
+                <cite className={`${theme.font} ${theme.colors.textMuted} text-[9px] not-italic truncate`}>
                   — {quote.author}
                 </cite>
-                <span className={`px-2 py-0.5 ${theme.rounded} text-[9px] ${theme.font} flex-shrink-0 ${theme.id === 'terminal' ? 'bg-cyan-500/10 text-cyan-400' : 'bg-white/10 text-white'}`}>
+                <span className={`px-1.5 py-0.5 ${theme.rounded} text-[8px] ${theme.font} flex-shrink-0 ${theme.id === 'terminal' ? 'bg-cyan-500/10 text-cyan-400' : 'bg-white/10 text-white'}`}>
                   {quote.category.toUpperCase()}
                 </span>
               </div>

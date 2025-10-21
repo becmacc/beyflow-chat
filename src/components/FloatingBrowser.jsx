@@ -22,6 +22,8 @@ export default function FloatingBrowser() {
   const [startPos, setStartPos] = useState({ x: 0, y: 0 })
   const [startSize, setStartSize] = useState({ width: 0, height: 0 })
   const [startBrowserPos, setStartBrowserPos] = useState({ x: 0, y: 0 })
+  
+  console.log('🌐 FloatingBrowser render - floatingBrowser:', floatingBrowser)
 
   const isValidUrl = (string) => {
     try {
@@ -222,7 +224,9 @@ export default function FloatingBrowser() {
   }, [isResizing, resizeDirection, startPos, startSize, startBrowserPos])
 
   useEffect(() => {
+    console.log('🌐 FloatingBrowser useEffect - isOpen:', floatingBrowser?.isOpen, 'url:', floatingBrowser?.url)
     if (floatingBrowser?.isOpen && floatingBrowser?.url) {
+      console.log('🌐 FloatingBrowser useEffect - Loading initial URL:', floatingBrowser.url)
       const initialUrl = floatingBrowser.url
       const normalized = normalizeUrl(initialUrl)
       if (isValidUrl(normalized)) {
@@ -244,7 +248,12 @@ export default function FloatingBrowser() {
     }
   }, [floatingBrowser?.isOpen, floatingBrowser?.url])
 
-  if (!floatingBrowser?.isOpen) return null
+  if (!floatingBrowser?.isOpen) {
+    console.log('🌐 FloatingBrowser - Not rendering, isOpen is false')
+    return null
+  }
+  
+  console.log('🌐 FloatingBrowser - Rendering browser window!')
 
   const browserSize = isMaximized 
     ? { width: '100vw', height: '100vh', x: 0, y: 0 }

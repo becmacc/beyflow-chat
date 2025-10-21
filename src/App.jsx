@@ -37,11 +37,10 @@ import MotivationalQuote from "./components/MotivationalQuote"
 import InteractiveLighting from "./components/InteractiveLighting"
 import HologramHost from "./components/HologramHost"
 import ColorModeControl from "./components/ColorModeControl"
-import UtilityPanel from "./components/UtilityPanel"
 import ParallaxDepth from "./components/ParallaxDepth"
 import SpectrumControl from "./components/SpectrumControl"
 import FloatingBrowser from "./components/FloatingBrowser"
-import SocialMediaBrowser from "./components/SocialMediaBrowser"
+import WidgetHub from "./components/WidgetHub"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -210,7 +209,10 @@ function App() {
             <div className="flex items-center space-x-4">
               {/* Floating Browser Toggle */}
               <button
-                onClick={openFloatingBrowser}
+                onClick={() => {
+                  console.log('🌐 Button clicked!')
+                  openFloatingBrowser()
+                }}
                 className="p-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 transition-all"
                 title="Open Floating Browser"
               >
@@ -310,10 +312,10 @@ function App() {
         </div>
       )}
       
-      {/* Z-40: Social Media Browser - Bottom-left */}
-      <SocialMediaBrowser />
+      {/* Z-40: Widget Hub - Bottom-right (consolidates Social, YouTube, Utilities) */}
+      <WidgetHub />
       
-      {/* Z-50: Color Mode Control - Bottom-left */}
+      {/* Z-50: Color Mode Control - Bottom-center */}
       <ColorModeControl />
       
       {/* Z-50: Spectrum Control - Top-right */}
@@ -321,9 +323,6 @@ function App() {
       
       {/* Z-50: Floating Browser - Draggable overlay */}
       <FloatingBrowser />
-      
-      {/* Z-50: Utility Panel - Bottom-right (consolidated Calendar + Social Hub) */}
-      <UtilityPanel />
       
       {/* Z-20: Motivational Quote - Right side middle */}
       <div className="fixed top-1/2 -translate-y-1/2 right-4 max-w-xs z-20">

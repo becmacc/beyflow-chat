@@ -64,12 +64,18 @@ const useStore = create(
     height: 600
   },
   setFloatingBrowser: (browser) => set({ floatingBrowser: browser }),
-  openFloatingBrowser: () => set((state) => ({
-    floatingBrowser: { ...state.floatingBrowser, isOpen: true }
-  })),
-  closeFloatingBrowser: () => set((state) => ({
-    floatingBrowser: { ...state.floatingBrowser, isOpen: false }
-  })),
+  openFloatingBrowser: () => {
+    console.log('🌐 Store: openFloatingBrowser called!')
+    set((state) => ({
+      floatingBrowser: { ...state.floatingBrowser, isOpen: true }
+    }))
+  },
+  closeFloatingBrowser: () => {
+    console.log('🌐 Store: closeFloatingBrowser called!')
+    set((state) => ({
+      floatingBrowser: { ...state.floatingBrowser, isOpen: false }
+    }))
+  },
 
   // Current module
   currentModule: 'chat',

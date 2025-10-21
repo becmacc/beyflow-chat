@@ -178,15 +178,15 @@ export default function HologramHost() {
           : '0 8px 32px rgba(139,92,246,0.2)'
       }}
       animate={{
-        width: isMinimized ? '64px' : '280px',
-        height: isMinimized ? '64px' : '320px'
+        width: isMinimized ? '48px' : '220px',
+        height: isMinimized ? '48px' : '260px'
       }}
       transition={{ duration: 0.3 }}
     >
       {isMinimized ? (
         <motion.button
           onClick={() => setIsMinimized(false)}
-          className={`w-full h-full flex items-center justify-center text-3xl transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
+          className={`w-full h-full flex items-center justify-center text-2xl transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           animate={{
@@ -199,7 +199,7 @@ export default function HologramHost() {
             ease: "easeInOut"
           }}
           style={{ 
-            filter: `drop-shadow(0 0 10px ${colorModeColors[colorMode] || colorModeColors.neutral})`
+            filter: `drop-shadow(0 0 8px ${colorModeColors[colorMode] || colorModeColors.neutral})`
           }}
         >
           👩‍💻
@@ -228,7 +228,7 @@ export default function HologramHost() {
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                className="text-6xl"
+                className="text-5xl"
                 animate={{
                   scale: [1, 1.1, 1],
                   opacity: [0.6, 1, 0.6]
@@ -239,7 +239,7 @@ export default function HologramHost() {
                   ease: "easeInOut"
                 }}
                 style={{ 
-                  filter: `drop-shadow(0 0 20px ${colorModeColors[colorMode] || colorModeColors.neutral})`
+                  filter: `drop-shadow(0 0 15px ${colorModeColors[colorMode] || colorModeColors.neutral})`
                 }}
               >
                 👩‍💻
@@ -248,29 +248,29 @@ export default function HologramHost() {
           )}
           
           {/* Controls Overlay */}
-          <div className="absolute top-2 right-2 flex gap-1">
+          <div className="absolute top-1.5 right-1.5 flex gap-0.5">
             <button
               onClick={() => setIsSpeaking(!isSpeaking)}
-              className={`p-1.5 ${theme.rounded} transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
+              className={`p-1 ${theme.rounded} transition-all min-w-[24px] min-h-[24px] flex items-center justify-center ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
               title={isSpeaking ? 'Mute' : 'Unmute'}
             >
               {isSpeaking ? (
-                <Volume2 className={theme.colors.accent} size={14} />
+                <Volume2 className={theme.colors.accent} size={12} />
               ) : (
-                <VolumeX className={theme.colors.textMuted} size={14} />
+                <VolumeX className={theme.colors.textMuted} size={12} />
               )}
             </button>
             <button
               onClick={() => setIsMinimized(true)}
-              className={`p-1.5 ${theme.rounded} transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
+              className={`p-1 ${theme.rounded} transition-all min-w-[24px] min-h-[24px] flex items-center justify-center ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
             >
-              <Minimize2 className={theme.colors.textMuted} size={14} />
+              <Minimize2 className={theme.colors.textMuted} size={12} />
             </button>
           </div>
           
           {/* Name Tag */}
-          <div className="absolute bottom-2 left-2 right-2">
-            <div className={`${theme.rounded} px-3 py-1.5 text-center ${theme.effects.blur ? 'backdrop-blur-sm' : ''}`}
+          <div className="absolute bottom-1.5 left-1.5 right-1.5">
+            <div className={`${theme.rounded} px-2 py-1 text-center ${theme.effects.blur ? 'backdrop-blur-sm' : ''}`}
               style={{
                 background: theme.id === 'terminal' 
                   ? 'rgba(0,0,0,0.5)' 
@@ -278,10 +278,10 @@ export default function HologramHost() {
                 border: theme.id === 'terminal' ? '1px solid rgba(0,255,255,0.2)' : '1px solid rgba(255,255,255,0.2)'
               }}
             >
-              <div className={`${theme.font} ${theme.colors.text} text-xs font-bold`}>
+              <div className={`${theme.font} ${theme.colors.text} text-[10px] font-bold`}>
                 ARIA
               </div>
-              <div className={`${theme.font} ${theme.colors.textMuted} text-[9px]`}>
+              <div className={`${theme.font} ${theme.colors.textMuted} text-[8px]`}>
                 AI HOLOGRAM HOST
               </div>
             </div>

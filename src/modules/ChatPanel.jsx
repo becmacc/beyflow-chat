@@ -13,11 +13,11 @@ function TypingIndicator() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="flex justify-start mb-4"
+      className="flex justify-start mb-3"
     >
-      <div className="bg-white/10 backdrop-blur-sm text-white mr-4 border border-white/20 px-4 py-2 rounded-2xl">
+      <div className="bg-white/10 backdrop-blur-sm text-white mr-3 border border-white/20 px-3 py-1.5 rounded-2xl">
         <div className="flex space-x-1 items-center">
-          <p className="text-sm font-medium">BeyFlow is thinking</p>
+          <p className="text-xs font-medium">BeyFlow is thinking</p>
           <LoadingDots />
         </div>
       </div>
@@ -152,16 +152,16 @@ export default function ChatPanel() {
   return (
     <div className="flex flex-col h-full">
       {/* Messages Area - COMPACT */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto p-3 space-y-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-2"
+          className="text-center py-1"
         >
-          <h2 className="text-lg font-bold text-white mb-0.5">
+          <h2 className="text-base font-bold text-white mb-0.5">
             Welcome to BeyFlow Chat! 🚀
           </h2>
-          <p className="text-white/70 text-xs">
+          <p className="text-white/70 text-[11px]">
             Your AI-powered conversation experience
           </p>
         </motion.div>
@@ -199,12 +199,12 @@ export default function ChatPanel() {
 
       {/* Input Area - COMPACT & STICKY */}
       <motion.div
-        className="sticky bottom-0 p-3 bg-black/30 backdrop-blur-xl border-t border-white/10"
+        className="sticky bottom-0 p-2 bg-black/30 backdrop-blur-xl border-t border-white/10"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-1.5">
           {/* User Input */}
           <input
             type="text"
@@ -212,18 +212,18 @@ export default function ChatPanel() {
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Your name..."
             aria-label="Your name"
-            className="w-full px-3 py-2 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-[40px]"
+            className="w-full px-2.5 py-1.5 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white text-xs placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-[36px]"
           />
           
           {/* Message Input */}
-          <div className="flex space-x-2">
+          <div className="flex space-x-1.5">
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Type your message... (Enter to send)"
               aria-label="Message input"
-              className="flex-1 px-3 py-2 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all resize-none"
+              className="flex-1 px-2.5 py-1.5 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white text-xs placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all resize-none"
               rows="2"
             />
             
@@ -231,14 +231,14 @@ export default function ChatPanel() {
               onClick={sendMessage}
               disabled={!text.trim() || isLoading}
               variant="primary"
-              className="px-6 py-3 text-base font-bold shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105 transition-all"
+              className="px-4 py-2 text-sm font-bold shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105 transition-all"
             >
               {isLoading ? <LoadingDots /> : "Send 🚀"}
             </FluidButton>
           </div>
 
           {/* Voice and Audio Controls */}
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-0.5">
             <VoiceInput 
               onTranscript={handleVoiceTranscript}
               onCommand={handleVoiceCommand}
