@@ -30,9 +30,14 @@ An organized PNG-based brand system, configured in `src/config/brandConfig.js`, 
 Vite's esbuild, code splitting, tree shaking, and asset optimization ensure build efficiency. Runtime performance is optimized through event debouncing, animation frame throttling, efficient store subscriptions, and memoization. Custom analytics track user interactions and performance metrics.
 
 ### Modular Architecture
-The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include Chat, Workflows, Sessions, AI Studio (with Omnigen multi-agent system like GPT-Marketer, GPT-Engineer, DALL-E), UI Components (themed sliders and carousels), and Settings. Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Extension points are planned for Web3 wallet integration and a plugin architecture.
+The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include Chat, Workflows, Sessions, AI Studio (with Omnigen multi-agent system like GPT-Marketer, GPT-Engineer, DALL-E), UI Components (themed sliders, carousels, and 3D model viewer), and Settings. Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Extension points are planned for Web3 wallet integration and a plugin architecture.
 
-**UI Components Library**: ThemedSlider (accessible range/value slider) and ThemedCarousel (full-featured slideshow with multiple effects) both adapt seamlessly to Terminal Hacker and Glassmorphic Modern themes.
+**UI Components Library**: 
+- **ThemedSlider**: Accessible range/value slider with Terminal and Glassmorphic theme support
+- **ThemedCarousel**: Full-featured slideshow with slide, cube, and fade effects
+- **Model3DViewer**: Interactive 3D model viewer with shape and color selectors
+- **MotivationalQuote**: Rotating inspirational quotes from corporate, military, existential, tech, and personal growth categories
+- **InteractiveLighting**: Cursor-reactive gradient and spotlight effects for depth and visual polish
 
 ## External Dependencies
 

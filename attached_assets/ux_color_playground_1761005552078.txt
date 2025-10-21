@@ -1,0 +1,102 @@
+// ux_color_playground.tsx
+// Combined functional + aesthetic color UX logic demo.
+// Uses React, Framer Motion, and CSS variables to create responsive color harmonies that react to user input, theme, and motion.
+
+import React, { useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+
+// Core idea: color as UX signal and aesthetic agent.
+// Functional color communicates state; aesthetic color evolves smoothly with interaction.
+
+function useInteractiveColor() {
+  const [color, setColor] = useState('hsl(210, 80%, 50%)');
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const nx = e.clientX / window.innerWidth;
+      const ny = e.clientY / window.innerHeight;
+      const hue = Math.round(200 + 120 * nx - 30 * ny);
+      const sat = 60 + 40 * Math.sin(nx * Math.PI);
+      const light = 50 + 10 * Math.cos(ny * Math.PI);
+      setColor(`hsl(${hue}, ${sat}%, ${light}%)`);
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+  return color;
+}
+
+export default function UXColorPlayground() {
+  const color = useInteractiveColor();
+  const hue = useMotionValue(0);
+  const springHue = useSpring(hue, { stiffness: 80, damping: 15 });
+  const bg = useTransform(springHue, (v) => `linear-gradient(135deg, hsl(${v}, 70%, 40%), hsl(${v + 90}, 80%, 60%))`);
+
+  useEffect(() => {
+    const h = parseInt(color.match(/hsl\((\d+)/)?.[1] || '210');
+    hue.set(h);
+  }, [color, hue]);
+
+  const [mode, setMode] = useState('neutral');
+
+  return (
+    <motion.div
+      style={{ backgroundImage: bg }}
+      className="min-h-screen flex flex-col items-center justify-center text-white relative overflow-hidden"
+    >
+      {/* Dynamic functional overlay */}
+      <motion.div
+        className="absolute inset-0 backdrop-blur-2xl opacity-30 pointer-events-none"
+        animate={{ background: `radial-gradient(circle at 50% 50%, ${color}, transparent 60%)` }}
+        transition={{ duration: 0.6, ease: 'easeInOut' }}
+      />
+
+      {/* UX Color Feedback */}
+      <div className="z-10 flex flex-col items-center gap-4 text-center">
+        <h1 className="text-3xl font-bold tracking-tight">UX Color Playground</h1>
+        <p className="opacity-80 max-w-md text-sm">
+          Move the cursor to shift hue dynamically. Switch modes to see how color semantics evolve between aesthetic and functional contexts.
+        </p>
+
+        <div className="flex gap-3 mt-6">
+          {['neutral', 'positive', 'warning', 'danger'].map((m) => (
+            <motion.button
+              key={m}
+              onClick={() => setMode(m)}
+              whileHover={{ scale: 1.1 }}
+              className={`px-4 py-2 rounded-xl text-sm font-medium border border-white/20 ${mode === m ? 'bg-white/20' : ''}`}
+            >
+              {m}
+            </motion.button>
+          ))}
+        </div>
+
+        <motion.div
+          className="mt-10 w-72 h-72 rounded-3xl shadow-2xl flex items-center justify-center text-xl font-semibold select-none"
+          animate={{
+            backgroundColor:
+              mode === 'neutral'
+                ? color
+                : mode === 'positive'
+                ? 'hsl(150,70%,45%)'
+                : mode === 'warning'
+                ? 'hsl(45,90%,55%)'
+                : 'hsl(350,70%,50%)',
+            scale: [1, 1.03, 1],
+          }}
+          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+        >
+          {mode.toUpperCase()}
+        </motion.div>
+      </div>
+
+      {/* Accessibility and preference tie-ins */}
+      <div className="absolute bottom-4 text-xs opacity-60">Current color: {color}</div>
+    </motion.div>
+  );
+}
+
+// UX design logic:
+// - Hue tracks pointer for perceptual engagement.
+// - Mode buttons toggle semantic color intent (feedback, alert, reward).
+// - Background gradient evolves fluidly to maintain immersion without distraction.
+// - Accessibility: color values respond to reduced motion and theme context if extended.

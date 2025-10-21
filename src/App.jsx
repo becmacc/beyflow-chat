@@ -33,6 +33,7 @@ import ThemeToggle from "./components/ThemeToggle"
 import YouTubeMusicPlayer from "./components/YouTubeMusicPlayer"
 import InstagramBrowser from "./components/InstagramBrowser"
 import MotivationalQuote from "./components/MotivationalQuote"
+import InteractiveLighting from "./components/InteractiveLighting"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -118,6 +119,9 @@ function App() {
   return (
     <ErrorBoundary>
       <div className={`h-screen overflow-hidden relative ${theme.colors.bgGradient}`}>
+      {/* Interactive Lighting Layer */}
+      <InteractiveLighting />
+      
       {/* Background Layers - adapt to theme */}
       {theme.effects.scanlines && <FluidGradientBg />}
       {theme.effects.grid && <MeshGradient />}
