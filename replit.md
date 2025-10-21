@@ -9,7 +9,10 @@ Preferred communication style: Simple, everyday language.
 ## System Architecture
 
 ### Frontend Architecture
-The frontend is built with **React 19** and **Vite**, utilizing **Zustand** for state management (with middlewares like `persist` and `immer`). Styling is handled by **TailwindCSS v3**, implementing a cyberpunk/Web3 theme with neon colors, glitch effects, and custom fonts (Inter, Space Grotesk, Orbitron). **Framer Motion v11** provides smooth animations and transitions, while **Three.js** with **React Three Fiber** is used for 3D graphics, including interactive particle systems and audio-reactive elements.
+The frontend is built with **React 19** and **Vite**, utilizing **Zustand** for state management (with middlewares like `persist` and `immer`). Styling is handled by **TailwindCSS v3**, implementing a cyberpunk/Web3 theme with neon colors, glitch effects, and custom fonts (Inter, Space Grotesk, Orbitron). **Framer Motion v11** provides smooth animations and transitions, while **Three.js** with **React Three Fiber** is used for 3D graphics, including interactive particle systems, holographic AI host, and audio-reactive elements.
+
+### Semantic Color System
+Global semantic color modes (neutral, positive, warning, danger) affect the entire application including cursor-reactive lighting, workflow node execution states, and hologram host appearance. Color modes provide visual feedback for system states and user interactions.
 
 ### Workflow Builder Module
 The visual workflow builder offers a drag-and-drop canvas with 15+ node types categorized into Triggers (ChatGPT, Webhook, Schedule), Actions (Make.com, OpenAI, Gmail), and Logic (Condition, Delay, Filter). It features a functional execution engine that processes nodes, makes real API calls (OpenAI via Replit AI Integrations), displays real-time progress, and provides detailed execution logs. OpenAI integration leverages Replit AI for GPT-4o access, billed via Replit credits.
@@ -30,14 +33,18 @@ An organized PNG-based brand system, configured in `src/config/brandConfig.js`, 
 Vite's esbuild, code splitting, tree shaking, and asset optimization ensure build efficiency. Runtime performance is optimized through event debouncing, animation frame throttling, efficient store subscriptions, and memoization. Custom analytics track user interactions and performance metrics.
 
 ### Modular Architecture
-The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include Chat, Workflows, Sessions, AI Studio (with Omnigen multi-agent system like GPT-Marketer, GPT-Engineer, DALL-E), UI Components (themed sliders, carousels, and 3D model viewer), and Settings. Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Extension points are planned for Web3 wallet integration and a plugin architecture.
+The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include Chat, Workflows, Sessions, AI Studio (with Omnigen multi-agent system like GPT-Marketer, GPT-Engineer, DALL-E), UI Components (themed sliders, carousels, 3D model viewer, hologram host), and Settings. Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Business integrations include WhatsApp Business quick-launcher and Business Calendar (Google Calendar, Outlook). Extension points are planned for Web3 wallet integration and a plugin architecture.
 
 **UI Components Library**: 
 - **ThemedSlider**: Accessible range/value slider with Terminal and Glassmorphic theme support
 - **ThemedCarousel**: Full-featured slideshow with slide, cube, and fade effects
 - **Model3DViewer**: Interactive 3D model viewer with shape and color selectors
 - **MotivationalQuote**: Rotating inspirational quotes from corporate, military, existential, tech, and personal growth categories
-- **InteractiveLighting**: Cursor-reactive gradient and spotlight effects for depth and visual polish
+- **InteractiveLighting**: Cursor-reactive gradient and spotlight effects with semantic color mode support (neutral, positive, warning, danger)
+- **HologramHost**: 3D holographic female AI host (ARIA/EVE) with floating animations, voice controls, and color mode responsiveness
+- **ColorModeControl**: Global semantic color state switcher affecting entire app theme
+- **BusinessCalendar**: Google Calendar and Outlook connector for event management
+- **WhatsAppBusiness**: Quick-launch integration for WhatsApp Web with business account connection
 
 ## External Dependencies
 
