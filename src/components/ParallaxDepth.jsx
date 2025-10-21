@@ -8,10 +8,10 @@ export default function ParallaxDepth() {
   const mouseY = useMotionValue(0)
   
   // Get spectrum values with defaults
-  const blur = spectrum?.blur ?? 0.3
-  const glow = spectrum?.glow ?? 0.3
-  const saturation = spectrum?.saturation ?? 0.3
-  const speed = spectrum?.speed ?? 0.3
+  const blur = spectrum?.blur ?? 0
+  const glow = spectrum?.glow ?? 0
+  const saturation = spectrum?.saturation ?? 0.5
+  const speed = spectrum?.speed ?? 0.5
 
   const colorModeStyles = {
     neutral: { primary: 'rgba(76, 195, 217, 0.15)', secondary: 'rgba(76, 195, 217, 0.08)', accent: 'rgba(0, 255, 255, 0.1)' },
@@ -61,12 +61,12 @@ export default function ParallaxDepth() {
               left: `${(i * 25) % 100}%`,
               top: `${(i * 30) % 100}%`,
               background: `radial-gradient(circle, ${currentColors.primary}, ${currentColors.secondary}, transparent)`,
-              opacity: 0.15 * (1 + glow),
+              opacity: 0.08 * (1 + glow),
               filter: `blur(${50 + blur * 100}px) saturate(${0.5 + saturation * 1.5})`
             }}
             animate={{
               scale: [1, 1.3, 1],
-              opacity: [0.15 * (1 + glow), 0.25 * (1 + glow), 0.15 * (1 + glow)],
+              opacity: [0.08 * (1 + glow), 0.15 * (1 + glow), 0.08 * (1 + glow)],
               rotate: [0, 360]
             }}
             transition={{
@@ -95,12 +95,12 @@ export default function ParallaxDepth() {
               left: `${(i * 12) % 95}%`,
               top: `${(i * 15) % 90}%`,
               background: `radial-gradient(circle, ${i % 2 === 0 ? currentColors.primary : currentColors.accent}, transparent)`,
-              opacity: 0.2 * (1 + glow * 0.5),
+              opacity: 0.12 * (1 + glow * 0.5),
               filter: `blur(${40 + blur * 80}px) saturate(${0.5 + saturation * 1.5})`
             }}
             animate={{
               scale: [1, 1.2, 1],
-              opacity: [0.2 * (1 + glow * 0.5), 0.3 * (1 + glow), 0.2 * (1 + glow * 0.5)],
+              opacity: [0.12 * (1 + glow * 0.5), 0.2 * (1 + glow), 0.12 * (1 + glow * 0.5)],
               x: [0, i % 2 === 0 ? 50 : -50, 0],
               y: [0, i % 2 === 0 ? -30 : 30, 0]
             }}
@@ -125,7 +125,7 @@ export default function ParallaxDepth() {
               left: `${(i * 8) % 95}%`,
               top: `${(i * 11) % 90}%`,
               background: `radial-gradient(circle, ${currentColors.accent}, transparent)`,
-              opacity: 0.2 * (1 + glow * 0.7),
+              opacity: 0.15 * (1 + glow * 0.7),
               filter: `blur(${30 + blur * 60}px) saturate(${0.5 + saturation * 2})`
             }}
             animate={{
@@ -160,7 +160,7 @@ export default function ParallaxDepth() {
               left: `${(i * 6) % 98}%`,
               top: `${(i * 7) % 95}%`,
               background: i % 3 === 0 ? currentColors.primary : currentColors.accent,
-              opacity: 0.25 * (1 + glow),
+              opacity: 0.2 * (1 + glow),
               filter: `blur(${5 + blur * 15}px) saturate(${0.5 + saturation * 2.5})`,
               boxShadow: glow > 0.6 ? `0 0 ${glow * 20}px ${currentColors.primary}` : 'none'
             }}
@@ -168,7 +168,7 @@ export default function ParallaxDepth() {
               y: [0, i % 2 === 0 ? -70 : -100, 0],
               x: [0, i % 2 === 0 ? 40 : -40, 0],
               scale: [1, 1.5 * (1 + glow * 0.5), 1],
-              opacity: [0.25 * (1 + glow), 0.5 * (1 + glow), 0.25 * (1 + glow)],
+              opacity: [0.2 * (1 + glow), 0.4 * (1 + glow), 0.2 * (1 + glow)],
               rotate: [0, i % 2 === 0 ? 360 : -360, 0]
             }}
             transition={{

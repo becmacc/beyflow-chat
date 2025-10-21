@@ -48,10 +48,10 @@ const useStore = create(
   
   // Visual spectrum (Notion → Rave)
   spectrum: {
-    blur: 0.3,
-    glow: 0.3,
-    saturation: 0.3,
-    speed: 0.3
+    blur: 0,
+    glow: 0,
+    saturation: 0.5,
+    speed: 0.5
   },
   setSpectrum: (spectrum) => set({ spectrum }),
 
