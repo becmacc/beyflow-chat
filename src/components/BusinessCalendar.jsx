@@ -7,7 +7,7 @@ import { getTheme } from '../config/themes'
 export default function BusinessCalendar() {
   const { themePersona } = useStore()
   const theme = getTheme(themePersona)
-  const [isMinimized, setIsMinimized] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(true)
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [currentTime, setCurrentTime] = useState(new Date())
