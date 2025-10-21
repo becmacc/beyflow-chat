@@ -36,7 +36,29 @@ const nodeTypes = {
 }
 
 function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick, isExecuting }) {
+  const { colorMode } = useStore()
   const nodeConfig = nodeTypes[node.category]?.[node.type]
+  
+  const colorModeStyles = {
+    neutral: {
+      glow: 'rgba(0,255,255,0.8)',
+      ring: 'ring-cyan-400 border-cyan-400'
+    },
+    positive: {
+      glow: 'rgba(46,204,113,0.8)',
+      ring: 'ring-green-400 border-green-400'
+    },
+    warning: {
+      glow: 'rgba(243,156,18,0.8)',
+      ring: 'ring-orange-400 border-orange-400'
+    },
+    danger: {
+      glow: 'rgba(231,76,60,0.8)',
+      ring: 'ring-red-400 border-red-400'
+    }
+  }
+  
+  const currentStyle = colorModeStyles[colorMode] || colorModeStyles.neutral
   
   return (
     <motion.div
@@ -48,9 +70,9 @@ function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick, 
         opacity: 1,
         ...(isExecuting && {
           boxShadow: [
-            '0 0 0px rgba(0,255,255,0)',
-            '0 0 20px rgba(0,255,255,0.8)',
-            '0 0 0px rgba(0,255,255,0)'
+            `0 0 0px ${currentStyle.glow.replace('0.8', '0')}`,
+            `0 0 20px ${currentStyle.glow}`,
+            `0 0 0px ${currentStyle.glow.replace('0.8', '0')}`
           ]
         })
       }}
@@ -70,7 +92,7 @@ function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick, 
     >
       <GlassmorphicCard 
         className={`w-48 p-4 ${
-          isExecuting ? 'ring-2 ring-cyan-400 border-cyan-400' :
+          isExecuting ? `ring-2 ${currentStyle.ring}` :
           isSelected ? 'ring-2 ring-cyan-500/40' : ''
         }`} 
         hover={!isSelected && !isExecuting}
