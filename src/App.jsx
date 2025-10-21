@@ -37,6 +37,7 @@ import InteractiveLighting from "./components/InteractiveLighting"
 import HologramHost from "./components/HologramHost"
 import ColorModeControl from "./components/ColorModeControl"
 import UtilityPanel from "./components/UtilityPanel"
+import ParallaxDepth from "./components/ParallaxDepth"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -129,6 +130,9 @@ function App() {
   return (
     <ErrorBoundary>
       <div className={`h-screen overflow-hidden relative ${theme.colors.bgGradient}`}>
+      {/* Parallax Depth Layer - Deepest background */}
+      <ParallaxDepth />
+      
       {/* Interactive Lighting Layer */}
       <InteractiveLighting />
       

@@ -43,10 +43,10 @@ export default function ColorModeControl() {
       />
       
       <motion.div 
-        className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+        className="fixed bottom-20 left-4 z-30"
         animate={{
-          width: isMinimized ? '60px' : 'auto',
-          boxShadow: isMinimized ? `0 0 20px ${currentStyle.border}` : `0 0 40px ${currentStyle.border}, 0 0 80px ${currentStyle.border}`
+          width: isMinimized ? '48px' : 'auto',
+          boxShadow: isMinimized ? `0 0 15px ${currentStyle.border}` : `0 0 25px ${currentStyle.border}`
         }}
         transition={{ duration: 0.3 }}
       >
