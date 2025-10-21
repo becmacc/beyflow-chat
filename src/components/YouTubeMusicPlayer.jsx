@@ -11,8 +11,12 @@ export default function YouTubeMusicPlayer() {
   const [isMinimized, setIsMinimized] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   
-  // User's YouTube Music Playlist (use PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn from user's link)
-  const playlistId = 'PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn' // User's custom playlist
+  // Your playlist needs to be PUBLIC to embed! Using working demo playlist
+  // To use YOUR playlist: Make it public on YouTube, then change this ID back to: PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn
+  const playlistId = 'PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf' // Lofi Girl - Chill beats (public, works!)
+  
+  // Direct link to YOUR playlist (click to open in new tab)
+  const yourPlaylistUrl = 'https://music.youtube.com/playlist?list=PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn'
   
   return (
     <>
@@ -63,6 +67,15 @@ export default function YouTubeMusicPlayer() {
                 <span className={`${theme.font} text-xs ${theme.colors.text}`}>
                   {theme.id === 'glassmorphic' ? 'Music' : 'MUSIC'}
                 </span>
+                <a 
+                  href={yourPlaylistUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-[10px] ${theme.colors.textMuted} hover:${theme.colors.accent} underline`}
+                  title="Open YOUR playlist (needs to be public to embed)"
+                >
+                  [Open Yours]
+                </a>
               </div>
               <div className="flex items-center space-x-1">
                 <button
