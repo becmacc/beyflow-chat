@@ -22,7 +22,7 @@ export default function SpectrumControl() {
 
   return (
     <motion.div 
-      className="fixed top-4 right-4 z-50"
+      className="fixed top-4 right-4 z-30"
       animate={{
         width: isMinimized ? '48px' : '280px',
         height: isMinimized ? '48px' : 'auto'

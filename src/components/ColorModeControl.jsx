@@ -32,18 +32,18 @@ export default function ColorModeControl() {
   
   return (
     <>
-      {/* FULL SCREEN COLOR FLASH - Makes changes OBVIOUS */}
+      {/* Subtle color flash - Less aggressive */}
       <motion.div
         key={`overlay-${colorMode}`}
-        className="fixed inset-0 pointer-events-none z-40"
-        initial={{ opacity: 0.5 }}
+        className="fixed inset-0 pointer-events-none z-[20]"
+        initial={{ opacity: 0.2 }}
         animate={{ opacity: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         style={{ background: currentStyle.overlay }}
       />
       
       <motion.div 
-        className="fixed bottom-24 right-4 z-30"
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40"
         animate={{
           width: isMinimized ? '48px' : 'auto',
           boxShadow: isMinimized ? `0 0 15px ${currentStyle.border}` : `0 0 25px ${currentStyle.border}`

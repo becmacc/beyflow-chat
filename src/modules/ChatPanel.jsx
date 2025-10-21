@@ -156,12 +156,12 @@ export default function ChatPanel() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-4"
+          className="text-center py-2"
         >
-          <h2 className="text-xl font-bold text-white mb-1">
+          <h2 className="text-lg font-bold text-white mb-0.5">
             Welcome to BeyFlow Chat! 🚀
           </h2>
-          <p className="text-white/70 text-sm">
+          <p className="text-white/70 text-xs">
             Your AI-powered conversation experience
           </p>
         </motion.div>
@@ -197,9 +197,9 @@ export default function ChatPanel() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area - COMPACT */}
+      {/* Input Area - COMPACT & STICKY */}
       <motion.div
-        className="p-3 bg-black/20 backdrop-blur-xl border-t border-white/10"
+        className="sticky bottom-0 p-3 bg-black/30 backdrop-blur-xl border-t border-white/10"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -231,6 +231,7 @@ export default function ChatPanel() {
               onClick={sendMessage}
               disabled={!text.trim() || isLoading}
               variant="primary"
+              className="px-6 py-3 text-base font-bold shadow-lg hover:shadow-cyan-500/50 transform hover:scale-105 transition-all"
             >
               {isLoading ? <LoadingDots /> : "Send 🚀"}
             </FluidButton>

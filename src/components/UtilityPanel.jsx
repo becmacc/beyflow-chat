@@ -28,20 +28,31 @@ export default function UtilityPanel() {
           <motion.button
             key="collapsed"
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            animate={{ 
+              scale: 1, 
+              opacity: 1,
+              boxShadow: theme.id === 'terminal' 
+                ? '0 0 20px rgba(0, 255, 255, 0.4)' 
+                : '0 0 20px rgba(139, 92, 246, 0.4)'
+            }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setIsExpanded(true)}
             className={`
               min-w-[44px] min-h-[44px] px-4 py-3 ${theme.rounded} flex items-center gap-2
               ${theme.id === 'terminal' 
-                ? 'bg-black/80 border-2 border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400' 
-                : 'bg-white/10 border-2 border-white/30 text-white hover:bg-white/20 hover:border-white/50'
+                ? 'bg-black/80 border-2 border-cyan-500/70 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400' 
+                : 'bg-white/10 border-2 border-white/50 text-white hover:bg-white/20 hover:border-white/70'
               }
               backdrop-blur-md transition-all duration-200
               shadow-lg hover:shadow-xl hover:scale-105
               focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-black
             `}
+            style={{
+              boxShadow: theme.id === 'terminal' 
+                ? '0 0 20px rgba(0, 255, 255, 0.4)' 
+                : '0 0 20px rgba(139, 92, 246, 0.4)'
+            }}
             aria-label="Open utility panel"
           >
             <Calendar size={20} />

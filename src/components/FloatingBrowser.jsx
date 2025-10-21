@@ -211,7 +211,20 @@ export default function FloatingBrowser() {
 
   return (
     <AnimatePresence>
+      {/* Semi-transparent backdrop */}
       <motion.div
+        key="browser-backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
+        onClick={closeFloatingBrowser}
+      />
+      
+      {/* Browser Window */}
+      <motion.div
+        key="browser-window"
         drag={!isMaximized}
         dragMomentum={false}
         dragElastic={0}
@@ -220,7 +233,7 @@ export default function FloatingBrowser() {
         animate={{ opacity: 1, scale: 1, x: browserSize.x, y: browserSize.y }}
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.2 }}
-        className="fixed z-50 bg-gray-900 border-2 border-cyan-500/50 rounded-lg shadow-2xl overflow-hidden"
+        className="fixed z-[9999] bg-gray-900 border-2 border-cyan-500/50 rounded-lg shadow-2xl overflow-hidden"
         style={{ 
           width: browserSize.width, 
           height: browserSize.height,
