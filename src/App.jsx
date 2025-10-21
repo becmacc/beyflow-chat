@@ -289,8 +289,8 @@ function App() {
         <MotivationalQuote />
       </div>
       
-      {/* Z-20: Hologram Host - Bottom-right (offset from Performance Monitor) */}
-      <div className="fixed bottom-20 right-4 z-20">
+      {/* Z-20: Hologram Host - Bottom-right - LARGER AND MORE VISIBLE */}
+      <div className="fixed bottom-24 right-8 z-20 scale-150">
         <HologramHost />
       </div>
     </div>

@@ -29,10 +29,10 @@ export default function InteractiveLighting() {
   }
   
   const colorModeColors = {
-    neutral: { primary: 'rgba(76, 195, 217, 0.4)', secondary: 'rgba(76, 195, 217, 0.2)' },
-    positive: { primary: 'rgba(46, 204, 113, 0.5)', secondary: 'rgba(46, 204, 113, 0.3)' },
-    warning: { primary: 'rgba(243, 156, 18, 0.5)', secondary: 'rgba(243, 156, 18, 0.3)' },
-    danger: { primary: 'rgba(231, 76, 60, 0.5)', secondary: 'rgba(231, 76, 60, 0.3)' }
+    neutral: { primary: 'rgba(76, 195, 217, 0.8)', secondary: 'rgba(76, 195, 217, 0.5)' },
+    positive: { primary: 'rgba(46, 204, 113, 0.9)', secondary: 'rgba(46, 204, 113, 0.6)' },
+    warning: { primary: 'rgba(243, 156, 18, 0.9)', secondary: 'rgba(243, 156, 18, 0.6)' },
+    danger: { primary: 'rgba(231, 76, 60, 0.9)', secondary: 'rgba(231, 76, 60, 0.6)' }
   }
   
   const hue = colorModeHues[colorMode] || colorModeHues.neutral
@@ -59,35 +59,38 @@ export default function InteractiveLighting() {
           opacity: 0.5 
         }}
       />
-      {/* Additional accent lights in corners - respond to color mode - REDUCED INTENSITY */}
+      {/* Additional accent lights in corners - respond to color mode - DRAMATIC CHANGES */}
       <motion.div 
-        className="absolute top-0 right-0 w-96 h-96"
-        animate={{ opacity: [0.15, 0.25, 0.15] }}
-        transition={{ duration: 6, repeat: Infinity }}
+        className="absolute top-0 right-0 w-[500px] h-[500px]"
+        animate={{ opacity: [0.4, 0.6, 0.4] }}
+        transition={{ duration: 3, repeat: Infinity }}
+        key={`top-${colorMode}`}
         style={{
-          background: `radial-gradient(circle, ${colors.primary} 0%, transparent 70%)`,
-          filter: 'blur(60px)'
-        }}
-      />
-      <motion.div 
-        className="absolute bottom-0 left-0 w-96 h-96"
-        animate={{ opacity: [0.1, 0.2, 0.1] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        style={{
-          background: `radial-gradient(circle, ${colors.secondary} 0%, transparent 70%)`,
-          filter: 'blur(60px)'
-        }}
-      />
-      <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
-        animate={{ 
-          scale: [1, 1.1, 1],
-          opacity: [0.05, 0.1, 0.05] 
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
-        style={{
-          background: `radial-gradient(circle, ${colors.primary} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${colors.primary} 0%, transparent 60%)`,
           filter: 'blur(80px)'
+        }}
+      />
+      <motion.div 
+        className="absolute bottom-0 left-0 w-[500px] h-[500px]"
+        animate={{ opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity }}
+        key={`bottom-${colorMode}`}
+        style={{
+          background: `radial-gradient(circle, ${colors.secondary} 0%, transparent 60%)`,
+          filter: 'blur(80px)'
+        }}
+      />
+      <motion.div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]"
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.4, 0.2] 
+        }}
+        transition={{ duration: 5, repeat: Infinity }}
+        key={`center-${colorMode}`}
+        style={{
+          background: `radial-gradient(circle, ${colors.primary} 0%, transparent 60%)`,
+          filter: 'blur(100px)'
         }}
       />
     </div>
