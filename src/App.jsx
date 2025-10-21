@@ -260,7 +260,7 @@ function App() {
       <InstagramBrowser />
       
       {/* Motivational Quote */}
-      <div className="fixed top-4 right-4 w-96 z-20">
+      <div className="fixed top-20 right-4 max-w-xs z-10">
         <MotivationalQuote />
       </div>
     </div>
