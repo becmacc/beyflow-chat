@@ -10,11 +10,14 @@ Preferred communication style: Simple, everyday language.
 
 ### Web Browser Module (Mini Browser)
 - **iframe-based Web Browser**: New module for browsing websites within BeyFlow with URL input, navigation controls, and bookmarking system
+- **Floating Browser Window**: Draggable + resizable overlay window (🌐 button in navbar) with 8 resize handles (4 corners + 4 edges), min 400x300px constraints, minimize/maximize controls
+- **WorkflowBuilder Split View**: Toggle split-screen mode in Workflows with adjustable vertical divider (30-80% ratio), workflow canvas on left + embedded browser on right for simultaneous API documentation reference
+- **Reusable BrowserPanel Component**: Extracted browser UI (URL bar, navigation, bookmarks, iframe) for use in both floating window and inline split-view modes
 - **Security Implementation**: Sandboxed iframe with proper `sandbox` attributes (allow-scripts, allow-same-origin, allow-forms, allow-popups)
 - **Bookmark Management**: Persistent localStorage-backed bookmarks with add/remove functionality and organized sidebar display
-- **Navigation Features**: Back/Forward/Reload/Home buttons with browsing history tracking
+- **Navigation Features**: Back/Forward/Reload/Home buttons with browsing history tracking synchronized with bookmark navigation
 - **X-Frame-Options Fallback**: Warning banner and "Open in new tab" button for sites that block iframe embedding
-- **Accessibility**: Clear warning messages about security restrictions, proper ARIA labels, 44px touch targets
+- **Accessibility**: Clear warning messages about security restrictions, proper ARIA labels, 44px touch targets, col-resize cursor on divider
 
 ### Spectrum Control System (Dynamic Visual Intensity)
 - **Dynamic Spectrum Sliders**: Four controls (Blur, Glow, Color, Speed) that transform UI from "Notion minimal" to "full rave mode"
