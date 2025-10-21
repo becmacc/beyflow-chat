@@ -59,7 +59,7 @@ export default function BusinessCalendar() {
   
   return (
     <motion.div
-      className={`fixed top-4 right-4 ${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
+      className={`${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
       style={{
         background: theme.id === 'terminal' 
           ? 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,40,40,0.4) 100%)'
@@ -67,8 +67,7 @@ export default function BusinessCalendar() {
         border: theme.id === 'terminal' ? '1px solid rgba(0,255,255,0.2)' : '1px solid rgba(255,255,255,0.2)',
         boxShadow: theme.id === 'terminal' 
           ? '0 8px 32px rgba(0,255,255,0.15)' 
-          : '0 8px 32px rgba(139,92,246,0.2)',
-        zIndex: 15
+          : '0 8px 32px rgba(139,92,246,0.2)'
       }}
       animate={{
         width: isMinimized ? '200px' : '320px',

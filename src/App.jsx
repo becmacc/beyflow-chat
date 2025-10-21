@@ -282,8 +282,8 @@ function App() {
       {/* Z-50: Color Mode Control - Top center */}
       <ColorModeControl />
       
-      {/* Z-15: Business Calendar - Top-right (compact by default) */}
-      <div className="fixed top-16 right-4 z-15">
+      {/* Z-15: Business Calendar - Top-right below navbar */}
+      <div className="fixed top-20 right-4 z-15">
         <BusinessCalendar />
       </div>
       

@@ -12,7 +12,7 @@ Preferred communication style: Simple, everyday language.
 The frontend is built with **React 19** and **Vite**, utilizing **Zustand** for state management (with middlewares like `persist` and `immer`). Styling is handled by **TailwindCSS v3**, implementing a cyberpunk/Web3 theme with neon colors, glitch effects, and custom fonts (Inter, Space Grotesk, Orbitron). **Framer Motion v11** provides smooth animations and transitions, while **Three.js** with **React Three Fiber** is used for 3D graphics, including interactive particle systems, holographic AI host, and audio-reactive elements.
 
 ### Semantic Color System
-Global semantic color modes (neutral, positive, warning, danger) affect the entire application including cursor-reactive lighting, workflow node execution states, and hologram host appearance. Color modes provide visual feedback for system states and user interactions.
+Global semantic color modes (neutral, positive, warning, danger) provide dramatic visual feedback throughout the application. The InteractiveLighting component creates pulsing colored gradients and corner lights that respond to color mode changes: cyan/teal for Neutral, green for Positive, orange for Warning, and red for Danger. These color modes affect cursor-reactive lighting, background atmosphere, workflow node execution states, and hologram host appearance. The ColorModeControl buttons at the top center allow instant switching between modes with immediate, obvious visual changes.
 
 ### Workflow Builder Module
 The visual workflow builder offers a drag-and-drop canvas with 15+ node types categorized into Triggers (ChatGPT, Webhook, Schedule), Actions (Make.com, OpenAI, Gmail), and Logic (Condition, Delay, Filter). It features a functional execution engine that processes nodes, makes real API calls (OpenAI via Replit AI Integrations), displays real-time progress, and provides detailed execution logs. OpenAI integration leverages Replit AI for GPT-4o access, billed via Replit credits.
@@ -51,7 +51,7 @@ The project is organized into `components`, `modules`, `hooks`, `store`, `automa
 - **InteractiveLighting**: Cursor-reactive gradient and spotlight effects with semantic color mode support (neutral, positive, warning, danger)
 - **HologramHost**: 3D holographic female AI host (ARIA/EVE) with floating animations, voice controls, and color mode responsiveness
 - **ColorModeControl**: Global semantic color state switcher affecting entire app theme
-- **BusinessCalendar**: Google Calendar and Outlook connector for event management
+- **BusinessCalendar**: Minimizable calendar widget positioned in top-right (auto-minimized by default to prevent UI occlusion), showing current date/time with expandable monthly view for Google Calendar and Outlook event management
 - **WhatsAppBusiness**: Quick-launch integration for WhatsApp Web with business account connection
 
 ## External Dependencies

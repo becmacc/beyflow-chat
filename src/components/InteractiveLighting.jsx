@@ -28,9 +28,17 @@ export default function InteractiveLighting() {
     danger: 350
   }
   
+  const colorModeColors = {
+    neutral: { primary: 'rgba(76, 195, 217, 0.4)', secondary: 'rgba(76, 195, 217, 0.2)' },
+    positive: { primary: 'rgba(46, 204, 113, 0.5)', secondary: 'rgba(46, 204, 113, 0.3)' },
+    warning: { primary: 'rgba(243, 156, 18, 0.5)', secondary: 'rgba(243, 156, 18, 0.3)' },
+    danger: { primary: 'rgba(231, 76, 60, 0.5)', secondary: 'rgba(231, 76, 60, 0.3)' }
+  }
+  
   const hue = colorModeHues[colorMode] || colorModeHues.neutral
+  const colors = colorModeColors[colorMode] || colorModeColors.neutral
   const spotlight = useTransform([sx, sy], ([x, y]) => 
-    `radial-gradient(300px 220px at ${x}px ${y}px, hsla(${hue},80%,50%,0.15) 0%, transparent 70%)`
+    `radial-gradient(300px 220px at ${x}px ${y}px, hsla(${hue},80%,50%,0.3) 0%, transparent 70%)`
   )
 
   const bg = theme.id === 'terminal'
@@ -51,19 +59,35 @@ export default function InteractiveLighting() {
           opacity: 0.7 
         }}
       />
-      {/* Additional accent light in corners */}
-      <div 
-        className="absolute top-0 right-0 w-96 h-96 opacity-20"
+      {/* Additional accent lights in corners - respond to color mode */}
+      <motion.div 
+        className="absolute top-0 right-0 w-96 h-96"
+        animate={{ opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 3, repeat: Infinity }}
         style={{
-          background: `radial-gradient(circle, ${theme.id === 'terminal' ? 'rgba(0,255,255,0.3)' : 'rgba(139,92,246,0.4)'} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${colors.primary} 0%, transparent 70%)`,
           filter: 'blur(60px)'
         }}
       />
-      <div 
-        className="absolute bottom-0 left-0 w-96 h-96 opacity-20"
+      <motion.div 
+        className="absolute bottom-0 left-0 w-96 h-96"
+        animate={{ opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 4, repeat: Infinity }}
         style={{
-          background: `radial-gradient(circle, ${theme.id === 'terminal' ? 'rgba(0,255,255,0.2)' : 'rgba(236,72,153,0.3)'} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${colors.secondary} 0%, transparent 70%)`,
           filter: 'blur(60px)'
+        }}
+      />
+      <motion.div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
+        animate={{ 
+          scale: [1, 1.1, 1],
+          opacity: [0.1, 0.2, 0.1] 
+        }}
+        transition={{ duration: 5, repeat: Infinity }}
+        style={{
+          background: `radial-gradient(circle, ${colors.primary} 0%, transparent 70%)`,
+          filter: 'blur(80px)'
         }}
       />
     </div>
