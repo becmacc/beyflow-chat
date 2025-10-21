@@ -34,6 +34,7 @@ import YouTubeMusicPlayer from "./components/YouTubeMusicPlayer"
 import InstagramBrowser from "./components/InstagramBrowser"
 import MotivationalQuote from "./components/MotivationalQuote"
 import InteractiveLighting from "./components/InteractiveLighting"
+import HologramHost from "./components/HologramHost"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -263,6 +264,9 @@ function App() {
       <div className="fixed top-20 right-4 max-w-xs z-10">
         <MotivationalQuote />
       </div>
+      
+      {/* Hologram Host */}
+      <HologramHost />
     </div>
     </ErrorBoundary>
   )
