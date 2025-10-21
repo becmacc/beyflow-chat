@@ -43,7 +43,7 @@ export default function ColorModeControl() {
       />
       
       <motion.div 
-        className="fixed bottom-4 left-64 z-30"
+        className="fixed bottom-4 left-80 z-30"
         animate={{
           width: isMinimized ? '48px' : 'auto',
           boxShadow: isMinimized ? `0 0 15px ${currentStyle.border}` : `0 0 25px ${currentStyle.border}`

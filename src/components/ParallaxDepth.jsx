@@ -88,22 +88,23 @@ export default function ParallaxDepth() {
         {[...Array(8)].map((_, i) => (
           <motion.div
             key={`large-${i}`}
-            className="absolute rounded-full blur-3xl"
+            className="absolute rounded-full"
             style={{
               width: `${300 + i * 50}px`,
               height: `${300 + i * 50}px`,
               left: `${(i * 12) % 95}%`,
               top: `${(i * 15) % 90}%`,
               background: `radial-gradient(circle, ${i % 2 === 0 ? currentColors.primary : currentColors.accent}, transparent)`,
-              opacity: 0.2
+              opacity: 0.2 * (1 + glow * 0.5),
+              filter: `blur(${40 + blur * 80}px) saturate(${0.5 + saturation * 1.5})`
             }}
             animate={{
               scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2],
+              opacity: [0.2 * (1 + glow * 0.5), 0.3 * (1 + glow), 0.2 * (1 + glow * 0.5)],
               x: [0, i % 2 === 0 ? 50 : -50, 0],
               y: [0, i % 2 === 0 ? -30 : 30, 0]
             }}
-            transition={{ duration: 8 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+            transition={{ duration: (8 + i) / (0.5 + speed * 1.5), repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
           />
         ))}
       </motion.div>
@@ -117,14 +118,15 @@ export default function ParallaxDepth() {
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={`medium-${i}`}
-            className="absolute rounded-full blur-2xl"
+            className="absolute rounded-full"
             style={{
               width: `${100 + i * 20}px`,
               height: `${100 + i * 20}px`,
               left: `${(i * 8) % 95}%`,
               top: `${(i * 11) % 90}%`,
               background: `radial-gradient(circle, ${currentColors.accent}, transparent)`,
-              opacity: 0.2
+              opacity: 0.2 * (1 + glow * 0.7),
+              filter: `blur(${30 + blur * 60}px) saturate(${0.5 + saturation * 2})`
             }}
             animate={{
               y: [0, i % 3 === 0 ? -40 : -60, 0],
@@ -133,7 +135,7 @@ export default function ParallaxDepth() {
               rotate: [0, i % 2 === 0 ? 180 : -180, 0]
             }}
             transition={{
-              duration: 4 + i * 0.5,
+              duration: (4 + i * 0.5) / (0.5 + speed * 2),
               repeat: Infinity,
               ease: "easeInOut",
               delay: i * 0.3
@@ -151,24 +153,26 @@ export default function ParallaxDepth() {
         {[...Array(40)].map((_, i) => (
           <motion.div
             key={`particle-${i}`}
-            className="absolute rounded-full blur-sm"
+            className="absolute rounded-full"
             style={{
               width: `${15 + i * 3}px`,
               height: `${15 + i * 3}px`,
               left: `${(i * 6) % 98}%`,
               top: `${(i * 7) % 95}%`,
               background: i % 3 === 0 ? currentColors.primary : currentColors.accent,
-              opacity: 0.25
+              opacity: 0.25 * (1 + glow),
+              filter: `blur(${5 + blur * 15}px) saturate(${0.5 + saturation * 2.5})`,
+              boxShadow: glow > 0.6 ? `0 0 ${glow * 20}px ${currentColors.primary}` : 'none'
             }}
             animate={{
               y: [0, i % 2 === 0 ? -70 : -100, 0],
               x: [0, i % 2 === 0 ? 40 : -40, 0],
-              scale: [1, 1.5, 1],
-              opacity: [0.25, 0.5, 0.25],
+              scale: [1, 1.5 * (1 + glow * 0.5), 1],
+              opacity: [0.25 * (1 + glow), 0.5 * (1 + glow), 0.25 * (1 + glow)],
               rotate: [0, i % 2 === 0 ? 360 : -360, 0]
             }}
             transition={{
-              duration: 2 + i * 0.3,
+              duration: (2 + i * 0.3) / (0.5 + speed * 3),
               repeat: Infinity,
               ease: "easeInOut",
               delay: i * 0.1
