@@ -40,6 +40,7 @@ import ColorModeControl from "./components/ColorModeControl"
 import UtilityPanel from "./components/UtilityPanel"
 import ParallaxDepth from "./components/ParallaxDepth"
 import SpectrumControl from "./components/SpectrumControl"
+import FloatingBrowser from "./components/FloatingBrowser"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -89,7 +90,7 @@ function ModuleRouter() {
 }
 
 function App() {
-  const { ui, audio, themePersona, colorMode, spectrum } = useStore()
+  const { ui, audio, themePersona, colorMode, spectrum, openFloatingBrowser } = useStore()
   const theme = getTheme(themePersona)
   
   // Get spectrum values
@@ -206,6 +207,15 @@ function App() {
             </div>
             
             <div className="flex items-center space-x-4">
+              {/* Floating Browser Toggle */}
+              <button
+                onClick={openFloatingBrowser}
+                className="p-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 transition-all"
+                title="Open Floating Browser"
+              >
+                <span className="text-lg">🌐</span>
+              </button>
+              
               <ThemeToggle />
               <div className={`flex items-center space-x-3 text-xs ${theme.font} ${theme.colors.textMuted}`}>
                 {audio.isListening && <span>[REC]</span>}
@@ -304,6 +314,9 @@ function App() {
       
       {/* Z-50: Spectrum Control - Top-right */}
       <SpectrumControl />
+      
+      {/* Z-50: Floating Browser - Draggable overlay */}
+      <FloatingBrowser />
       
       {/* Z-50: Utility Panel - Bottom-right (consolidated Calendar + Social Hub) */}
       <UtilityPanel />

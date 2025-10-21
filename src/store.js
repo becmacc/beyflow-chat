@@ -55,6 +55,22 @@ const useStore = create(
   },
   setSpectrum: (spectrum) => set({ spectrum }),
 
+  // Floating Browser
+  floatingBrowser: {
+    isOpen: false,
+    x: 100,
+    y: 100,
+    width: 800,
+    height: 600
+  },
+  setFloatingBrowser: (browser) => set({ floatingBrowser: browser }),
+  openFloatingBrowser: () => set((state) => ({
+    floatingBrowser: { ...state.floatingBrowser, isOpen: true }
+  })),
+  closeFloatingBrowser: () => set((state) => ({
+    floatingBrowser: { ...state.floatingBrowser, isOpen: false }
+  })),
+
   // Current module
   currentModule: 'chat',
   setModule: (module) => set({ currentModule: module }),

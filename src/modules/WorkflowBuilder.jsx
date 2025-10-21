@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useStore from '../store'
 import GlassmorphicCard from '../components/GlassmorphicCard'
 import OmnigenCube from '../components/OmnigenCube'
+import BrowserPanel from '../components/BrowserPanel'
 import { WorkflowExecutor } from './workflowExecution'
 import { getTheme } from '../config/themes'
 
@@ -185,6 +186,9 @@ export default function WorkflowBuilder() {
   const [executionResult, setExecutionResult] = useState(null)
   const [show3DView, setShow3DView] = useState(false)
   const [selectedAgentFor3D, setSelectedAgentFor3D] = useState(null)
+  const [splitViewBrowser, setSplitViewBrowser] = useState(false)
+  const [splitRatio, setSplitRatio] = useState(0.6)
+  const [isDraggingDivider, setIsDraggingDivider] = useState(false)
 
   const addNode = useCallback((category, type) => {
     const newNode = {
@@ -247,6 +251,35 @@ export default function WorkflowBuilder() {
     }
   }, [nodes, connections, webhook])
 
+  const handleDividerMouseDown = useCallback((e) => {
+    e.preventDefault()
+    setIsDraggingDivider(true)
+  }, [])
+
+  const handleDividerMouseMove = useCallback((e) => {
+    if (!isDraggingDivider) return
+    
+    const containerRect = e.currentTarget.getBoundingClientRect()
+    const mouseX = e.clientX - containerRect.left
+    const newRatio = mouseX / containerRect.width
+    
+    const clampedRatio = Math.min(Math.max(newRatio, 0.3), 0.8)
+    setSplitRatio(clampedRatio)
+  }, [isDraggingDivider])
+
+  const handleDividerMouseUp = useCallback(() => {
+    setIsDraggingDivider(false)
+  }, [])
+
+  useEffect(() => {
+    if (isDraggingDivider) {
+      document.addEventListener('mouseup', handleDividerMouseUp)
+      return () => {
+        document.removeEventListener('mouseup', handleDividerMouseUp)
+      }
+    }
+  }, [isDraggingDivider, handleDividerMouseUp])
+
   return (
     <div className={`h-full flex flex-col ${theme.colors.bg}`}>
       {/* Toolbar */}
@@ -269,6 +302,18 @@ export default function WorkflowBuilder() {
             aria-pressed={show3DView}
           >
             {show3DView ? '🔲' : '🧊'} {theme.id === 'glassmorphic' ? '3D View' : '[3D_VIEW]'}
+          </button>
+
+          <button
+            onClick={() => setSplitViewBrowser(!splitViewBrowser)}
+            className={`px-5 py-2.5 text-sm font-bold ${theme.font} ${theme.rounded} transition-all min-w-[44px] min-h-[44px] border-2 ${
+              splitViewBrowser 
+                ? 'bg-cyan-500 text-white border-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.5)]' 
+                : 'bg-black/60 text-cyan-400 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:brightness-120'
+            } focus:outline-none focus:ring-2 focus:ring-cyan-400`}
+            aria-pressed={splitViewBrowser}
+          >
+            🌐 {theme.id === 'glassmorphic' ? 'Split Browser' : '[SPLIT_VIEW]'}
           </button>
           
           <button
@@ -304,66 +349,94 @@ export default function WorkflowBuilder() {
         </div>
       </div>
 
-      {/* Canvas */}
-      <div className={`flex-1 relative overflow-hidden ${theme.colors.bg}`}
-        style={theme.effects.grid ? {
-          backgroundImage: `
-            linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px'
-        } : {}}
+      {/* Canvas Container with optional split view */}
+      <div 
+        className="flex-1 flex"
+        onMouseMove={splitViewBrowser ? handleDividerMouseMove : undefined}
+        style={{ cursor: isDraggingDivider ? 'col-resize' : 'default' }}
       >
-        {/* Connection Lines */}
-        {connections.map((conn, i) => (
-          <ConnectionLine key={i} from={conn.from} to={conn.to} nodes={nodes} />
-        ))}
-        
-        {/* Nodes */}
-        <AnimatePresence>
-          {nodes.map(node => {
-            const currentlyExecuting = executionLog.some(
-              log => log.nodeId === node.id && log.status === 'running'
-            )
-            
-            return (
-              <WorkflowNode
-                key={node.id}
-                node={node}
-                isSelected={selectedNode === node.id}
-                isExecuting={currentlyExecuting}
-                onClick={setSelectedNode}
-                onEdit={(id) => console.log('Edit', id)}
-                onDelete={deleteNode}
-                onConnect={handleConnect}
-              />
-            )
-          })}
-        </AnimatePresence>
+        {/* Left: Workflow Canvas */}
+        <div 
+          className={`relative overflow-hidden ${theme.colors.bg}`}
+          style={{
+            width: splitViewBrowser ? `${splitRatio * 100}%` : '100%',
+            ...(theme.effects.grid ? {
+              backgroundImage: `
+                linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px'
+            } : {})
+          }}
+        >
+          {/* Connection Lines */}
+          {connections.map((conn, i) => (
+            <ConnectionLine key={i} from={conn.from} to={conn.to} nodes={nodes} />
+          ))}
+          
+          {/* Nodes */}
+          <AnimatePresence>
+            {nodes.map(node => {
+              const currentlyExecuting = executionLog.some(
+                log => log.nodeId === node.id && log.status === 'running'
+              )
+              
+              return (
+                <WorkflowNode
+                  key={node.id}
+                  node={node}
+                  isSelected={selectedNode === node.id}
+                  isExecuting={currentlyExecuting}
+                  onClick={setSelectedNode}
+                  onEdit={(id) => console.log('Edit', id)}
+                  onDelete={deleteNode}
+                  onConnect={handleConnect}
+                />
+              )
+            })}
+          </AnimatePresence>
 
-        {/* Empty State */}
-        {nodes.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="text-center">
-              <div className="text-6xl mb-4">🔗</div>
-              <h3 className={`text-2xl ${theme.font} font-bold ${theme.colors.text} mb-2`}>
-                {theme.id === 'glassmorphic' ? 'Create Your First Workflow' : 'INITIALIZE_WORKFLOW'}
-              </h3>
-              <p className={`${theme.colors.textMuted} mb-6 ${theme.font} text-sm`}>
-                {theme.id === 'glassmorphic' ? 'Connect APIs, LLMs, and Agents' : '> Connect APIs + LLMs + Agents'}
-              </p>
-              <button
-                onClick={() => setShowPalette(true)}
-                className={`px-6 py-3 text-xs ${theme.colors.buttonActive} ${theme.font} ${theme.rounded} transition-colors`}
-              >
-                {theme.id === 'glassmorphic' ? '+ Add Node' : '[+] ADD_NODE'}
-              </button>
+          {/* Empty State */}
+          {nodes.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="text-center">
+                <div className="text-6xl mb-4">🔗</div>
+                <h3 className={`text-2xl ${theme.font} font-bold ${theme.colors.text} mb-2`}>
+                  {theme.id === 'glassmorphic' ? 'Create Your First Workflow' : 'INITIALIZE_WORKFLOW'}
+                </h3>
+                <p className={`${theme.colors.textMuted} mb-6 ${theme.font} text-sm`}>
+                  {theme.id === 'glassmorphic' ? 'Connect APIs, LLMs, and Agents' : '> Connect APIs + LLMs + Agents'}
+                </p>
+                <button
+                  onClick={() => setShowPalette(true)}
+                  className={`px-6 py-3 text-xs ${theme.colors.buttonActive} ${theme.font} ${theme.rounded} transition-colors`}
+                >
+                  {theme.id === 'glassmorphic' ? '+ Add Node' : '[+] ADD_NODE'}
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Right: Browser Panel with divider */}
+        {splitViewBrowser && (
+          <>
+            <div 
+              className="w-1 bg-cyan-500/30 hover:bg-cyan-400/60 transition-colors cursor-col-resize"
+              onMouseDown={handleDividerMouseDown}
+              style={{ 
+                flexShrink: 0,
+                userSelect: 'none'
+              }}
+            />
+            <div style={{ width: `${(1 - splitRatio) * 100}%` }}>
+              <BrowserPanel onClose={() => setSplitViewBrowser(false)} />
             </div>
-          </motion.div>
+          </>
         )}
       </div>
 
