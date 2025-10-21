@@ -9,6 +9,7 @@ const modules = [
   { id: 'contacts', name: 'Contacts', icon: '👥', description: 'Network hub' },
   { id: 'workspace', name: 'Workspace', icon: '📝', description: 'Notes & tasks' },
   { id: 'workflows', name: 'Workflows', icon: '🔗', description: 'Connect APIs & LLMs' },
+  { id: 'browser', name: 'Web Browser', icon: '🌐', description: 'Browse & bookmark' },
   { id: 'sessions', name: 'Sessions', icon: '💾', description: 'Saved conversations' },
   { id: 'ai', name: 'AI Studio', icon: '🤖', description: 'AI playground' },
   { id: 'ui', name: 'UI Components', icon: '✨', description: 'Sliders & carousels' },

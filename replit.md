@@ -8,6 +8,22 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Updates (October 21, 2025)
 
+### Web Browser Module (Mini Browser)
+- **iframe-based Web Browser**: New module for browsing websites within BeyFlow with URL input, navigation controls, and bookmarking system
+- **Security Implementation**: Sandboxed iframe with proper `sandbox` attributes (allow-scripts, allow-same-origin, allow-forms, allow-popups)
+- **Bookmark Management**: Persistent localStorage-backed bookmarks with add/remove functionality and organized sidebar display
+- **Navigation Features**: Back/Forward/Reload/Home buttons with browsing history tracking
+- **X-Frame-Options Fallback**: Warning banner and "Open in new tab" button for sites that block iframe embedding
+- **Accessibility**: Clear warning messages about security restrictions, proper ARIA labels, 44px touch targets
+
+### Spectrum Control System (Dynamic Visual Intensity)
+- **Dynamic Spectrum Sliders**: Four controls (Blur, Glow, Color, Speed) that transform UI from "Notion minimal" to "full rave mode"
+- **All-particle Control**: 70+ parallax particles across 4 depth layers respond to spectrum settings in real-time
+- **UI-wide Impact**: Sliders affect sidebar blur, navbar blur, background gradients, particle animations, glow halos, and color saturation
+- **Performance Ranges**: Blur (0-30px), Glow (0-30px halo), Saturation (50-150%), Speed (0.5x-3x animation multiplier)
+- **Preset Button**: "🔥 FULL RAVE MODE" instantly maxes all controls for dramatic effect
+- **ColorMode Integration**: Bottom-right positioned (Neutral/Positive/Warning/Danger) buttons work alongside spectrum for dual-axis visual control
+
 ### UX/UI Polish & Accessibility
 - **Reduced Visual Chaos**: Background animations lowered to 50% opacity, speeds doubled for calmer ambience
 - **Improved Readability**: Minimum 14px font sizes, enhanced contrast ratios (WCAG AA compliance), dark backdrops behind text on gradients
@@ -55,6 +71,7 @@ The project is organized into `components`, `modules`, `hooks`, `store`, `automa
 - **Contacts Hub**: CRM with searchable contacts and quick actions (Email, WhatsApp, LinkedIn, Calendly)
 - **Workspace**: MGX-style modular dashboard with customizable grid layout, supporting 5 module types (Notes, Analytics, Code Editor, Terminal, Web3 Wallet). Features save/load workspace configurations, export/import JSON, module sizing (S/M/L), and localStorage persistence via Zustand persist middleware.
 - **Workflows**: Visual node-based automation builder
+- **Web Browser**: iframe-based mini browser with URL input, navigation controls (Back/Forward/Reload/Home), persistent bookmarks via localStorage, and "Open in new tab" fallback for sites blocking iframe embedding
 - **Sessions**: Saved conversation management
 - **AI Studio**: Multi-agent system (GPT-Marketer, GPT-Engineer, DALL-E)
 - **UI Components**: Themed sliders, carousels, 3D model viewer, hologram host

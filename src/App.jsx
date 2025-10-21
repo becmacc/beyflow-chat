@@ -13,6 +13,7 @@ import WorkflowBuilder from "./modules/WorkflowBuilder"
 import UIShowcase from "./modules/UIShowcase"
 import ContactsHub from "./modules/ContactsHub"
 import Workspace from "./modules/Workspace"
+import WebBrowser from "./modules/WebBrowser"
 import { GradientBackground, RecursivePattern } from "./components/DopamineUI"
 import FluidGradientBg from "./components/FluidGradientBg"
 import MeshGradient from "./components/MeshGradient"
@@ -63,6 +64,7 @@ function ModuleRouter() {
     contacts: <ContactsHub />,
     workspace: <Workspace />,
     workflows: <WorkflowBuilder />,
+    browser: <WebBrowser />,
     sessions: <SessionManager />,
     visualizer: <Visualizer3D />,
     ai: <AIStudio />,
