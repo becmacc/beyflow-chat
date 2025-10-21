@@ -38,6 +38,7 @@ import HologramHost from "./components/HologramHost"
 import ColorModeControl from "./components/ColorModeControl"
 import UtilityPanel from "./components/UtilityPanel"
 import ParallaxDepth from "./components/ParallaxDepth"
+import SpectrumControl from "./components/SpectrumControl"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -282,8 +283,11 @@ function App() {
         </div>
       )}
       
-      {/* Z-50: Color Mode Control - Top center */}
+      {/* Z-50: Color Mode Control - Bottom-left */}
       <ColorModeControl />
+      
+      {/* Z-50: Spectrum Control - Top-right */}
+      <SpectrumControl />
       
       {/* Z-50: Utility Panel - Bottom-right (consolidated Calendar + Social Hub) */}
       <UtilityPanel />

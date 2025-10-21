@@ -45,6 +45,15 @@ const useStore = create(
     console.log('🎨 Store: Setting colorMode to:', mode)
     set({ colorMode: mode })
   },
+  
+  // Visual spectrum (Notion → Rave)
+  spectrum: {
+    blur: 0.3,
+    glow: 0.3,
+    saturation: 0.3,
+    speed: 0.3
+  },
+  setSpectrum: (spectrum) => set({ spectrum }),
 
   // Current module
   currentModule: 'chat',

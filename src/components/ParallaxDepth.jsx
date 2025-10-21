@@ -25,105 +25,146 @@ export default function ParallaxDepth() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [mouseX, mouseY])
 
-  const layer1X = useTransform(mouseX, [0, window.innerWidth], [-20, 20])
-  const layer1Y = useTransform(mouseY, [0, window.innerHeight], [-20, 20])
+  const layer1X = useTransform(mouseX, [0, window.innerWidth], [-50, 50])
+  const layer1Y = useTransform(mouseY, [0, window.innerHeight], [-50, 50])
   
-  const layer2X = useTransform(mouseX, [0, window.innerWidth], [-40, 40])
-  const layer2Y = useTransform(mouseY, [0, window.innerHeight], [-40, 40])
+  const layer2X = useTransform(mouseX, [0, window.innerWidth], [-100, 100])
+  const layer2Y = useTransform(mouseY, [0, window.innerHeight], [-100, 100])
   
-  const layer3X = useTransform(mouseX, [0, window.innerWidth], [-60, 60])
-  const layer3Y = useTransform(mouseY, [0, window.innerHeight], [-60, 60])
+  const layer3X = useTransform(mouseX, [0, window.innerWidth], [-150, 150])
+  const layer3Y = useTransform(mouseY, [0, window.innerHeight], [-150, 150])
+  
+  const layer4X = useTransform(mouseX, [0, window.innerWidth], [-200, 200])
+  const layer4Y = useTransform(mouseY, [0, window.innerHeight], [-200, 200])
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-      {/* LAYER 3 - Deepest, slowest */}
+      {/* LAYER 4 - DEEPEST, slowest, HUGE */}
       <motion.div
         className="absolute inset-0"
-        style={{ x: layer3X, y: layer3Y }}
+        style={{ x: layer4X, y: layer4Y }}
       >
-        {/* Large floating orbs */}
-        <motion.div
-          className="absolute top-[10%] left-[15%] w-96 h-96 rounded-full blur-3xl opacity-20"
-          style={{ background: `radial-gradient(circle, ${currentColors.primary}, transparent)` }}
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.3, 0.2]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-[20%] right-[20%] w-80 h-80 rounded-full blur-3xl opacity-20"
-          style={{ background: `radial-gradient(circle, ${currentColors.secondary}, transparent)` }}
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.25, 0.2]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.div>
-
-      {/* LAYER 2 - Middle depth */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ x: layer2X, y: layer2Y }}
-      >
-        {/* Medium floating shapes */}
-        {[...Array(6)].map((_, i) => (
+        {/* Massive background orbs */}
+        {[...Array(4)].map((_, i) => (
           <motion.div
-            key={`medium-${i}`}
-            className="absolute rounded-full blur-2xl"
+            key={`mega-${i}`}
+            className="absolute rounded-full blur-[100px]"
             style={{
-              width: `${150 + i * 30}px`,
-              height: `${150 + i * 30}px`,
-              left: `${(i * 15) % 90}%`,
-              top: `${(i * 20) % 80}%`,
-              background: `radial-gradient(circle, ${currentColors.accent}, transparent)`,
+              width: `${600 + i * 100}px`,
+              height: `${600 + i * 100}px`,
+              left: `${(i * 25) % 100}%`,
+              top: `${(i * 30) % 100}%`,
+              background: `radial-gradient(circle, ${currentColors.primary}, ${currentColors.secondary}, transparent)`,
               opacity: 0.15
             }}
             animate={{
-              y: [0, -30, 0],
-              x: [0, i % 2 === 0 ? 20 : -20, 0],
-              scale: [1, 1.1, 1]
+              scale: [1, 1.3, 1],
+              opacity: [0.15, 0.25, 0.15],
+              rotate: [0, 360]
             }}
             transition={{
-              duration: 5 + i,
+              duration: 20 + i * 5,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 0.5
+              delay: i
             }}
           />
         ))}
       </motion.div>
 
-      {/* LAYER 1 - Closest, fastest */}
+      {/* LAYER 3 - Deep, slow */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ x: layer3X, y: layer3Y }}
+      >
+        {/* Large floating orbs */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={`large-${i}`}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              width: `${300 + i * 50}px`,
+              height: `${300 + i * 50}px`,
+              left: `${(i * 12) % 95}%`,
+              top: `${(i * 15) % 90}%`,
+              background: `radial-gradient(circle, ${i % 2 === 0 ? currentColors.primary : currentColors.accent}, transparent)`,
+              opacity: 0.2
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.2, 0.3, 0.2],
+              x: [0, i % 2 === 0 ? 50 : -50, 0],
+              y: [0, i % 2 === 0 ? -30 : 30, 0]
+            }}
+            transition={{ duration: 8 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+          />
+        ))}
+      </motion.div>
+
+      {/* LAYER 2 - Middle depth - MORE particles */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ x: layer2X, y: layer2Y }}
+      >
+        {/* Medium floating shapes */}
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={`medium-${i}`}
+            className="absolute rounded-full blur-2xl"
+            style={{
+              width: `${100 + i * 20}px`,
+              height: `${100 + i * 20}px`,
+              left: `${(i * 8) % 95}%`,
+              top: `${(i * 11) % 90}%`,
+              background: `radial-gradient(circle, ${currentColors.accent}, transparent)`,
+              opacity: 0.2
+            }}
+            animate={{
+              y: [0, i % 3 === 0 ? -40 : -60, 0],
+              x: [0, i % 2 === 0 ? 30 : -30, 0],
+              scale: [1, 1.2, 1],
+              rotate: [0, i % 2 === 0 ? 180 : -180, 0]
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.3
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* LAYER 1 - Closest, fastest - TONS of particles */}
       <motion.div
         className="absolute inset-0"
         style={{ x: layer1X, y: layer1Y }}
       >
         {/* Small floating particles */}
-        {[...Array(12)].map((_, i) => (
+        {[...Array(40)].map((_, i) => (
           <motion.div
             key={`particle-${i}`}
             className="absolute rounded-full blur-sm"
             style={{
-              width: `${20 + i * 5}px`,
-              height: `${20 + i * 5}px`,
-              left: `${(i * 8) % 95}%`,
-              top: `${(i * 12) % 90}%`,
-              background: currentColors.primary,
-              opacity: 0.2
+              width: `${15 + i * 3}px`,
+              height: `${15 + i * 3}px`,
+              left: `${(i * 6) % 98}%`,
+              top: `${(i * 7) % 95}%`,
+              background: i % 3 === 0 ? currentColors.primary : currentColors.accent,
+              opacity: 0.25
             }}
             animate={{
-              y: [0, -50, 0],
-              x: [0, i % 2 === 0 ? 30 : -30, 0],
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.4, 0.2]
+              y: [0, i % 2 === 0 ? -70 : -100, 0],
+              x: [0, i % 2 === 0 ? 40 : -40, 0],
+              scale: [1, 1.5, 1],
+              opacity: [0.25, 0.5, 0.25],
+              rotate: [0, i % 2 === 0 ? 360 : -360, 0]
             }}
             transition={{
-              duration: 3 + i * 0.5,
+              duration: 2 + i * 0.3,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 0.2
+              delay: i * 0.1
             }}
           />
         ))}
