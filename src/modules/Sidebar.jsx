@@ -59,26 +59,48 @@ export default function Sidebar() {
             <motion.button
               key={module.id}
               onClick={() => setModule(module.id)}
-              className={`w-full text-left p-3 transition-all relative overflow-hidden border ${theme.font} text-sm ${theme.rounded} ${
-                currentModule === module.id
-                  ? `${theme.colors.bg} ${theme.colors.borderActive} ${theme.colors.text}`
-                  : `${theme.colors.textMuted} hover:${theme.colors.accent} bg-transparent border-transparent hover:${theme.colors.border}`
-              }`}
+              title={`${module.name} - ${module.description}`}
+              className={`w-full text-left p-3 transition-all relative overflow-hidden border-2 ${theme.font} ${theme.rounded} min-h-[44px]
+                ${currentModule === module.id
+                  ? theme.id === 'terminal'
+                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.3)]'
+                    : 'bg-indigo-500/20 border-indigo-400 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+                  : theme.id === 'terminal'
+                    ? 'bg-transparent border-cyan-500/20 text-cyan-400/70 hover:bg-cyan-500/10 hover:border-cyan-400/50 hover:text-cyan-400'
+                    : 'bg-transparent border-white/10 text-white/70 hover:bg-white/10 hover:border-white/30 hover:text-white'
+                }
+                focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-black
+              `}
               whileHover={{ scale: 1.02, x: 4 }}
               whileTap={{ scale: 0.98 }}
+              aria-current={currentModule === module.id ? 'page' : undefined}
+              aria-label={`Navigate to ${module.name}`}
             >
               <div className="flex items-center space-x-3">
-                <span className="text-xl">{module.icon}</span>
-                <div>
-                  <p className="font-medium">{module.name}</p>
-                  <p className="text-xs opacity-70">{module.description}</p>
+                <span className="text-2xl" aria-hidden="true">{module.icon}</span>
+                <div className="flex-1">
+                  <p className="font-bold text-sm">{module.name}</p>
+                  <p className="text-xs opacity-80 mt-0.5">{module.description}</p>
                 </div>
               </div>
+              
+              {/* Active indicator */}
+              {currentModule === module.id && (
+                <motion.div
+                  className={`absolute left-0 top-0 bottom-0 w-1 ${
+                    theme.id === 'terminal' ? 'bg-cyan-400' : 'bg-indigo-400'
+                  }`}
+                  layoutId="activeModule"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
               
               {/* Badge for messages count on chat module */}
               {module.id === 'chat' && messages.length > 0 && (
                 <motion.div
-                  className="absolute right-3 top-3 bg-cyan-400 text-black text-xs px-2 py-1 rounded-full font-bold"
+                  className="absolute right-3 top-3 bg-cyan-400 text-black text-xs px-2 py-1 rounded-full font-bold min-h-[20px]"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                 >

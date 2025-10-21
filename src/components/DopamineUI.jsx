@@ -91,20 +91,21 @@ export function PulseCard({ children, className = "", glow = false }) {
 
 export function FluidButton({ children, onClick, variant = "primary", disabled = false, className = "" }) {
   const variants = {
-    primary: "bg-gradient-to-r from-cyan-500 to-blue-600 text-white",
-    secondary: "bg-gradient-to-r from-pink-500 to-purple-600 text-white",
-    accent: "bg-gradient-to-r from-yellow-400 to-orange-500 text-black",
-    ghost: "bg-white/10 border border-white/20 text-white hover:bg-white/20"
+    primary: "bg-cyan-500 text-white border-2 border-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.4)]",
+    secondary: "bg-purple-600 text-white border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]",
+    accent: "bg-orange-500 text-white border-2 border-orange-400 shadow-[0_0_15px_rgba(251,146,60,0.4)]",
+    ghost: "bg-white/10 border-2 border-white/30 text-white hover:bg-white/20"
   }
 
   return (
     <motion.button
       onClick={onClick}
       disabled={disabled}
-      className={`px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
+      className={`px-6 py-3 rounded-xl font-bold transition-all min-w-[44px] min-h-[44px] disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-black ${variants[variant]} ${className}`}
       whileHover={{ 
         scale: disabled ? 1 : 1.05,
-        boxShadow: disabled ? undefined : "0 10px 25px rgba(0, 0, 0, 0.3)"
+        filter: disabled ? undefined : "brightness(120%)",
+        boxShadow: disabled ? undefined : "0 10px 30px rgba(0, 240, 255, 0.5)"
       }}
       whileTap={{ scale: disabled ? 1 : 0.95 }}
       transition={{ 
@@ -162,24 +163,24 @@ export function ChatBubble({ message, isUser, className = "" }) {
       }}
     >
       <motion.div
-        className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl relative ${
+        className={`max-w-xs lg:max-w-md px-5 py-4 rounded-2xl relative ${
           isUser
-            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white ml-4'
-            : 'bg-white/10 backdrop-blur-sm text-white mr-4 border border-white/20'
+            ? 'bg-cyan-500 text-white ml-4 border-2 border-cyan-400'
+            : 'bg-black/60 backdrop-blur-sm text-white mr-4 border-2 border-white/30'
         }`}
         whileHover={{ 
           scale: 1.02,
           boxShadow: isUser 
-            ? "0 8px 25px rgba(59, 130, 246, 0.4)"
-            : "0 8px 25px rgba(255, 255, 255, 0.1)"
+            ? "0 8px 25px rgba(0, 240, 255, 0.5)"
+            : "0 8px 25px rgba(255, 255, 255, 0.2)"
         }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
       >
-        <p className="text-sm font-medium mb-1 opacity-80">
+        <p className="text-sm font-bold mb-2 opacity-90">
           {isUser ? 'You' : 'BeyFlow'}
         </p>
-        <p className="text-sm leading-relaxed">{message.msg || message.text}</p>
-        <p className="text-xs opacity-60 mt-2">
+        <p className="text-base leading-relaxed">{message.msg || message.text}</p>
+        <p className="text-xs opacity-70 mt-2">
           {new Date(message.time || message.timestamp).toLocaleTimeString()}
         </p>
         

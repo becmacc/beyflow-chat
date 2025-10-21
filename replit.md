@@ -6,10 +6,27 @@ BeyFlow Chat is a visual workflow automation platform designed for connecting AP
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Recent Updates (October 21, 2025)
+
+### UX/UI Polish & Accessibility
+- **Reduced Visual Chaos**: Background animations lowered to 50% opacity, speeds doubled for calmer ambience
+- **Improved Readability**: Minimum 14px font sizes, enhanced contrast ratios (WCAG AA compliance), dark backdrops behind text on gradients
+- **Enhanced Affordances**: All buttons now have visible 2px borders, stronger hover states (brightness +20%, scale 1.05), solid backgrounds on primary CTAs
+- **Navigation Labels**: Sidebar items show text labels with descriptions (always visible), active module highlighted with colored border and glow effect
+- **Accessibility**: Global focus outlines (2px cyan), 44px minimum touch targets, comprehensive ARIA labels, keyboard navigation support
+- **Consolidated UI**: UtilityPanel combines Calendar and Social Hub into single collapsible interface (bottom-right), reducing floating widget clutter
+
+### Modular Workspace System (MGX Integration)
+- Transformed Workspace from Notion-style pages to MGX-inspired modular dashboard
+- Grid-based layout with add/remove module capability and active module counter
+- 5 production-ready modules: Notes (markdown), Analytics (real-time metrics), Code Editor (syntax highlighting), Terminal (shell simulation), Web3 Wallet (portfolio tracker)
+- Full persistence layer: Save/Load named workspace configs, Export/Import JSON, localStorage auto-save via Zustand persist middleware
+- Module sizing controls (Small/Medium/Large) for customized layouts
+
 ## System Architecture
 
 ### Frontend Architecture
-The frontend is built with **React 19** and **Vite**, utilizing **Zustand** for state management (with middlewares like `persist` and `immer`). Styling is handled by **TailwindCSS v3**, implementing a cyberpunk/Web3 theme with neon colors, glitch effects, and custom fonts (Inter, Space Grotesk, Orbitron). **Framer Motion v11** provides smooth animations and transitions, while **Three.js** with **React Three Fiber** is used for 3D graphics, including interactive particle systems, holographic AI host, and audio-reactive elements.
+The frontend is built with **React 19** and **Vite**, utilizing **Zustand** for state management (with middlewares like `persist` and `immer` for localStorage auto-saving). Styling is handled by **TailwindCSS v3**, implementing a cyberpunk/Web3 theme with neon colors, glitch effects, and custom fonts (Inter, Space Grotesk, Orbitron). **Framer Motion v11** provides smooth animations and transitions. Background animations have been carefully tuned to reduce visual chaos while maintaining the cyberpunk aesthetic.
 
 ### Semantic Color System
 Global semantic color modes (neutral, positive, warning, danger) provide dramatic visual feedback throughout the application. The InteractiveLighting component creates pulsing colored gradients and corner lights that respond to color mode changes: cyan/teal for Neutral, green for Positive, orange for Warning, and red for Danger. These color modes affect cursor-reactive lighting, background atmosphere, workflow node execution states, and hologram host appearance. The ColorModeControl buttons at the top center allow instant switching between modes with immediate, obvious visual changes.
@@ -36,12 +53,21 @@ Vite's esbuild, code splitting, tree shaking, and asset optimization ensure buil
 The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include:
 - **Chat**: Real-time AI-powered conversation experience
 - **Contacts Hub**: CRM with searchable contacts and quick actions (Email, WhatsApp, LinkedIn, Calendly)
-- **Workspace**: Notion-like pages with text blocks, todo lists, and headings
+- **Workspace**: MGX-style modular dashboard with customizable grid layout, supporting 5 module types (Notes, Analytics, Code Editor, Terminal, Web3 Wallet). Features save/load workspace configurations, export/import JSON, module sizing (S/M/L), and localStorage persistence via Zustand persist middleware.
 - **Workflows**: Visual node-based automation builder
 - **Sessions**: Saved conversation management
 - **AI Studio**: Multi-agent system (GPT-Marketer, GPT-Engineer, DALL-E)
 - **UI Components**: Themed sliders, carousels, 3D model viewer, hologram host
-- **Settings**: Configuration management Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Business integrations include WhatsApp Business quick-launcher and Business Calendar (Google Calendar, Outlook). Extension points are planned for Web3 wallet integration and a plugin architecture.
+- **Settings**: Configuration management
+
+**Workspace Modules**: 
+- **NotesModule**: Markdown-enabled note taking with live preview and save functionality
+- **AnalyticsModule**: Real-time system metrics with message count, session time, response time tracking, and animated bar charts
+- **CodeModule**: Multi-language code editor with syntax highlighting (JavaScript, Python, HTML, CSS), line numbers, and copy/run buttons
+- **TerminalModule**: Interactive shell simulation with command history, file system navigation (ls, cd, pwd), and utility commands
+- **Web3Module**: Crypto wallet interface displaying ETH balance, portfolio value, 24h changes, and recent transaction activity
+
+Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Business integrations are consolidated in UtilityPanel (Calendar + Social Hub) positioned bottom-right for reduced UI clutter. Extension points are planned for Web3 wallet integration and a plugin architecture.
 
 **UI Components Library**: 
 - **ThemedSlider**: Accessible range/value slider with Terminal and Glassmorphic theme support
@@ -51,8 +77,7 @@ The project is organized into `components`, `modules`, `hooks`, `store`, `automa
 - **InteractiveLighting**: Cursor-reactive gradient and spotlight effects with semantic color mode support (neutral, positive, warning, danger)
 - **HologramHost**: 3D holographic female AI host (ARIA/EVE) with floating animations, voice controls, and color mode responsiveness
 - **ColorModeControl**: Global semantic color state switcher affecting entire app theme
-- **BusinessCalendar**: Minimizable calendar widget positioned in top-right (auto-minimized by default to prevent UI occlusion), showing current date/time with expandable monthly view for Google Calendar and Outlook event management
-- **WhatsAppBusiness**: Quick-launch integration for WhatsApp Web with business account connection
+- **UtilityPanel**: Consolidated floating panel (bottom-right) combining Calendar and Social Hub into tabbed interface, collapsible to minimize UI clutter, includes 44px touch targets and full accessibility support
 
 ## External Dependencies
 

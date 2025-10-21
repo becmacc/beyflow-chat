@@ -6,11 +6,12 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
+  font-size: 14px;
   
   color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255, 0.95);
   background-color: #0f172a;
 
   font-synthesis: none;
@@ -98,6 +99,34 @@ body::after {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Text backdrop for better readability */
+.text-backdrop {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Ensure minimum font sizes */
+body, input, textarea, button, select {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Minimum touch targets */
+button, a, input[type="button"], input[type="submit"] {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Focus outlines for accessibility */
+*:focus-visible {
+  outline: 2px solid #00F0FF;
+  outline-offset: 2px;
 }
 
 /* Gradient text utility - Cyberpunk */
@@ -201,6 +230,10 @@ body::after {
 
 .glow {
   animation: glow 2s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }
 
 /* Custom input styles for better UX */

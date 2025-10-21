@@ -211,7 +211,8 @@ export default function ChatPanel() {
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Your name..."
-            className="w-full px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
+            aria-label="Your name"
+            className="w-full px-4 py-3 bg-black/60 backdrop-blur-sm border-2 border-cyan-500/30 rounded-xl text-white text-base placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-[44px]"
           />
           
           {/* Message Input */}
@@ -221,7 +222,8 @@ export default function ChatPanel() {
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Type your message... (Enter to send)"
-              className="flex-1 px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all resize-none"
+              aria-label="Message input"
+              className="flex-1 px-4 py-3 bg-black/60 backdrop-blur-sm border-2 border-cyan-500/30 rounded-xl text-white text-base placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all resize-none"
               rows="2"
             />
             

@@ -261,16 +261,19 @@ export default function WorkflowBuilder() {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShow3DView(!show3DView)}
-            className={`px-4 py-2 text-xs ${theme.font} ${theme.rounded} transition-colors ${
-              show3DView ? theme.colors.buttonActive : theme.colors.button
-            }`}
+            className={`px-5 py-2.5 text-sm font-bold ${theme.font} ${theme.rounded} transition-all min-w-[44px] min-h-[44px] border-2 ${
+              show3DView 
+                ? 'bg-cyan-500 text-white border-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.5)]' 
+                : 'bg-black/60 text-cyan-400 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:brightness-120'
+            } focus:outline-none focus:ring-2 focus:ring-cyan-400`}
+            aria-pressed={show3DView}
           >
             {show3DView ? '🔲' : '🧊'} {theme.id === 'glassmorphic' ? '3D View' : '[3D_VIEW]'}
           </button>
           
           <button
             onClick={() => setShowPalette(!showPalette)}
-            className={`px-4 py-2 text-xs ${theme.colors.button} ${theme.font} ${theme.rounded} transition-colors`}
+            className={`px-5 py-2.5 text-sm font-bold ${theme.font} ${theme.rounded} transition-all min-w-[44px] min-h-[44px] border-2 bg-black/60 text-cyan-400 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:brightness-120 focus:outline-none focus:ring-2 focus:ring-cyan-400`}
           >
             {theme.id === 'glassmorphic' ? '+ Add Node' : '[+] NODE'}
           </button>
@@ -278,11 +281,11 @@ export default function WorkflowBuilder() {
           <button
             onClick={executeWorkflow}
             disabled={nodes.length === 0 || executing}
-            className={`px-6 py-2 text-xs ${theme.font} ${theme.rounded} disabled:opacity-20 disabled:cursor-not-allowed transition-all ${
+            className={`px-6 py-2.5 text-sm font-bold ${theme.font} ${theme.rounded} disabled:opacity-30 disabled:cursor-not-allowed transition-all min-w-[44px] min-h-[44px] border-2 ${
               executing 
-                ? `${theme.colors.buttonActive} animate-pulse` 
-                : theme.colors.buttonActive
-            }`}
+                ? 'bg-cyan-500 text-white border-cyan-400 shadow-[0_0_20px_rgba(0,255,255,0.6)] animate-pulse' 
+                : 'bg-cyan-500 text-white border-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.5)] hover:brightness-120 hover:scale-105'
+            } focus:outline-none focus:ring-2 focus:ring-cyan-400`}
           >
             {executing 
               ? (theme.id === 'glassmorphic' ? 'Running...' : '[RUNNING...]')

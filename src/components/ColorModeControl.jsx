@@ -45,18 +45,23 @@ export default function ColorModeControl() {
           <motion.button
             key={mode.id}
             onClick={() => handleColorChange(mode.id)}
-            className={`px-3 py-1.5 ${theme.rounded} flex items-center gap-2 transition-all ${
+            title={`Switch to ${mode.name} mode`}
+            className={`px-4 py-2.5 ${theme.rounded} flex items-center gap-2 transition-all min-w-[44px] min-h-[44px] border-2 font-bold ${
               colorMode === mode.id 
-                ? `bg-gradient-to-r ${mode.color} text-white shadow-lg` 
+                ? `bg-gradient-to-r ${mode.color} text-white shadow-[0_0_20px_rgba(0,255,255,0.5)] border-white` 
                 : theme.id === 'terminal' 
-                  ? 'bg-black/50 text-cyan-400 hover:bg-cyan-500/10' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
-            }`}
-            whileHover={{ scale: 1.05 }}
+                  ? 'bg-black/70 text-cyan-400 hover:bg-cyan-500/20 border-cyan-500/30 hover:border-cyan-400' 
+                  : 'bg-white/10 text-white hover:bg-white/20 border-white/20 hover:border-white/40'
+            }
+            focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-black
+            `}
+            whileHover={{ scale: 1.05, filter: "brightness(120%)" }}
             whileTap={{ scale: 0.95 }}
+            aria-pressed={colorMode === mode.id}
+            aria-label={`${mode.name} mode`}
           >
-            <span className="text-sm">{mode.emoji}</span>
-            <span className={`${theme.font} text-xs font-medium`}>{mode.name}</span>
+            <span className="text-base">{mode.emoji}</span>
+            <span className={`${theme.font} text-sm`}>{mode.name}</span>
           </motion.button>
         ))}
       </div>

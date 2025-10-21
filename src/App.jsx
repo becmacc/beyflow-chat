@@ -36,8 +36,7 @@ import MotivationalQuote from "./components/MotivationalQuote"
 import InteractiveLighting from "./components/InteractiveLighting"
 import HologramHost from "./components/HologramHost"
 import ColorModeControl from "./components/ColorModeControl"
-import BusinessCalendar from "./components/BusinessCalendar"
-import SocialHubPanel from "./components/SocialHubPanel"
+import UtilityPanel from "./components/UtilityPanel"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -282,13 +281,8 @@ function App() {
       {/* Z-50: Color Mode Control - Top center */}
       <ColorModeControl />
       
-      {/* Z-15: Business Calendar - Top-right below navbar */}
-      <div className="fixed top-20 right-4 z-15">
-        <BusinessCalendar />
-      </div>
-      
-      {/* Z-30: Social Hub - Unified launcher for YouTube, Instagram, WhatsApp */}
-      <SocialHubPanel />
+      {/* Z-50: Utility Panel - Bottom-right (consolidated Calendar + Social Hub) */}
+      <UtilityPanel />
       
       {/* Z-20: Motivational Quote - Right side middle */}
       <div className="fixed top-1/2 -translate-y-1/2 right-4 max-w-xs z-20">

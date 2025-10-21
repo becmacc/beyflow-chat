@@ -205,12 +205,13 @@ export default function AIStudio() {
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                 placeholder={`Ask ${agent.name}...`}
                 disabled={loading}
-                className={`flex-1 px-4 py-2 ${theme.colors.input} ${theme.font} ${theme.rounded} text-sm focus:outline-none focus:${theme.colors.borderActive}`}
+                aria-label={`Ask ${agent.name}`}
+                className={`flex-1 px-4 py-3 bg-black/60 backdrop-blur-sm border-2 border-cyan-500/30 ${theme.font} ${theme.rounded} text-base text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-[44px]`}
               />
               <button
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
-                className={`px-6 py-2 ${theme.font} ${theme.rounded} text-sm ${theme.colors.buttonActive} disabled:opacity-30 transition-all`}
+                className={`px-6 py-3 ${theme.font} ${theme.rounded} text-sm font-bold bg-cyan-500 text-white border-2 border-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.5)] disabled:opacity-30 disabled:cursor-not-allowed transition-all min-w-[44px] min-h-[44px] hover:brightness-120 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400`}
               >
                 {loading ? (theme.id === 'glassmorphic' ? 'Sending...' : '[SENDING...]') : (theme.id === 'glassmorphic' ? 'Send' : '[SEND]')}
               </button>

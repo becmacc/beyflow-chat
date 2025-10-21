@@ -1,8 +1,11 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import contactsData from './data/contacts.json'
 import workspaceData from './data/beyflow.json'
 
-const useStore = create((set, get) => ({
+const useStore = create(
+  persist(
+    (set, get) => ({
   // User state
   user: 'Anonymous',
   setUser: (user) => set({ user }),
@@ -115,7 +118,107 @@ const useStore = create((set, get) => ({
           }
         : page
     )
-  }))
-}))
+  })),
+
+  // Modular Workspace Grid
+  workspaceModules: [
+    { id: 'm1', type: 'notes', position: { row: 1, col: 1 }, size: { rows: 2, cols: 2 } },
+    { id: 'm2', type: 'analytics', position: { row: 1, col: 3 }, size: { rows: 1, cols: 1 } },
+  ],
+  availableModuleTypes: ['code', 'web3', 'terminal', 'notes', 'analytics'],
+  addWorkspaceModule: (type) => set((state) => ({
+    workspaceModules: [
+      ...state.workspaceModules,
+      {
+        id: `m${Date.now()}`,
+        type,
+        position: { row: 1, col: 1 },
+        size: { rows: 2, cols: 2 }
+      }
+    ]
+  })),
+  removeWorkspaceModule: (id) => set((state) => ({
+    workspaceModules: state.workspaceModules.filter(m => m.id !== id)
+  })),
+  updateModuleSize: (id, size) => set((state) => ({
+    workspaceModules: state.workspaceModules.map(m =>
+      m.id === id ? { ...m, size } : m
+    )
+  })),
+  
+  // Workspace Config Persistence
+  workspaceConfigs: JSON.parse(localStorage.getItem('workspaceConfigs') || '[]'),
+  
+  saveWorkspaceConfig: (name) => {
+    const { workspaceModules, workspaceConfigs } = get()
+    const newConfig = {
+      name,
+      modules: workspaceModules,
+      timestamp: Date.now()
+    }
+    
+    const existingIndex = workspaceConfigs.findIndex(c => c.name === name)
+    let updatedConfigs
+    
+    if (existingIndex >= 0) {
+      updatedConfigs = workspaceConfigs.map((c, i) => 
+        i === existingIndex ? newConfig : c
+      )
+    } else {
+      updatedConfigs = [...workspaceConfigs, newConfig]
+    }
+    
+    localStorage.setItem('workspaceConfigs', JSON.stringify(updatedConfigs))
+    set({ workspaceConfigs: updatedConfigs })
+    return true
+  },
+  
+  loadWorkspaceConfig: (name) => {
+    const { workspaceConfigs } = get()
+    const config = workspaceConfigs.find(c => c.name === name)
+    
+    if (config) {
+      set({ workspaceModules: config.modules })
+      return true
+    }
+    return false
+  },
+  
+  deleteWorkspaceConfig: (name) => {
+    const { workspaceConfigs } = get()
+    const updatedConfigs = workspaceConfigs.filter(c => c.name !== name)
+    
+    localStorage.setItem('workspaceConfigs', JSON.stringify(updatedConfigs))
+    set({ workspaceConfigs: updatedConfigs })
+    return true
+  },
+  
+  exportWorkspaceConfig: () => {
+    const { workspaceModules } = get()
+    return JSON.stringify(workspaceModules, null, 2)
+  },
+  
+  importWorkspaceConfig: (jsonString) => {
+    try {
+      const modules = JSON.parse(jsonString)
+      if (Array.isArray(modules)) {
+        set({ workspaceModules: modules })
+        return true
+      }
+      return false
+    } catch (error) {
+      console.error('Failed to import workspace config:', error)
+      return false
+    }
+  }
+    }),
+    {
+      name: 'beyflow-workspace-storage',
+      partialize: (state) => ({
+        workspaceModules: state.workspaceModules,
+      })
+    }
+  )
+)
 
 export default useStore

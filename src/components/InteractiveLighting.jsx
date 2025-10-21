@@ -49,21 +49,21 @@ export default function InteractiveLighting() {
     <div className="fixed inset-0 pointer-events-none z-0">
       <motion.div
         className="absolute inset-0"
-        style={{ background: bg, opacity: 0.6 }}
+        style={{ background: bg, opacity: 0.4 }}
       />
       <motion.div
         className="absolute inset-0"
         style={{ 
           backgroundImage: spotlight, 
           mixBlendMode: 'screen', 
-          opacity: 0.7 
+          opacity: 0.5 
         }}
       />
-      {/* Additional accent lights in corners - respond to color mode */}
+      {/* Additional accent lights in corners - respond to color mode - REDUCED INTENSITY */}
       <motion.div 
         className="absolute top-0 right-0 w-96 h-96"
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity }}
+        animate={{ opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 6, repeat: Infinity }}
         style={{
           background: `radial-gradient(circle, ${colors.primary} 0%, transparent 70%)`,
           filter: 'blur(60px)'
@@ -71,8 +71,8 @@ export default function InteractiveLighting() {
       />
       <motion.div 
         className="absolute bottom-0 left-0 w-96 h-96"
-        animate={{ opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 4, repeat: Infinity }}
+        animate={{ opacity: [0.1, 0.2, 0.1] }}
+        transition={{ duration: 8, repeat: Infinity }}
         style={{
           background: `radial-gradient(circle, ${colors.secondary} 0%, transparent 70%)`,
           filter: 'blur(60px)'
@@ -82,9 +82,9 @@ export default function InteractiveLighting() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]"
         animate={{ 
           scale: [1, 1.1, 1],
-          opacity: [0.1, 0.2, 0.1] 
+          opacity: [0.05, 0.1, 0.05] 
         }}
-        transition={{ duration: 5, repeat: Infinity }}
+        transition={{ duration: 10, repeat: Infinity }}
         style={{
           background: `radial-gradient(circle, ${colors.primary} 0%, transparent 70%)`,
           filter: 'blur(80px)'
