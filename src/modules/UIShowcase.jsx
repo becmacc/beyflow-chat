@@ -8,12 +8,27 @@ import ThemedCarousel from '../components/ThemedCarousel'
 import Model3DViewer from '../components/Model3DViewer'
 
 export default function UIShowcase() {
-  const { themePersona } = useStore()
+  const { themePersona, updateUI, updateSceneConfig, updateAudio, ui } = useStore()
   const theme = getTheme(themePersona)
   
   const [volume, setVolume] = useState(75)
   const [brightness, setBrightness] = useState(50)
   const [speed, setSpeed] = useState(33)
+  
+  const handleVolumeChange = (val) => {
+    setVolume(val)
+    updateAudio({ volume: val / 100 })
+  }
+  
+  const handleBrightnessChange = (val) => {
+    setBrightness(val)
+    updateUI({ gradientShift: val })
+  }
+  
+  const handleSpeedChange = (val) => {
+    setSpeed(val)
+    updateSceneConfig({ animationSpeed: val / 100 })
+  }
 
   const carouselSlides = [
     'Visual Workflow Builder with Multi-Agent AI',
@@ -66,7 +81,7 @@ export default function UIShowcase() {
               min={0}
               max={100}
               defaultValue={volume}
-              onChange={setVolume}
+              onChange={handleVolumeChange}
             />
 
             <ThemedSlider
@@ -74,7 +89,7 @@ export default function UIShowcase() {
               min={0}
               max={100}
               defaultValue={brightness}
-              onChange={setBrightness}
+              onChange={handleBrightnessChange}
             />
 
             <ThemedSlider
@@ -82,7 +97,7 @@ export default function UIShowcase() {
               min={0}
               max={100}
               defaultValue={speed}
-              onChange={setSpeed}
+              onChange={handleSpeedChange}
             />
           </div>
 

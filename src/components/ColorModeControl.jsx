@@ -14,13 +14,13 @@ export default function ColorModeControl() {
   const theme = getTheme(themePersona)
   
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-20">
-      <div className={`flex gap-2 p-2 ${theme.rounded} ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+      <div className={`flex gap-2 p-2 ${theme.rounded} ${theme.effects.blur ? 'backdrop-blur-md' : ''} shadow-2xl`}
         style={{
           background: theme.id === 'terminal' 
-            ? 'rgba(0,0,0,0.4)' 
-            : 'rgba(139,92,246,0.1)',
-          border: theme.id === 'terminal' ? '1px solid rgba(0,255,255,0.15)' : '1px solid rgba(255,255,255,0.15)'
+            ? 'rgba(0,0,0,0.8)' 
+            : 'rgba(139,92,246,0.2)',
+          border: theme.id === 'terminal' ? '2px solid rgba(0,255,255,0.4)' : '2px solid rgba(255,255,255,0.3)'
         }}
       >
         {colorModes.map(mode => (

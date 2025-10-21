@@ -154,12 +154,20 @@ function ParticleField({ colorMode }) {
 export default function HologramHost() {
   const { themePersona, colorMode } = useStore()
   const theme = getTheme(themePersona)
-  const [isMinimized, setIsMinimized] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(true)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [webglError, setWebglError] = useState(true)
+  
+  const colorModeColors = {
+    neutral: '#4CC3D9',
+    positive: '#2ecc71',
+    warning: '#f39c12',
+    danger: '#e74c3c'
+  }
   
   return (
     <motion.div
-      className={`fixed bottom-96 left-4 ${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
+      className={`fixed bottom-4 right-1/4 -translate-x-1/2 ${theme.rounded} overflow-hidden ${theme.effects.blur ? 'backdrop-blur-md' : ''}`}
       style={{
         background: theme.id === 'terminal' 
           ? 'linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,40,40,0.4) 100%)'
@@ -176,26 +184,68 @@ export default function HologramHost() {
       transition={{ duration: 0.3 }}
     >
       {isMinimized ? (
-        <button
+        <motion.button
           onClick={() => setIsMinimized(false)}
           className={`w-full h-full flex items-center justify-center text-3xl transition-all ${theme.id === 'terminal' ? 'hover:bg-cyan-500/10' : 'hover:bg-white/10'}`}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          animate={{
+            scale: [1, 1.05, 1],
+            opacity: [0.8, 1, 0.8]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          style={{ 
+            filter: `drop-shadow(0 0 10px ${colorModeColors[colorMode] || colorModeColors.neutral})`
+          }}
         >
           👩‍💻
-        </button>
+        </motion.button>
       ) : (
         <div className="relative w-full h-full">
-          {/* 3D Hologram Canvas */}
-          <Canvas
-            camera={{ position: [0, 0, 3], fov: 50 }}
-            className="absolute inset-0"
-            style={{ background: 'transparent' }}
-          >
-            <ambientLight intensity={0.2} />
-            <pointLight position={[2, 2, 2]} intensity={1} color="#4CC3D9" />
-            <pointLight position={[-2, -2, -2]} intensity={0.5} color="#ec4899" />
-            <HologramFigure colorMode={colorMode} />
-            <ParticleField colorMode={colorMode} />
-          </Canvas>
+          {/* 3D Hologram Canvas with fallback */}
+          {!webglError ? (
+            <Canvas
+              camera={{ position: [0, 0, 3], fov: 50 }}
+              className="absolute inset-0"
+              style={{ background: 'transparent' }}
+              onCreated={(state) => {
+                if (!state.gl) {
+                  setWebglError(true)
+                }
+              }}
+              onError={() => setWebglError(true)}
+            >
+              <ambientLight intensity={0.2} />
+              <pointLight position={[2, 2, 2]} intensity={1} color="#4CC3D9" />
+              <pointLight position={[-2, -2, -2]} intensity={0.5} color="#ec4899" />
+              <HologramFigure colorMode={colorMode} />
+              <ParticleField colorMode={colorMode} />
+            </Canvas>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                className="text-6xl"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.6, 1, 0.6]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{ 
+                  filter: `drop-shadow(0 0 20px ${colorModeColors[colorMode] || colorModeColors.neutral})`
+                }}
+              >
+                👩‍💻
+              </motion.div>
+            </div>
+          )}
           
           {/* Controls Overlay */}
           <div className="absolute top-2 right-2 flex gap-1">

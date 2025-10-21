@@ -11,9 +11,8 @@ export default function YouTubeMusicPlayer() {
   const [isMinimized, setIsMinimized] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   
-  // You can replace this with your own YouTube playlist ID
-  // To get a playlist ID: Open your YouTube playlist → Copy the ID from URL after "list="
-  const playlistId = 'PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj' // Example: LoFi music playlist
+  // User's YouTube Music Liked Songs
+  const playlistId = 'LM' // User's Liked Music from YouTube Music
   
   return (
     <>
