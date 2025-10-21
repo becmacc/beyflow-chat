@@ -41,6 +41,7 @@ import UtilityPanel from "./components/UtilityPanel"
 import ParallaxDepth from "./components/ParallaxDepth"
 import SpectrumControl from "./components/SpectrumControl"
 import FloatingBrowser from "./components/FloatingBrowser"
+import SocialMediaBrowser from "./components/SocialMediaBrowser"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -308,6 +309,9 @@ function App() {
           </MinimizablePanel>
         </div>
       )}
+      
+      {/* Z-40: Social Media Browser - Bottom-left */}
+      <SocialMediaBrowser />
       
       {/* Z-50: Color Mode Control - Bottom-left */}
       <ColorModeControl />

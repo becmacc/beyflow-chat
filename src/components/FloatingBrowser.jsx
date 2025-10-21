@@ -10,6 +10,7 @@ export default function FloatingBrowser() {
   const [bookmarks, setBookmarks] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [iframeError, setIframeError] = useState(false)
   const [history, setHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [isMaximized, setIsMaximized] = useState(false)
@@ -48,6 +49,7 @@ export default function FloatingBrowser() {
     }
 
     setError(null)
+    setIframeError(false)
     setLoading(true)
     setCurrentUrl(normalized)
 
@@ -75,6 +77,7 @@ export default function FloatingBrowser() {
   const loadBookmark = (bookmark) => {
     setUrl(bookmark.url)
     setCurrentUrl(bookmark.url)
+    setIframeError(false)
     setLoading(true)
     
     const newHistory = history.slice(0, historyIndex + 1)
@@ -91,6 +94,7 @@ export default function FloatingBrowser() {
       setHistoryIndex(newIndex)
       setCurrentUrl(history[newIndex])
       setUrl(history[newIndex])
+      setIframeError(false)
     }
   }
 
@@ -100,12 +104,14 @@ export default function FloatingBrowser() {
       setHistoryIndex(newIndex)
       setCurrentUrl(history[newIndex])
       setUrl(history[newIndex])
+      setIframeError(false)
     }
   }
 
   const reload = () => {
     if (currentUrl) {
       setLoading(true)
+      setIframeError(false)
       if (iframeRef.current) {
         iframeRef.current.src = currentUrl
       }
@@ -116,6 +122,7 @@ export default function FloatingBrowser() {
   const goHome = () => {
     setCurrentUrl('')
     setUrl('')
+    setIframeError(false)
   }
 
   const openInNewTab = () => {
@@ -192,6 +199,17 @@ export default function FloatingBrowser() {
     setResizeDirection(null)
   }
 
+  const handleIframeLoad = () => {
+    setLoading(false)
+    setIframeError(false)
+  }
+
+  const handleIframeError = () => {
+    setLoading(false)
+    setIframeError(true)
+    setError('Site blocked embedding. Try opening in a new tab.')
+  }
+
   useEffect(() => {
     if (isResizing) {
       document.addEventListener('mousemove', handleResizeMove)
@@ -203,6 +221,29 @@ export default function FloatingBrowser() {
     }
   }, [isResizing, resizeDirection, startPos, startSize, startBrowserPos])
 
+  useEffect(() => {
+    if (floatingBrowser?.isOpen && floatingBrowser?.url) {
+      const initialUrl = floatingBrowser.url
+      const normalized = normalizeUrl(initialUrl)
+      if (isValidUrl(normalized)) {
+        setUrl(normalized)
+        setCurrentUrl(normalized)
+        setIframeError(false)
+        setLoading(true)
+        
+        const newHistory = [...history]
+        newHistory.push(normalized)
+        setHistory(newHistory)
+        setHistoryIndex(newHistory.length - 1)
+        
+        setFloatingBrowser({
+          ...floatingBrowser,
+          url: undefined
+        })
+      }
+    }
+  }, [floatingBrowser?.isOpen, floatingBrowser?.url])
+
   if (!floatingBrowser?.isOpen) return null
 
   const browserSize = isMaximized 
@@ -211,7 +252,6 @@ export default function FloatingBrowser() {
 
   return (
     <AnimatePresence>
-      {/* Semi-transparent backdrop */}
       <motion.div
         key="browser-backdrop"
         initial={{ opacity: 0 }}
@@ -222,7 +262,6 @@ export default function FloatingBrowser() {
         onClick={closeFloatingBrowser}
       />
       
-      {/* Browser Window */}
       <motion.div
         key="browser-window"
         drag={!isMaximized}
@@ -249,7 +288,6 @@ export default function FloatingBrowser() {
           }
         }}
       >
-        {/* Title Bar */}
         <div className="h-10 bg-black/80 backdrop-blur-lg border-b border-cyan-500/30 flex items-center justify-between px-3 cursor-move">
           <div className="flex items-center gap-2">
             <GripHorizontal className="w-4 h-4 text-cyan-400" />
@@ -280,7 +318,6 @@ export default function FloatingBrowser() {
           </div>
         </div>
 
-        {/* Browser Controls */}
         <div className="p-2 bg-black/60 backdrop-blur-lg border-b border-cyan-500/30">
           <div className="flex gap-1 mb-2">
             <button
@@ -358,7 +395,6 @@ export default function FloatingBrowser() {
         </div>
 
         <div className="flex-1 flex h-[calc(100%-7rem)]">
-          {/* Bookmarks Sidebar */}
           {showBookmarks && (
             <div className="w-48 bg-black/40 border-r border-cyan-500/30 overflow-y-auto">
               <div className="p-2 border-b border-cyan-500/30">
@@ -395,26 +431,43 @@ export default function FloatingBrowser() {
             </div>
           )}
 
-          {/* Browser Content */}
           <div className="flex-1 flex flex-col bg-white">
             {currentUrl ? (
               <>
-                <div className="flex-none p-1 bg-yellow-500/10 border-b border-yellow-500/30 text-xs text-yellow-300">
-                  <AlertCircle className="inline w-3 h-3 mr-1" />
-                  Some sites block embedding. Use ↗️ if blank.
-                </div>
-                <iframe
-                  ref={iframeRef}
-                  src={currentUrl}
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-                  className="flex-1 w-full border-0"
-                  title="Floating Browser"
-                  onLoad={() => setLoading(false)}
-                  onError={() => {
-                    setError('Failed to load. Site may block embedding.')
-                    setLoading(false)
-                  }}
-                />
+                {!iframeError && (
+                  <div className="flex-none p-1 bg-yellow-500/10 border-b border-yellow-500/30 text-xs text-yellow-300">
+                    <AlertCircle className="inline w-3 h-3 mr-1" />
+                    Some sites block embedding. Use ↗️ if blank.
+                  </div>
+                )}
+                {iframeError ? (
+                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-black p-6">
+                    <div className="text-center max-w-md">
+                      <div className="text-6xl mb-4">🚫</div>
+                      <h3 className="text-xl font-bold text-red-400 mb-2">Site Blocked Embedding</h3>
+                      <p className="text-white/70 text-sm mb-4">
+                        This website doesn't allow being displayed in an iframe for security reasons.
+                      </p>
+                      <button
+                        onClick={openInNewTab}
+                        className="flex items-center gap-2 mx-auto px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold rounded transition-all"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Open in New Tab
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <iframe
+                    ref={iframeRef}
+                    src={currentUrl}
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+                    className="flex-1 w-full border-0"
+                    title="Floating Browser"
+                    onLoad={handleIframeLoad}
+                    onError={handleIframeError}
+                  />
+                )}
               </>
             ) : (
               <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
@@ -428,7 +481,6 @@ export default function FloatingBrowser() {
           </div>
         </div>
 
-        {/* Resize Handles */}
         {!isMaximized && (
           <>
             <div
