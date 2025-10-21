@@ -11,9 +11,12 @@ export default function YouTubeMusicPlayer() {
   const [isMinimized, setIsMinimized] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   
-  // Your playlist needs to be PUBLIC to embed! Using working demo playlist
-  // To use YOUR playlist: Make it public on YouTube, then change this ID back to: PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn
-  const playlistId = 'PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf' // Lofi Girl - Chill beats (public, works!)
+  // YOUR PLAYLIST from YouTube Music
+  // Note: If you see "video unavailable", make playlist PUBLIC in YouTube settings
+  const playlistId = 'PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn' // Your custom playlist
+  
+  // Fallback if yours is private
+  const fallbackPlaylistId = 'PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf' // Lofi Girl backup
   
   // Direct link to YOUR playlist (click to open in new tab)
   const yourPlaylistUrl = 'https://music.youtube.com/playlist?list=PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn'
@@ -94,7 +97,7 @@ export default function YouTubeMusicPlayer() {
             </div>
 
             {/* YouTube Embed */}
-            <div className="aspect-video bg-black">
+            <div className="aspect-video bg-black relative">
               <iframe
                 width="100%"
                 height="100%"
@@ -104,6 +107,9 @@ export default function YouTubeMusicPlayer() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
+              <div className="absolute bottom-2 right-2 text-[9px] text-white/30 bg-black/50 px-1 rounded">
+                If unavailable: make playlist public on YouTube
+              </div>
             </div>
           </motion.div>
         )}
