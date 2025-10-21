@@ -151,17 +151,17 @@ export default function ChatPanel() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      {/* Messages Area - COMPACT */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center py-8"
+          className="text-center py-4"
         >
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-xl font-bold text-white mb-1">
             Welcome to BeyFlow Chat! 🚀
           </h2>
-          <p className="text-white/70">
+          <p className="text-white/70 text-sm">
             Your AI-powered conversation experience
           </p>
         </motion.div>
@@ -197,14 +197,14 @@ export default function ChatPanel() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
+      {/* Input Area - COMPACT */}
       <motion.div
-        className="p-6 bg-black/20 backdrop-blur-xl border-t border-white/10"
+        className="p-3 bg-black/20 backdrop-blur-xl border-t border-white/10"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-2">
           {/* User Input */}
           <input
             type="text"
@@ -212,18 +212,18 @@ export default function ChatPanel() {
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Your name..."
             aria-label="Your name"
-            className="w-full px-4 py-3 bg-black/60 backdrop-blur-sm border-2 border-cyan-500/30 rounded-xl text-white text-base placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-[44px]"
+            className="w-full px-3 py-2 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all min-h-[40px]"
           />
           
           {/* Message Input */}
-          <div className="flex space-x-3">
+          <div className="flex space-x-2">
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Type your message... (Enter to send)"
               aria-label="Message input"
-              className="flex-1 px-4 py-3 bg-black/60 backdrop-blur-sm border-2 border-cyan-500/30 rounded-xl text-white text-base placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all resize-none"
+              className="flex-1 px-3 py-2 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all resize-none"
               rows="2"
             />
             
@@ -237,7 +237,7 @@ export default function ChatPanel() {
           </div>
 
           {/* Voice and Audio Controls */}
-          <div className="flex items-center justify-between pt-3">
+          <div className="flex items-center justify-between pt-1">
             <VoiceInput 
               onTranscript={handleVoiceTranscript}
               onCommand={handleVoiceCommand}
