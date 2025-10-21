@@ -1,0 +1,27 @@
+
+Name: Babylon.js
+URL: https://www.babylonjs.com
+License: Apache 2.0
+Stack: TypeScript, WebGL, WebGPU
+
+Highlights:
+- Full 3D engine for rendering, physics, materials, and post-processing.
+- Supports PBR materials, animation, and VR/AR extensions.
+- Integrates easily with React or plain JS for web UX.
+
+Install:
+npm install @babylonjs/core @babylonjs/gui
+
+Usage (basic):
+import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, MeshBuilder } from "@babylonjs/core";
+
+const canvas = document.getElementById("renderCanvas");
+const engine = new Engine(canvas);
+const scene = new Scene(engine);
+const camera = new ArcRotateCamera("camera", Math.PI/2, Math.PI/2, 2, Vector3.Zero(), scene);
+camera.attachControl(canvas, true);
+const light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+const sphere = MeshBuilder.CreateSphere("sphere", {}, scene);
+engine.runRenderLoop(() => scene.render());
+
+Docs: https://doc.babylonjs.com/

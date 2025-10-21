@@ -33,13 +33,13 @@ export default function InstagramBrowser() {
         >
           <button
             onClick={() => setIsMinimized(false)}
-            className={`flex items-center space-x-2 px-4 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white ${theme.rounded} shadow-lg`}
+            className={`flex items-center space-x-2 px-3 py-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white ${theme.rounded} shadow-lg`}
           >
-            <Instagram size={20} />
-            <span className={`${theme.font} text-sm`}>
-              {theme.id === 'glassmorphic' ? 'Instagram' : '[INSTAGRAM]'}
+            <Instagram size={16} />
+            <span className={`${theme.font} text-xs`}>
+              {theme.id === 'glassmorphic' ? 'IG' : '[IG]'}
             </span>
-            <Maximize2 size={16} />
+            <Maximize2 size={12} />
           </button>
         </motion.div>
       ) : (
@@ -47,82 +47,73 @@ export default function InstagramBrowser() {
           initial={{ x: 400, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 400, opacity: 0 }}
-          className={`fixed right-4 top-20 bottom-4 w-80 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-50 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+          className={`fixed right-4 bottom-4 w-64 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-40 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
         >
           {/* Header */}
-          <div className={`flex items-center justify-between p-3 border-b ${theme.colors.border}`}>
+          <div className={`flex items-center justify-between px-3 py-2 border-b ${theme.colors.border}`}>
             <div className="flex items-center space-x-2">
-              <Instagram size={18} className="text-pink-500" />
-              <span className={`${theme.font} text-sm ${theme.colors.text}`}>
-                {theme.id === 'glassmorphic' ? 'Instagram' : 'INSTAGRAM'}
+              <Instagram size={14} className="text-pink-500" />
+              <span className={`${theme.font} text-xs ${theme.colors.text}`}>
+                {theme.id === 'glassmorphic' ? 'Instagram' : 'IG'}
               </span>
             </div>
             <button
               onClick={() => setIsMinimized(true)}
               className={`p-1 ${theme.colors.textMuted} hover:${theme.colors.text} transition-colors`}
             >
-              <Minimize2 size={16} />
+              <Minimize2 size={12} />
             </button>
           </div>
 
           {/* Quick Actions */}
-          <div className="p-4 space-y-3">
+          <div className="p-3 space-y-2">
             <button
               onClick={() => openInstagram('/')}
-              className={`w-full flex items-center justify-between px-4 py-3 ${theme.colors.input} ${theme.rounded} hover:${theme.colors.border} transition-all group`}
+              className={`w-full flex items-center justify-between px-3 py-2 ${theme.colors.input} ${theme.rounded} hover:${theme.colors.border} transition-all group`}
             >
-              <div className="flex items-center space-x-3">
-                <Home size={18} className="text-pink-500" />
-                <span className={`${theme.font} text-sm ${theme.colors.text}`}>
-                  {theme.id === 'glassmorphic' ? 'Open Feed' : 'FEED'}
+              <div className="flex items-center space-x-2">
+                <Home size={14} className="text-pink-500" />
+                <span className={`${theme.font} text-xs ${theme.colors.text}`}>
+                  {theme.id === 'glassmorphic' ? 'Feed' : 'FEED'}
                 </span>
               </div>
-              <ExternalLink size={14} className={`${theme.colors.textMuted} group-hover:${theme.colors.text}`} />
+              <ExternalLink size={10} className={`${theme.colors.textMuted} group-hover:${theme.colors.text}`} />
             </button>
 
             <button
               onClick={() => openInstagram('/explore/')}
-              className={`w-full flex items-center justify-between px-4 py-3 ${theme.colors.input} ${theme.rounded} hover:${theme.colors.border} transition-all group`}
+              className={`w-full flex items-center justify-between px-3 py-2 ${theme.colors.input} ${theme.rounded} hover:${theme.colors.border} transition-all group`}
             >
-              <div className="flex items-center space-x-3">
-                <Compass size={18} className="text-purple-500" />
-                <span className={`${theme.font} text-sm ${theme.colors.text}`}>
+              <div className="flex items-center space-x-2">
+                <Compass size={14} className="text-purple-500" />
+                <span className={`${theme.font} text-xs ${theme.colors.text}`}>
                   {theme.id === 'glassmorphic' ? 'Explore' : 'EXPLORE'}
                 </span>
               </div>
-              <ExternalLink size={14} className={`${theme.colors.textMuted} group-hover:${theme.colors.text}`} />
+              <ExternalLink size={10} className={`${theme.colors.textMuted} group-hover:${theme.colors.text}`} />
             </button>
 
             {/* Search Form */}
             <form onSubmit={handleSearch} className="space-y-2">
-              <div className={`flex items-center space-x-2 px-3 py-2 ${theme.colors.input} ${theme.rounded}`}>
-                <Search size={16} className={theme.colors.textMuted} />
+              <div className={`flex items-center space-x-2 px-2 py-1.5 ${theme.colors.input} ${theme.rounded}`}>
+                <Search size={12} className={theme.colors.textMuted} />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={theme.id === 'glassmorphic' ? 'Search...' : 'SEARCH...'}
-                  className={`flex-1 bg-transparent ${theme.font} text-sm ${theme.colors.text} focus:outline-none placeholder:${theme.colors.textMuted}`}
+                  placeholder={theme.id === 'glassmorphic' ? 'Search...' : 'SEARCH'}
+                  className={`flex-1 bg-transparent ${theme.font} text-xs ${theme.colors.text} focus:outline-none placeholder:${theme.colors.textMuted}`}
                 />
               </div>
               <button
                 type="submit"
-                className={`w-full px-4 py-2 ${theme.font} ${theme.rounded} text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all`}
+                className={`w-full px-3 py-1.5 ${theme.font} ${theme.rounded} text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all`}
               >
-                {theme.id === 'glassmorphic' ? 'Search Instagram' : '[SEARCH]'}
+                {theme.id === 'glassmorphic' ? 'Search' : '[GO]'}
               </button>
             </form>
           </div>
 
-          {/* Info */}
-          <div className={`absolute bottom-0 left-0 right-0 p-4 border-t ${theme.colors.border} ${theme.colors.bg}`}>
-            <p className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
-              {theme.id === 'glassmorphic'
-                ? '📸 Opens in new window. Log in to access your account.'
-                : '> OPENS_NEW_WINDOW\n> LOGIN_REQUIRED'
-              }
-            </p>
-          </div>
         </motion.div>
       )}
     </AnimatePresence>

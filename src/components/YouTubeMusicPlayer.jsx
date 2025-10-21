@@ -41,13 +41,13 @@ export default function YouTubeMusicPlayer() {
           >
             <button
               onClick={() => setIsMinimized(false)}
-              className={`flex items-center space-x-2 px-4 py-3 ${theme.colors.buttonActive} ${theme.rounded} shadow-lg`}
+              className={`flex items-center space-x-2 px-3 py-2 ${theme.colors.buttonActive} ${theme.rounded} shadow-lg`}
             >
-              <Volume2 size={20} className="animate-pulse" />
-              <span className={`${theme.font} text-sm`}>
-                {theme.id === 'glassmorphic' ? 'Music Playing...' : '[MUSIC_PLAYING]'}
+              <Volume2 size={16} className="animate-pulse" />
+              <span className={`${theme.font} text-xs`}>
+                {theme.id === 'glassmorphic' ? 'Music' : '[MUSIC]'}
               </span>
-              <Maximize2 size={16} />
+              <Maximize2 size={12} />
             </button>
           </motion.div>
         ) : (
@@ -55,28 +55,28 @@ export default function YouTubeMusicPlayer() {
             initial={{ y: 400, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 400, opacity: 0 }}
-            className={`fixed bottom-4 right-4 w-96 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-50 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+            className={`fixed bottom-4 right-4 w-80 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-40 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
           >
             {/* Header */}
-            <div className={`flex items-center justify-between p-3 border-b ${theme.colors.border}`}>
+            <div className={`flex items-center justify-between px-3 py-2 border-b ${theme.colors.border}`}>
               <div className="flex items-center space-x-2">
-                <Volume2 size={18} className={theme.colors.accent} />
-                <span className={`${theme.font} text-sm ${theme.colors.text}`}>
-                  {theme.id === 'glassmorphic' ? 'YouTube Music' : 'YOUTUBE_MUSIC'}
+                <Volume2 size={14} className={theme.colors.accent} />
+                <span className={`${theme.font} text-xs ${theme.colors.text}`}>
+                  {theme.id === 'glassmorphic' ? 'Music' : 'MUSIC'}
                 </span>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
                 <button
                   onClick={() => setIsMuted(!isMuted)}
                   className={`p-1 ${theme.colors.textMuted} hover:${theme.colors.text} transition-colors`}
                 >
-                  {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                  {isMuted ? <VolumeX size={12} /> : <Volume2 size={12} />}
                 </button>
                 <button
                   onClick={() => setIsMinimized(true)}
                   className={`p-1 ${theme.colors.textMuted} hover:${theme.colors.text} transition-colors`}
                 >
-                  <Minimize2 size={16} />
+                  <Minimize2 size={12} />
                 </button>
               </div>
             </div>
@@ -92,16 +92,6 @@ export default function YouTubeMusicPlayer() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-            </div>
-
-            {/* Instructions */}
-            <div className={`p-3 border-t ${theme.colors.border}`}>
-              <p className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
-                {theme.id === 'glassmorphic'
-                  ? '🎵 Music keeps playing when minimized. Change playlist ID in code to customize.'
-                  : '> PLAYS_WHEN_MINIMIZED\n> Edit playlistId in code'
-                }
-              </p>
             </div>
           </motion.div>
         )}

@@ -1,12 +1,12 @@
 
-# Open-Source UX/UI Sliders Pack (2025)
+# Open-Source 3D Web UX Elements Pack (2025)
 
-Three cutting-edge, open-source slider/scroll components for web UI design.
-Each text file provides overview, features, and install instructions.
+Three modern open-source libraries that enable 3D or immersive user experiences directly in websites.
+Each .txt file includes usage examples, installation, and main features.
 
 Included:
-1. Swiper (JS/React/Vue) — Full-featured responsive slider.
-2. react-slider — Lightweight accessible React slider.
-3. shadcn/ui Slider — Modern Tailwind + Radix-based slider.
+1. <model-viewer> — Declarative 3D model embed.
+2. Babylon.js — Full 3D engine for advanced scenes.
+3. A-Frame — WebVR/3D framework using HTML-like syntax.
 
-All projects are MIT or permissive licenses.
+All under permissive licenses (MIT/Apache).
