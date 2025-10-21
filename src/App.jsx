@@ -35,6 +35,9 @@ import InstagramBrowser from "./components/InstagramBrowser"
 import MotivationalQuote from "./components/MotivationalQuote"
 import InteractiveLighting from "./components/InteractiveLighting"
 import HologramHost from "./components/HologramHost"
+import ColorModeControl from "./components/ColorModeControl"
+import BusinessCalendar from "./components/BusinessCalendar"
+import WhatsAppBusiness from "./components/WhatsAppBusiness"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -260,13 +263,22 @@ function App() {
       {/* Instagram Browser */}
       <InstagramBrowser />
       
+      {/* Color Mode Control */}
+      <ColorModeControl />
+      
+      {/* Business Calendar */}
+      <BusinessCalendar />
+      
       {/* Motivational Quote */}
-      <div className="fixed top-20 right-4 max-w-xs z-10">
+      <div className="fixed top-96 right-4 max-w-xs z-10">
         <MotivationalQuote />
       </div>
       
       {/* Hologram Host */}
       <HologramHost />
+      
+      {/* WhatsApp Business */}
+      <WhatsAppBusiness />
     </div>
     </ErrorBoundary>
   )

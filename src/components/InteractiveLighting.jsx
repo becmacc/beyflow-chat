@@ -4,7 +4,7 @@ import useStore from '../store'
 import { getTheme } from '../config/themes'
 
 export default function InteractiveLighting() {
-  const { themePersona } = useStore()
+  const { themePersona, colorMode } = useStore()
   const theme = getTheme(themePersona)
   
   const mx = useMotionValue(0)
@@ -21,7 +21,14 @@ export default function InteractiveLighting() {
     return () => window.removeEventListener('mousemove', onMove)
   }, [mx, my])
 
-  const hue = theme.id === 'terminal' ? 180 : 270
+  const colorModeHues = {
+    neutral: theme.id === 'terminal' ? 180 : 270,
+    positive: 150,
+    warning: 45,
+    danger: 350
+  }
+  
+  const hue = colorModeHues[colorMode] || colorModeHues.neutral
   const spotlight = useTransform([sx, sy], ([x, y]) => 
     `radial-gradient(300px 220px at ${x}px ${y}px, hsla(${hue},80%,50%,0.15) 0%, transparent 70%)`
   )
