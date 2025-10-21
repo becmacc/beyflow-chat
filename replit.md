@@ -77,7 +77,7 @@ The project is organized into `components`, `modules`, `hooks`, `store`, `automa
 - **Contacts Hub**: CRM with searchable contacts and quick actions (Email, WhatsApp, LinkedIn, Calendly)
 - **Workspace**: MGX-style modular dashboard with customizable grid layout, supporting 5 module types (Notes, Analytics, Code Editor, Terminal, Web3 Wallet). Features save/load workspace configurations, export/import JSON, module sizing (S/M/L), and localStorage persistence via Zustand persist middleware.
 - **Workflows**: Visual node-based automation builder
-- **Web Browser**: iframe-based mini browser with URL input, navigation controls (Back/Forward/Reload/Home), persistent bookmarks via localStorage, and "Open in new tab" fallback for sites blocking iframe embedding
+- **Web Browser**: iframe-based mini browser with URL input, navigation controls (Back/Forward/Reload/Home), persistent bookmarks via localStorage, and "Open in new tab" fallback for sites blocking iframe embedding. FloatingBrowser accessible via 🌐 button in navbar provides draggable, resizable overlay for browsing within the app. WorkflowBuilder includes split-view mode with adjustable divider for simultaneous workflow building and documentation browsing.
 - **Sessions**: Saved conversation management
 - **AI Studio**: Multi-agent system (GPT-Marketer, GPT-Engineer, DALL-E)
 - **UI Components**: Themed sliders, carousels, 3D model viewer, hologram host
