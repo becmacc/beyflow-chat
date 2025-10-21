@@ -32,6 +32,7 @@ import OptimizedScene from "./components/OptimizedScene"
 import ThemeToggle from "./components/ThemeToggle"
 import YouTubeMusicPlayer from "./components/YouTubeMusicPlayer"
 import InstagramBrowser from "./components/InstagramBrowser"
+import MotivationalQuote from "./components/MotivationalQuote"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -253,6 +254,11 @@ function App() {
       
       {/* Instagram Browser */}
       <InstagramBrowser />
+      
+      {/* Motivational Quote */}
+      <div className="fixed top-4 right-4 w-96 z-20">
+        <MotivationalQuote />
+      </div>
     </div>
     </ErrorBoundary>
   )

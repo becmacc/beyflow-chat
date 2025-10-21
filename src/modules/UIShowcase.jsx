@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, Sliders, LayoutGrid } from 'lucide-react'
+import { Sparkles, Sliders, LayoutGrid, Box } from 'lucide-react'
 import useStore from '../store'
 import { getTheme } from '../config/themes'
 import ThemedSlider from '../components/ThemedSlider'
 import ThemedCarousel from '../components/ThemedCarousel'
+import Model3DViewer from '../components/Model3DViewer'
 
 export default function UIShowcase() {
   const { themePersona } = useStore()
@@ -145,12 +146,29 @@ export default function UIShowcase() {
           />
         </motion.div>
 
+        {/* 3D Model Viewer */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+          className={`p-6 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+        >
+          <div className="flex items-center space-x-2 mb-6">
+            <Box className={theme.colors.accent} size={20} />
+            <h2 className={`text-xl font-semibold ${theme.font} ${theme.colors.text}`}>
+              {theme.id === 'terminal' ? '[3D_MODEL_VIEWER]' : '3D Model Viewer'}
+            </h2>
+          </div>
+
+          <Model3DViewer />
+        </motion.div>
+
         {/* Info */}
         <div className={`p-4 ${theme.colors.input} ${theme.rounded}`}>
           <p className={`text-xs ${theme.colors.textMuted} ${theme.font}`}>
             {theme.id === 'terminal'
-              ? '> POWERED_BY: Swiper.js + react-slider\n> FULLY_THEMED: Terminal & Glassmorphic support\n> ACCESSIBLE: ARIA-compliant controls'
-              : '🎨 Powered by Swiper.js and react-slider • Fully themed for Terminal and Glassmorphic modes • Accessible ARIA-compliant controls'
+              ? '> POWERED_BY: Swiper.js + react-slider + React Three Fiber\n> FULLY_THEMED: Terminal & Glassmorphic support\n> ACCESSIBLE: ARIA-compliant controls + Interactive 3D'
+              : '🎨 Powered by Swiper.js, react-slider, and React Three Fiber • Fully themed • Interactive 3D models with camera controls'
             }
           </p>
         </div>

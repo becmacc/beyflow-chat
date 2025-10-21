@@ -18,8 +18,8 @@ export const themes = {
       glow: 'shadow-[0_0_10px_rgba(0,255,255,0.2)]',
       glowActive: 'shadow-[0_0_20px_rgba(0,255,255,0.4)]'
     },
-    font: 'font-mono',
-    rounded: '',
+    font: 'font-tech',
+    rounded: 'rounded-lg',
     effects: {
       scanlines: true,
       grid: true,
@@ -47,7 +47,7 @@ export const themes = {
       glowActive: 'shadow-[0_0_30px_rgba(139,92,246,0.5)]'
     },
     font: 'font-sans',
-    rounded: 'rounded-3xl',
+    rounded: 'rounded-2xl',
     effects: {
       scanlines: false,
       grid: false,

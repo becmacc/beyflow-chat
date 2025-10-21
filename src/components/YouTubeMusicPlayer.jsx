@@ -37,7 +37,7 @@ export default function YouTubeMusicPlayer() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className={`fixed bottom-4 right-4 z-50`}
+            className={`fixed bottom-20 left-4 z-30`}
           >
             <button
               onClick={() => setIsMinimized(false)}
@@ -55,7 +55,7 @@ export default function YouTubeMusicPlayer() {
             initial={{ y: 400, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 400, opacity: 0 }}
-            className={`fixed bottom-4 right-4 w-80 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-40 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
+            className={`fixed bottom-20 left-4 w-80 ${theme.colors.bg} border ${theme.colors.border} ${theme.rounded} shadow-2xl z-30 overflow-hidden ${theme.effects.blur ? 'backdrop-blur-xl' : ''}`}
           >
             {/* Header */}
             <div className={`flex items-center justify-between px-3 py-2 border-b ${theme.colors.border}`}>

@@ -24,13 +24,6 @@ export default function Sidebar() {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Vertical scanlines */}
-      <div 
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,240,255,0.05) 1px, rgba(0,240,255,0.05) 2px)'
-        }}
-      />
       {/* Logo/Brand */}
       <div className={`p-6 border-b ${theme.colors.border} relative overflow-hidden`}>
         <motion.div
