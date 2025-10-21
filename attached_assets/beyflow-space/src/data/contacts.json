@@ -1,0 +1,32 @@
+[
+  {
+    "id": "c1",
+    "name": "Mira Daou",
+    "role": "Producer",
+    "company": "BeyMedia",
+    "email": "mira@example.com",
+    "phone": "+96170000000",
+    "linkedin": "https://www.linkedin.com/in/miradaou",
+    "calendly": "https://calendly.com/mira/15min"
+  },
+  {
+    "id": "c2",
+    "name": "Omar Khoury",
+    "role": "CTO",
+    "company": "BeyTech",
+    "email": "omar@example.com",
+    "phone": "+96171000000",
+    "linkedin": "https://www.linkedin.com/in/omarkhoury",
+    "calendly": "https://calendly.com/omar/30min"
+  },
+  {
+    "id": "c3",
+    "name": "Layla Nassar",
+    "role": "Creative Director",
+    "company": "WearWolf",
+    "email": "layla@example.com",
+    "phone": "+96176000000",
+    "linkedin": "https://www.linkedin.com/in/laylanassar",
+    "calendly": "https://calendly.com/layla/intro"
+  }
+]

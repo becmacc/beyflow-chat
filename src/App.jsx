@@ -11,6 +11,8 @@ import SessionManager from "./modules/SessionManager"
 import AIStudio from "./modules/AIStudio"
 import WorkflowBuilder from "./modules/WorkflowBuilder"
 import UIShowcase from "./modules/UIShowcase"
+import ContactsHub from "./modules/ContactsHub"
+import Workspace from "./modules/Workspace"
 import { GradientBackground, RecursivePattern } from "./components/DopamineUI"
 import FluidGradientBg from "./components/FluidGradientBg"
 import MeshGradient from "./components/MeshGradient"
@@ -57,6 +59,8 @@ function ModuleRouter() {
   
   const modules = {
     chat: <ChatPanel />,
+    contacts: <ContactsHub />,
+    workspace: <Workspace />,
     workflows: <WorkflowBuilder />,
     sessions: <SessionManager />,
     visualizer: <Visualizer3D />,
@@ -253,10 +257,10 @@ function App() {
       {/* Banana Flow Status Indicator - Bottom left */}
       <BananaFlowStatus />
       
-      {/* Z-40: Dev Tools - Top-right corner */}
+      {/* Z-40: Dev Tools - Top-left (above Social Hub) */}
       {import.meta.env.DEV && insights && (
-        <div className="fixed top-16 right-4 z-40">
-          <MinimizablePanel title="LIVE" position="top-right">
+        <div className="fixed top-4 left-64 z-40" style={{ marginLeft: '200px' }}>
+          <MinimizablePanel title="LIVE" position="top-left" defaultMinimized={true}>
             <div className="space-y-0.5 font-mono">
               <div className="flex justify-between gap-2"><span className="text-gray-500">USR</span> <span className="text-neon-green">{insights.realTimeData?.activeUsers || 0}</span></div>
               <div className="flex justify-between gap-2"><span className="text-gray-500">MSG</span> <span className="text-neon-cyan">{insights.realTimeData?.messagesPerMinute || 0}</span></div>
@@ -278,8 +282,8 @@ function App() {
       {/* Z-50: Color Mode Control - Top center */}
       <ColorModeControl />
       
-      {/* Z-50: Business Calendar - Top-right (below dev tools) */}
-      <div className="fixed top-16 right-4 z-50" style={{ marginTop: insights ? '180px' : '0' }}>
+      {/* Z-50: Business Calendar - Top-left (next to sidebar) */}
+      <div className="fixed top-4 left-64 z-50">
         <BusinessCalendar />
       </div>
       

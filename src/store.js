@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import contactsData from './data/contacts.json'
+import workspaceData from './data/beyflow.json'
 
 const useStore = create((set, get) => ({
   // User state
@@ -90,6 +92,29 @@ const useStore = create((set, get) => ({
   })),
   toggleMute: () => set((state) => ({
     audio: { ...state.audio, muted: !state.audio.muted }
+  })),
+
+  // Contacts Hub
+  contacts: contactsData,
+  addContact: (contact) => set((state) => ({
+    contacts: [...state.contacts, { ...contact, id: `c${Date.now()}` }]
+  })),
+  
+  // Workspace
+  workspacePages: workspaceData.pages,
+  activePageId: workspaceData.pages[0]?.id || 'p1',
+  setActivePage: (pageId) => set({ activePageId: pageId }),
+  updateBlock: (pageId, blockIndex, updates) => set((state) => ({
+    workspacePages: state.workspacePages.map(page =>
+      page.id === pageId
+        ? {
+            ...page,
+            blocks: page.blocks.map((block, idx) =>
+              idx === blockIndex ? { ...block, ...updates } : block
+            )
+          }
+        : page
+    )
   }))
 }))
 

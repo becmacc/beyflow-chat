@@ -6,6 +6,8 @@ import { getTheme } from "../config/themes"
 
 const modules = [
   { id: 'chat', name: 'Chat', icon: '💬', description: 'Real-time messaging' },
+  { id: 'contacts', name: 'Contacts', icon: '👥', description: 'Network hub' },
+  { id: 'workspace', name: 'Workspace', icon: '📝', description: 'Notes & tasks' },
   { id: 'workflows', name: 'Workflows', icon: '🔗', description: 'Connect APIs & LLMs' },
   { id: 'sessions', name: 'Sessions', icon: '💾', description: 'Saved conversations' },
   { id: 'ai', name: 'AI Studio', icon: '🤖', description: 'AI playground' },

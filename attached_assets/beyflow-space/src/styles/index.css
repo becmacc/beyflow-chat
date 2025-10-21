@@ -1,0 +1,27 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b0b0f;
+  --panel: #111117;
+  --text: #eef1ff;
+  --primary: #6d28d9;
+  --accent: #22d3ee;
+}
+
+html[data-theme="beycore"] { --bg:#0a0a0c; --panel:#121218; --text:#eef1ff; --primary:#6d28d9; --accent:#22d3ee; }
+html[data-theme="beyuni"]  { --bg:#0b1220; --panel:#0f172a; --text:#e6f0ff; --primary:#3b82f6; --accent:#f59e0b; }
+html[data-theme="beytech"] { --bg:#0b120b; --panel:#0f1a10; --text:#e7ffe7; --primary:#84cc16; --accent:#38bdf8; }
+html[data-theme="beyspace"]{ --bg:#120714; --panel:#1b0b1e; --text:#ffe9ff; --primary:#db2777; --accent:#8b5cf6; }
+html[data-theme="wearwolf"]{ --bg:#12090a; --panel:#1a0d0f; --text:#ffeaea; --primary:#ef4444; --accent:#f59e0b; }
+html[data-theme="alamac"]  { --bg:#0f0f0c; --panel:#151512; --text:#fff9e6; --primary:#eab308; --accent:#64748b; }
+
+body { background: radial-gradient(1200px 800px at 70% -20%, rgba(255,255,255,0.06), transparent) var(--bg); color: var(--text); }
+
+.panel { @apply rounded-3xl p-6 border border-white/10 bg-panel/70 backdrop-blur-xl shadow-soft; }
+.btn { @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border border-white/10 transition active:scale-95;}
+.btn-primary { background: linear-gradient(135deg,var(--primary),var(--accent)); color:white; }
+.input { @apply w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 outline-none; color:var(--text); }
+.pill { @apply px-3 py-1 rounded-xl text-xs bg-white/10 border border-white/20; }

@@ -24,7 +24,7 @@ The system primarily integrates with **Make.com scenarios** via HTTP webhooks. A
 **ElevenLabs Text-to-Speech API** is used for voice synthesis with multi-voice support and customizable settings. **Web Speech API** handles voice input and real-time transcription. Advanced audio processing includes custom AudioWorklet processors for low-latency analysis (FFT, RMS, pitch detection) and an audio effects chain.
 
 ### Data Storage
-Browser storage relies on `localStorage` for persistent settings and `sessionStorage` for temporary data, with Zustand's `persist` middleware synchronizing state.
+Browser storage relies on `localStorage` for persistent settings and `sessionStorage` for temporary data, with Zustand's `persist` middleware synchronizing state. Contacts and workspace data are seeded from JSON files (`src/data/contacts.json`, `src/data/beyflow.json`) and managed through dedicated Zustand slices.
 
 ### Brand Integration System
 An organized PNG-based brand system, configured in `src/config/brandConfig.js`, integrates assets as watermarks, floating elements, chat accents, and particle effects with audio-reactive animations.
@@ -33,7 +33,15 @@ An organized PNG-based brand system, configured in `src/config/brandConfig.js`, 
 Vite's esbuild, code splitting, tree shaking, and asset optimization ensure build efficiency. Runtime performance is optimized through event debouncing, animation frame throttling, efficient store subscriptions, and memoization. Custom analytics track user interactions and performance metrics.
 
 ### Modular Architecture
-The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include Chat, Workflows, Sessions, AI Studio (with Omnigen multi-agent system like GPT-Marketer, GPT-Engineer, DALL-E), UI Components (themed sliders, carousels, 3D model viewer, hologram host), and Settings. Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Business integrations include WhatsApp Business quick-launcher and Business Calendar (Google Calendar, Outlook). Extension points are planned for Web3 wallet integration and a plugin architecture.
+The project is organized into `components`, `modules`, `hooks`, `store`, `automation`, `config`, and `utils` directories. Key navigation modules include:
+- **Chat**: Real-time AI-powered conversation experience
+- **Contacts Hub**: CRM with searchable contacts and quick actions (Email, WhatsApp, LinkedIn, Calendly)
+- **Workspace**: Notion-like pages with text blocks, todo lists, and headings
+- **Workflows**: Visual node-based automation builder
+- **Sessions**: Saved conversation management
+- **AI Studio**: Multi-agent system (GPT-Marketer, GPT-Engineer, DALL-E)
+- **UI Components**: Themed sliders, carousels, 3D model viewer, hologram host
+- **Settings**: Configuration management Minimizable panels provide non-intrusive monitoring of analytics and performance. Media integrations include YouTube Music Player (with background playback) and Instagram Browser (quick-launch with search). Business integrations include WhatsApp Business quick-launcher and Business Calendar (Google Calendar, Outlook). Extension points are planned for Web3 wallet integration and a plugin architecture.
 
 **UI Components Library**: 
 - **ThemedSlider**: Accessible range/value slider with Terminal and Glassmorphic theme support

@@ -1,0 +1,42 @@
+{
+  "pages": [
+    {
+      "id": "p1",
+      "title": "Inbox",
+      "blocks": [
+        {
+          "type": "h2",
+          "text": "Welcome to BeyFlow Space"
+        },
+        {
+          "type": "text",
+          "text": "Capture notes. Organize briefs. Trigger outreach."
+        },
+        {
+          "type": "todo",
+          "text": "Draft Stivano launch brief",
+          "done": false
+        },
+        {
+          "type": "todo",
+          "text": "Sync Vendors DB",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "Ideas",
+      "blocks": [
+        {
+          "type": "h3",
+          "text": "Campaign concepts"
+        },
+        {
+          "type": "text",
+          "text": "BeySpace neon motion with wobble UI."
+        }
+      ]
+    }
+  ]
+}
