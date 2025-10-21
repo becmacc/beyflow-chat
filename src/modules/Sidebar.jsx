@@ -21,15 +21,15 @@ export default function Sidebar() {
 
   return (
     <motion.div
-      className={`w-64 ${theme.colors.bg} border-r ${theme.colors.border} flex flex-col relative overflow-hidden`}
+      className={`w-48 ${theme.colors.bg} border-r ${theme.colors.border} flex flex-col relative overflow-hidden`}
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Logo/Brand */}
-      <div className={`p-6 border-b ${theme.colors.border} relative overflow-hidden`}>
+      {/* Logo/Brand - COMPACT */}
+      <div className={`p-3 border-b ${theme.colors.border} relative overflow-hidden`}>
         <motion.div
-          className="flex flex-col items-center space-y-3 relative z-10"
+          className="flex flex-col items-center space-y-1.5 relative z-10"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
         >
@@ -37,50 +37,50 @@ export default function Sidebar() {
             <img 
               src={brandAssets.beyMediaLogo} 
               alt="BeyMedia" 
-              className="w-24 h-24 object-contain opacity-80"
+              className="w-12 h-12 object-contain opacity-80"
               style={{
-                filter: 'drop-shadow(0 0 4px rgba(0,255,255,0.3))'
+                filter: 'drop-shadow(0 0 3px rgba(0,255,255,0.3))'
               }}
             />
           </div>
           <div className="text-center">
-            <h3 className={`text-2xl ${theme.font} font-bold ${theme.colors.text} tracking-wide`}>
+            <h3 className={`text-base ${theme.font} font-bold ${theme.colors.text} tracking-wide`}>
               BeyFlow
             </h3>
-            <p className={`${theme.colors.textMuted} text-xs ${theme.font} mt-1 tracking-widest`}>WORKFLOW_STUDIO</p>
+            <p className={`${theme.colors.textMuted} text-[9px] ${theme.font} mt-0.5 tracking-wider opacity-60`}>STUDIO</p>
           </div>
         </motion.div>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4">
-        <div className="space-y-2">
+      {/* Navigation - COMPACT */}
+      <nav className="flex-1 p-2">
+        <div className="space-y-1">
           {modules.map((module) => (
             <motion.button
               key={module.id}
               onClick={() => setModule(module.id)}
               title={`${module.name} - ${module.description}`}
-              className={`w-full text-left p-3 transition-all relative overflow-hidden border-2 ${theme.font} ${theme.rounded} min-h-[44px]
+              className={`w-full text-left p-2 transition-all relative overflow-hidden border ${theme.font} ${theme.rounded} min-h-[40px]
                 ${currentModule === module.id
                   ? theme.id === 'terminal'
-                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.3)]'
-                    : 'bg-indigo-500/20 border-indigo-400 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)]'
+                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-400 shadow-[0_0_10px_rgba(0,255,255,0.3)]'
+                    : 'bg-indigo-500/20 border-indigo-400 text-white shadow-[0_0_10px_rgba(139,92,246,0.3)]'
                   : theme.id === 'terminal'
-                    ? 'bg-transparent border-cyan-500/20 text-cyan-400/70 hover:bg-cyan-500/10 hover:border-cyan-400/50 hover:text-cyan-400'
+                    ? 'bg-transparent border-cyan-500/10 text-cyan-400/70 hover:bg-cyan-500/10 hover:border-cyan-400/50 hover:text-cyan-400'
                     : 'bg-transparent border-white/10 text-white/70 hover:bg-white/10 hover:border-white/30 hover:text-white'
                 }
-                focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-black
+                focus:outline-none focus:ring-2 focus:ring-cyan-400
               `}
-              whileHover={{ scale: 1.02, x: 4 }}
+              whileHover={{ scale: 1.02, x: 2 }}
               whileTap={{ scale: 0.98 }}
               aria-current={currentModule === module.id ? 'page' : undefined}
               aria-label={`Navigate to ${module.name}`}
             >
-              <div className="flex items-center space-x-3">
-                <span className="text-2xl" aria-hidden="true">{module.icon}</span>
+              <div className="flex items-center space-x-2">
+                <span className="text-lg" aria-hidden="true">{module.icon}</span>
                 <div className="flex-1">
-                  <p className="font-bold text-sm">{module.name}</p>
-                  <p className="text-xs opacity-80 mt-0.5">{module.description}</p>
+                  <p className="font-bold text-xs">{module.name}</p>
+                  <p className="text-[10px] opacity-70 mt-0.5 leading-tight">{module.description}</p>
                 </div>
               </div>
               
@@ -112,16 +112,15 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      {/* Status */}
-      <div className="p-4 border-t border-cyan-500/10">
-        <div className="flex items-center space-x-2 text-cyan-500/60 text-xs font-mono">
-          <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+      {/* Status - COMPACT */}
+      <div className="p-2 border-t border-cyan-500/10">
+        <div className="flex items-center space-x-1.5 text-cyan-500/60 text-[10px] font-mono">
+          <div className="w-1 h-1 bg-cyan-500 rounded-full animate-pulse" />
           <span>ONLINE</span>
         </div>
         
-        <div className="mt-2 text-xs text-cyan-700/40 font-mono space-y-0.5">
-          <p>MSG: {messages.length}</p>
-          <p>MOD: {currentModule.toUpperCase()}</p>
+        <div className="mt-1.5 text-[9px] text-cyan-700/40 font-mono space-y-0.5">
+          <p>🍌 {messages.length} flows</p>
         </div>
       </div>
     </motion.div>
