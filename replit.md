@@ -33,7 +33,10 @@ Preferred communication style: Simple, everyday language.
 - **Enhanced Affordances**: All buttons now have visible 2px borders, stronger hover states (brightness +20%, scale 1.05), solid backgrounds on primary CTAs
 - **Navigation Labels**: Sidebar items show text labels with descriptions (always visible), active module highlighted with colored border and glow effect
 - **Accessibility**: Global focus outlines (2px cyan), 44px minimum touch targets, comprehensive ARIA labels, keyboard navigation support
-- **Consolidated UI**: UtilityPanel combines Calendar and Social Hub into single collapsible interface (bottom-right), reducing floating widget clutter
+- **Organized HUD Layout**: Clear z-index hierarchy (FloatingBrowser z-9999, UtilityPanel z-50, ColorModeControl z-40, SpectrumControl z-30) prevents overlapping widgets
+- **Consolidated UI**: UtilityPanel combines Calendar and Social Hub into single collapsible interface (bottom-right), reducing floating widget clutter, with glow effect when collapsed
+- **Compact Chat**: Welcome banner optimized for space, prominent send button with enhanced visual hierarchy
+- **Subtle Effects**: ColorModeControl flash reduced (0.2 opacity, 0.4s duration), repositioned to bottom-center to avoid conflicts
 
 ### Modular Workspace System (MGX Integration)
 - Transformed Workspace from Notion-style pages to MGX-inspired modular dashboard
