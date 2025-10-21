@@ -301,7 +301,7 @@ function App() {
       </div>
       
       {/* Z-20: Hologram Host - Bottom-right - LARGER AND MORE VISIBLE */}
-      <div className="fixed bottom-24 right-8 z-20 scale-150">
+      <div className="fixed bottom-32 right-16 z-20 scale-[2.5] opacity-100">
         <HologramHost />
       </div>
     </div>
