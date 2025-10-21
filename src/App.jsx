@@ -241,49 +241,70 @@ function App() {
         }}
       />
       
-      {/* Banana Flow Status Indicator */}
+      {/* 
+        Z-INDEX LAYERS (organized from bottom to top):
+        z-0  : Background effects
+        z-10 : Main content
+        z-20 : Side components (Quote, Hologram)
+        z-30 : Bottom controls (YouTube, Instagram, WhatsApp)
+        z-40 : Dev tools (Performance, Analytics)
+        z-50 : Top controls (ColorMode, Calendar)
+        z-60 : Modals/Overlays
+      */}
+      
+      {/* Banana Flow Status Indicator - Bottom left */}
       <BananaFlowStatus />
       
-      {/* Minimizable Analytics Display */}
+      {/* Z-40: Dev Tools - Top-right corner */}
       {import.meta.env.DEV && insights && (
-        <MinimizablePanel title="LIVE" position="top-right">
-          <div className="space-y-0.5 font-mono">
-            <div className="flex justify-between gap-2"><span className="text-gray-500">USR</span> <span className="text-neon-green">{insights.realTimeData?.activeUsers || 0}</span></div>
-            <div className="flex justify-between gap-2"><span className="text-gray-500">MSG</span> <span className="text-neon-cyan">{insights.realTimeData?.messagesPerMinute || 0}</span></div>
-            <div className="flex justify-between gap-2"><span className="text-gray-500">ERR</span> <span className="text-neon-magenta">{(insights.realTimeData?.errorRate || 0).toFixed(1)}%</span></div>
-          </div>
-        </MinimizablePanel>
+        <div className="fixed top-16 right-4 z-40">
+          <MinimizablePanel title="LIVE" position="top-right">
+            <div className="space-y-0.5 font-mono">
+              <div className="flex justify-between gap-2"><span className="text-gray-500">USR</span> <span className="text-neon-green">{insights.realTimeData?.activeUsers || 0}</span></div>
+              <div className="flex justify-between gap-2"><span className="text-gray-500">MSG</span> <span className="text-neon-cyan">{insights.realTimeData?.messagesPerMinute || 0}</span></div>
+              <div className="flex justify-between gap-2"><span className="text-gray-500">ERR</span> <span className="text-neon-magenta">{(insights.realTimeData?.errorRate || 0).toFixed(1)}%</span></div>
+            </div>
+          </MinimizablePanel>
+        </div>
       )}
       
-      {/* Minimizable Performance Monitor */}
+      {/* Z-40: Performance Monitor - Bottom-right corner */}
       {import.meta.env.DEV && (
-        <MinimizablePanel title="Performance" position="bottom-right" defaultMinimized={true}>
-          <PerformancePanel isVisible={true} position="bottom-right" />
-        </MinimizablePanel>
+        <div className="fixed bottom-4 right-4 z-40">
+          <MinimizablePanel title="Performance" position="bottom-right" defaultMinimized={true}>
+            <PerformancePanel isVisible={true} position="bottom-right" />
+          </MinimizablePanel>
+        </div>
       )}
       
-      {/* YouTube Music Player */}
-      <YouTubeMusicPlayer />
-      
-      {/* Instagram Browser */}
-      <InstagramBrowser />
-      
-      {/* Color Mode Control */}
+      {/* Z-50: Color Mode Control - Top center */}
       <ColorModeControl />
       
-      {/* Business Calendar */}
-      <BusinessCalendar />
+      {/* Z-50: Business Calendar - Top-right (below dev tools) */}
+      <div className="fixed top-16 right-4 z-50" style={{ marginTop: insights ? '180px' : '0' }}>
+        <BusinessCalendar />
+      </div>
       
-      {/* Motivational Quote */}
-      <div className="fixed top-96 right-4 max-w-xs z-10">
+      {/* Z-30: Bottom-left - YouTube Player */}
+      <YouTubeMusicPlayer />
+      
+      {/* Z-30: Bottom-left - Instagram Browser (above YouTube) */}
+      <div className="fixed bottom-4 left-20 z-30">
+        <InstagramBrowser />
+      </div>
+      
+      {/* Z-30: Bottom-left - WhatsApp (next to Instagram) */}
+      <div className="fixed bottom-4 left-44 z-30">
+        <WhatsAppBusiness />
+      </div>
+      
+      {/* Z-20: Motivational Quote - Right side middle */}
+      <div className="fixed top-1/2 -translate-y-1/2 right-4 max-w-xs z-20">
         <MotivationalQuote />
       </div>
       
-      {/* Hologram Host */}
+      {/* Z-20: Hologram Host - Bottom-right */}
       <HologramHost />
-      
-      {/* WhatsApp Business */}
-      <WhatsAppBusiness />
     </div>
     </ErrorBoundary>
   )

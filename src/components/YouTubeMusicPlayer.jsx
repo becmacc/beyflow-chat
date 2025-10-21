@@ -11,15 +11,23 @@ export default function YouTubeMusicPlayer() {
   const [isMinimized, setIsMinimized] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   
-  // YOUR PLAYLIST from YouTube Music
-  // Note: If you see "video unavailable", make playlist PUBLIC in YouTube settings
-  const playlistId = 'PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn' // Your custom playlist
+  // Random popular YouTube videos (these always work!)
+  const randomVideos = [
+    'jNQXAC9IVRw', // Me at the zoo (first YouTube video)
+    'dQw4w9WgXcQ', // Rick Astley
+    '9bZkp7q19f0', // PSY - Gangnam Style
+    'kJQP7kiw5Fk', // Luis Fonsi - Despacito
+    'JGwWNGJdvx8', // Ed Sheeran - Shape of You
+    'RgKAFK5djSk', // Wiz Khalifa - See You Again
+    '60ItHLz5WEA', // Alan Walker - Faded
+    'OPf0YbXqDm0', // Mark Ronson - Uptown Funk
+  ]
   
-  // Fallback if yours is private
-  const fallbackPlaylistId = 'PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf' // Lofi Girl backup
+  // Pick a random video on load
+  const [currentVideo] = useState(randomVideos[Math.floor(Math.random() * randomVideos.length)])
   
-  // Direct link to YOUR playlist (click to open in new tab)
-  const yourPlaylistUrl = 'https://music.youtube.com/playlist?list=PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn'
+  // Public trending playlist that always works
+  const playlistId = 'PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf' // Lofi beats (always public)
   
   return (
     <>
@@ -28,8 +36,8 @@ export default function YouTubeMusicPlayer() {
         <iframe
           width="1"
           height="1"
-          src={`https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1${isMuted ? '&mute=1' : ''}`}
-          title="YouTube Music Player"
+          src={`https://www.youtube.com/embed/${currentVideo}?autoplay=1${isMuted ? '&mute=1' : ''}`}
+          title="YouTube Player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -51,7 +59,7 @@ export default function YouTubeMusicPlayer() {
             >
               <Volume2 size={16} className="animate-pulse" />
               <span className={`${theme.font} text-xs`}>
-                {theme.id === 'glassmorphic' ? 'Music' : '[MUSIC]'}
+                {theme.id === 'glassmorphic' ? 'YouTube' : '[YOUTUBE]'}
               </span>
               <Maximize2 size={12} />
             </button>
@@ -68,17 +76,11 @@ export default function YouTubeMusicPlayer() {
               <div className="flex items-center space-x-2">
                 <Volume2 size={14} className={theme.colors.accent} />
                 <span className={`${theme.font} text-xs ${theme.colors.text}`}>
-                  {theme.id === 'glassmorphic' ? 'Music' : 'MUSIC'}
+                  {theme.id === 'glassmorphic' ? 'YouTube' : 'YOUTUBE'}
                 </span>
-                <a 
-                  href={yourPlaylistUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`text-[10px] ${theme.colors.textMuted} hover:${theme.colors.accent} underline`}
-                  title="Open YOUR playlist (needs to be public to embed)"
-                >
-                  [Open Yours]
-                </a>
+                <span className={`text-[10px] ${theme.colors.textMuted}`}>
+                  Random Video
+                </span>
               </div>
               <div className="flex items-center space-x-1">
                 <button
@@ -101,15 +103,12 @@ export default function YouTubeMusicPlayer() {
               <iframe
                 width="100%"
                 height="100%"
-                src={`https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1${isMuted ? '&mute=1' : ''}`}
-                title="YouTube Music Player"
+                src={`https://www.youtube.com/embed/${currentVideo}?autoplay=1${isMuted ? '&mute=1' : ''}&rel=0`}
+                title="YouTube Player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-              <div className="absolute bottom-2 right-2 text-[9px] text-white/30 bg-black/50 px-1 rounded">
-                If unavailable: make playlist public on YouTube
-              </div>
             </div>
           </motion.div>
         )}
