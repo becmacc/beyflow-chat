@@ -1,0 +1,21 @@
+
+Name: shadcn/ui Slider
+Site: https://ui.shadcn.com/docs/components/slider
+License: MIT
+Stack: React + Tailwind + Radix
+
+Highlights:
+- Minimal, accessible, Radix primitives
+- Themeable via Tailwind variables
+- Animatable with Framer Motion
+- Compatible with shadcn/ui system
+
+Install (after shadcn setup):
+npx shadcn add slider
+
+Usage:
+import { Slider } from "@/components/ui/slider";
+
+<Slider defaultValue={[33]} max={100} step={1} />
+
+Docs: https://ui.shadcn.com/docs/components/slider

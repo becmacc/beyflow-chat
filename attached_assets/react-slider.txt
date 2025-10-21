@@ -1,0 +1,26 @@
+
+Name: react-slider
+Site: https://www.npmjs.com/package/react-slider
+License: MIT
+Stack: React
+
+Highlights:
+- Fully accessible (ARIA-compliant)
+- No styling dependencies
+- Supports vertical/horizontal, min/max, step, and range sliders
+
+Install:
+npm install react-slider
+
+Usage:
+import ReactSlider from 'react-slider';
+
+<ReactSlider
+  className="horizontal-slider"
+  thumbClassName="thumb"
+  trackClassName="track"
+  defaultValue={50}
+  ariaLabel={['Slider']}
+/>
+
+Docs: https://www.npmjs.com/package/react-slider

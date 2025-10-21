@@ -9,6 +9,7 @@ const modules = [
   { id: 'workflows', name: 'Workflows', icon: '🔗', description: 'Connect APIs & LLMs' },
   { id: 'sessions', name: 'Sessions', icon: '💾', description: 'Saved conversations' },
   { id: 'ai', name: 'AI Studio', icon: '🤖', description: 'AI playground' },
+  { id: 'ui', name: 'UI Components', icon: '✨', description: 'Sliders & carousels' },
   { id: 'settings', name: 'Settings', icon: '⚙️', description: 'Configuration' }
 ]
 

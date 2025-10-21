@@ -10,6 +10,7 @@ import Visualizer3D from "./modules/Visualizer3D"
 import SessionManager from "./modules/SessionManager"
 import AIStudio from "./modules/AIStudio"
 import WorkflowBuilder from "./modules/WorkflowBuilder"
+import UIShowcase from "./modules/UIShowcase"
 import { GradientBackground, RecursivePattern } from "./components/DopamineUI"
 import FluidGradientBg from "./components/FluidGradientBg"
 import MeshGradient from "./components/MeshGradient"
@@ -56,6 +57,7 @@ function ModuleRouter() {
     sessions: <SessionManager />,
     visualizer: <Visualizer3D />,
     ai: <AIStudio />,
+    ui: <UIShowcase />,
     settings: <div className="p-8 text-white">Settings Module</div>
   }
   

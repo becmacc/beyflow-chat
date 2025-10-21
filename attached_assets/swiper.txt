@@ -1,0 +1,25 @@
+
+Name: Swiper
+Site: https://swiperjs.com
+License: MIT
+Stack: JS, React, Vue, Svelte
+
+Highlights:
+- Mobile-friendly touch/swipe support
+- Pagination, navigation, scrollbar, parallax, zoom
+- Virtual slides and loop modes
+- RTL and accessibility ready
+
+Install:
+npm install swiper
+
+Usage (React):
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
+<Swiper spaceBetween={30} pagination={{ clickable: true }}>
+  <SwiperSlide>Slide 1</SwiperSlide>
+  <SwiperSlide>Slide 2</SwiperSlide>
+</Swiper>
+
+Docs: https://swiperjs.com/react
