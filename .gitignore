@@ -65,10 +65,6 @@ temp/
 # Optional eslint cache
 .eslintcache
 
-# Replit specific
-.replit
-replit.nix
-
 # Audio processing cache
 audio-cache/
 

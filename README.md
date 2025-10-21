@@ -1,197 +1,250 @@
-# 🚀 BeyFlow Chat - Advanced 3D Web3 Chat Experience
+# 🚀 BeyFlow Chat
 
-> The most dopaminergic, web3-ready chat application with cutting-edge 3D visuals and AI integration.
+> A next-generation AI chat application with 3D visuals, workflow automation, and advanced productivity tools.
 
-![BeyFlow Chat](https://img.shields.io/badge/BeyFlow-Chat-purple?style=for-the-badge&logo=react)
-![Three.js](https://img.shields.io/badge/Three.js-3D-blue?style=for-the-badge)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-API-green?style=for-the-badge)
+[![Replit](https://img.shields.io/badge/Replit-Ready-blue?style=for-the-badge&logo=replit)](https://replit.com)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
+[![Three.js](https://img.shields.io/badge/Three.js-3D-000000?style=for-the-badge&logo=three.js)](https://threejs.org)
 
-A production-ready chat application built with React 19, Three.js, and advanced web technologies. Features enterprise-grade audio processing, real-time analytics, performance monitoring, and seamless brand integration.
+BeyFlow Chat is a comprehensive productivity platform that combines AI-powered chat, workflow automation, and immersive 3D visuals into a single, cohesive experience. Built with modern web technologies, it provides a "dopaminergic" user interface designed to enhance engagement and productivity.
 
-## ✨ Features
+## ✨ Key Features
 
-- **3D Interactive Environment** - Immersive Three.js backgrounds with React Three Fiber
-- **Voice Interactions** - ElevenLabs TTS + Web Speech API for natural conversations
-- **Dopaminergic UI** - Reward-based interface patterns with smooth animations
-- **Advanced Analytics** - Real-time user behavior tracking and insights
-- **Session Management** - Persistent chat sessions with cloud sync
-- **AI Studio** - Creative workspace for AI-powered content generation
-- **Brand Integration** - Subtle PNG overlay system for company branding
+### 💬 AI Chat Interface
+- **OpenAI Integration** - Powered by GPT-4o with multiple specialized agents
+- **Voice Capabilities** - ElevenLabs TTS and Web Speech API for natural voice interactions
+- **Real-time Messaging** - Instant responses with typing indicators and smooth animations
+- **Session Management** - Save, load, and manage conversation sessions
 
-## 🚀 Tech Stack
+### 🧠 AI Studio
+- **Multiple AI Agents** - Omnigen orchestrator, GPT-Marketer, GPT-Engineer, and DALL-E
+- **3D Agent Visualization** - Interactive 3D hierarchy display
+- **Specialized Workflows** - Tailored system prompts for marketing, engineering, and creative tasks
 
-- **Frontend**: React 19 + Vite
-- **3D Graphics**: Three.js + React Three Fiber
-- **Animations**: Framer Motion
-- **Styling**: TailwindCSS with custom dopamine theme
-- **State Management**: Zustand
-- **Audio**: ElevenLabs TTS + Web Speech API
-- **Integrations**: Make.com webhooks
+### 🔄 Workflow Builder
+- **Visual Automation** - Drag-and-drop interface for creating workflows
+- **Rich Node Library**:
+  - **Triggers**: ChatGPT, Webhook, Schedule, Chat Message
+  - **Actions**: Make.com, OpenAI, Omnigen, Gmail, Notion, Google Sheets, Discord, Twilio
+  - **Logic**: Conditions, Delays, Filters, Transformations
+- **Real-time Execution** - Live workflow testing with execution logs
+- **Integration Ready** - Connect with Make.com and other automation platforms
+
+### 📊 Workspace
+- **Modular Dashboard** - Add and arrange multiple workspace modules
+- **Available Modules**:
+  - **Notes** - Rich text note-taking
+  - **Analytics** - Real-time performance insights
+  - **Code Editor** - Integrated code editing
+  - **Terminal** - Command-line access
+  - **Web3 Wallet** - Cryptocurrency wallet integration
+- **Workspace Management** - Save, load, import, and export configurations
+
+### 🎯 WidgetHub
+All-in-one panel with essential tools:
+- **Analytics Dashboard** - Message counts, session time, and response metrics
+- **YouTube Player** - Background music with playback controls
+- **Social Media Hub** - Quick launchers for Instagram, Pinterest, WhatsApp Web
+- **Business Calendar** - Schedule and event management
+- **Mini Browser** - In-app web browsing with bookmarks
+
+### 🌐 Browser Capabilities
+- **WebBrowser Module** - Full-featured in-app browser with navigation, bookmarks, and history
+- **FloatingBrowser** - Draggable, resizable browser overlay
+- **Split-Screen Mode** - Browse documentation alongside workflows
+
+### 🎨 3D Visuals & Effects
+- **Three.js Integration** - Immersive 3D backgrounds with React Three Fiber
+- **Interactive Lighting** - Dynamic lighting that responds to user interactions
+- **Audio-Reactive Visuals** - 3D scenes that pulse with audio
+- **Multiple Themes** - Terminal and Glassmorphic themes
+- **Fluid Gradients** - Animated mesh gradients and fluid backgrounds
+
+### 📞 Contacts Hub
+- **Contact Management** - Organize and manage contacts
+- **Integration Ready** - Connect with CRM and communication platforms
+
+### ⚡ Performance & Analytics
+- **Real-time Monitoring** - FPS, memory usage, and performance metrics
+- **User Analytics** - Track events, interactions, and engagement
+- **Error Tracking** - Comprehensive error monitoring and reporting
+- **Performance Optimization** - Optimized 3D rendering and lazy loading
+
+### 🎹 Keyboard Shortcuts
+- **Comprehensive Shortcuts** - Navigate and control the app entirely from keyboard
+- **Categories**: Chat, Audio, Navigation, UI controls
+- **Customizable** - Shortcuts help modal with `Cmd/Ctrl + /`
+
+### 🎨 Brand Integration System
+- **Seamless Branding** - Integrate brand assets with configurable opacity
+- **Multiple Components**: Watermarks, floating elements, background layers, particles
+- **Non-intrusive** - Subtle integration that enhances rather than distracts
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 19** - Latest React with concurrent features
+- **Vite** - Lightning-fast build tool and dev server
+- **Zustand** - Lightweight state management
+
+### UI & Styling
+- **TailwindCSS** - Utility-first CSS framework
+- **Framer Motion** - Smooth animations and transitions
+- **Custom Themes** - Terminal and Glassmorphic UI themes
+
+### 3D Graphics
+- **Three.js** - WebGL 3D library
+- **React Three Fiber** - React renderer for Three.js
+- **@react-three/drei** - Useful helpers for React Three Fiber
+
+### AI & Integrations
+- **OpenAI API** - GPT-4o chat completions
+- **ElevenLabs** - Text-to-speech voice generation
+- **Web Speech API** - Browser-native voice recognition
+- **Make.com** - Workflow automation webhooks
+
+### Audio
+- **Web Audio API** - Advanced audio processing and analysis
+- **Custom Audio Hooks** - Frequency analysis and visualization
 
 ## 📦 Installation
 
-1. Clone the repository:
+### Clone the Repository
 ```bash
-git clone https://github.com/becmacc/beyflow-chat.git
+git clone https://github.com/yourusername/beyflow-chat.git
 cd beyflow-chat
 ```
 
-2. Install dependencies:
+### Install Dependencies
 ```bash
 npm install
 ```
 
-3. Add your brand assets:
-   - Place PNG files in `public/brand/` directory
-   - Update paths in `src/config/brandConfig.js`
+### Set Up Environment Variables
+Create a `.env` file in the root directory:
+```env
+# OpenAI API (handled by Replit integration)
+AI_INTEGRATIONS_OPENAI_API_KEY=your_openai_api_key
+AI_INTEGRATIONS_OPENAI_BASE_URL=https://api.openai.com/v1
 
-4. Configure environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your API keys
+# ElevenLabs API (optional, for voice features)
+VITE_ELEVEN_API_KEY=your_elevenlabs_api_key
+
+# Make.com Webhook (optional, for workflow automation)
+VITE_MAKE_WEBHOOK_URL=your_make_webhook_url
 ```
 
-5. Start development server:
+### Run Development Server
 ```bash
 npm run dev
 ```
 
-## 🎨 Brand Asset Integration
+The app will be available at `http://localhost:5000`
 
-The app includes a sophisticated brand integration system:
+## 🚀 Deploy on Replit
 
-1. **Add PNG Files** to `public/brand/`:
-   - `logo.png` - Main company logo
-   - `pattern.png` - Brand patterns/textures
-   - `icon.png` - Small icons/symbols
-   - `accent.png` - Accent elements
-
-2. **Configure Integration** in `src/config/brandConfig.js`:
-   - Adjust opacity levels (0.02-0.08)
-   - Position watermarks and overlays
-   - Enable/disable different brand elements
-
-3. **Brand Components Available**:
-   - `BrandWatermark` - Subtle corner watermarks
-   - `FloatingBrandElements` - Animated floating logos
-   - `BackgroundBrandLayer` - Texture overlays
-   - `BrandParticles` - Interactive particle systems
-
-## 🎮 Usage
-
-### Chat Interface
-- Send messages with voice or text
-- Experience 3D reactive backgrounds
-- Enjoy dopaminergic reward animations
-
-### AI Studio
-- Generate creative content
-- Collaborative AI workspace
-- Advanced prompt engineering
-
-### Session Management
-- Auto-save conversations
-- Cloud synchronization
-- Session analytics
-
-## ⚙️ Configuration
-
-### Audio Settings
-Configure voice interactions in `src/modules/audioAPI.js`:
-- ElevenLabs API key
-- Voice selection
-- Speech recognition settings
-
-### Brand Configuration
-Customize brand integration in `src/config/brandConfig.js`:
-- Opacity levels
-- Animation styles
-- Positioning rules
-
-### UI Themes
-Modify dopaminergic colors in `tailwind.config.js`:
-- Reward colors
-- Transition timings
-- Animation curves
-
-## 🔧 Development
-
-### Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-### Project Structure
-```
-src/
-├── components/         # Reusable UI components
-├── modules/           # Feature modules
-├── config/            # Configuration files
-├── store.js          # Global state management
-└── App.jsx           # Main application
-
-public/
-├── brand/            # Brand asset directory
-└── assets/           # Static assets
-```
-
-## 🌟 Brand Integration Examples
-
-### Subtle Watermark
-```jsx
-<BrandWatermark 
-  logoSrc="/brand/logo.png"
-  position="bottom-right"
-  opacity={0.03}
-/>
-```
-
-### Floating Elements
-```jsx
-<FloatingBrandElements 
-  images={['/brand/logo.png', '/brand/icon.png']}
-  count={3}
-  opacity={0.05}
-/>
-```
-
-### Background Texture
-```jsx
-<BackgroundBrandLayer 
-  patternSrc="/brand/pattern.png"
-  opacity={0.02}
-/>
-```
-
-## 🚀 Deployment
-
-### Replit Ready
 This project is optimized for Replit deployment:
-1. Import project to Replit
-2. Install dependencies automatically
-3. Add environment variables
-4. Click "Run"
 
-### Production Build
-```bash
-npm run build
-npm run preview
+1. **Import to Replit**: Click "Import from GitHub" and paste the repository URL
+2. **Install Dependencies**: Replit will automatically run `npm install`
+3. **Set Up Integrations**: Configure OpenAI integration in the Replit secrets/integrations panel
+4. **Add Environment Variables**: Set `VITE_ELEVEN_API_KEY` in Replit Secrets if using voice features
+5. **Run**: Click the "Run" button - the app will start on port 5000
+
+[![Run on Replit](https://replit.com/badge/github/yourusername/beyflow-chat)](https://replit.com/@yourusername/beyflow-chat)
+
+## 🎯 Usage
+
+### Quick Start Guide
+
+1. **Chat**: Start chatting with AI using text or voice input
+2. **Switch Modules**: Use the sidebar to navigate between Chat, AI Studio, Workflows, Workspace, etc.
+3. **Build Workflows**: Open the Workflow Builder to create automation flows
+4. **Customize Workspace**: Add modules to your workspace and arrange them as needed
+5. **Access Widgets**: Click the WidgetHub to access analytics, YouTube player, and more
+6. **Keyboard Shortcuts**: Press `Cmd/Ctrl + /` to view all keyboard shortcuts
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Cmd/Ctrl + Enter` | Send message |
+| `Cmd/Ctrl + K` | Clear chat |
+| `Cmd/Ctrl + N` | New chat |
+| `Cmd/Ctrl + 1-4` | Switch modules |
+| `Cmd/Ctrl + M` | Toggle mute |
+| `Cmd/Ctrl + /` | Show shortcuts |
+| `Escape` | Close panels |
+
+## 📁 Project Structure
+
+```
+beyflow-chat/
+├── public/
+│   ├── brand/              # Brand assets (logos, patterns)
+│   └── audio-processor.js  # Web Audio processor
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── WidgetHub.jsx
+│   │   ├── FloatingBrowser.jsx
+│   │   ├── BrandAssets.jsx
+│   │   └── ...
+│   ├── modules/           # Feature modules
+│   │   ├── ChatPanel.jsx
+│   │   ├── WorkflowBuilder.jsx
+│   │   ├── Workspace.jsx
+│   │   ├── AIStudio.jsx
+│   │   └── ...
+│   ├── automation/        # Workflow automation
+│   ├── config/           # Configuration files
+│   ├── hooks/            # Custom React hooks
+│   ├── store/            # Zustand state management
+│   ├── utils/            # Utility functions
+│   ├── App.jsx           # Main app component
+│   └── main.jsx          # Entry point
+├── docs/                 # Documentation
+├── package.json
+├── vite.config.js
+└── tailwind.config.js
 ```
 
-## 📝 License
+## 🎨 Screenshots & Demo
 
-MIT License - see LICENSE file for details
+_Screenshots coming soon! Feel free to add screenshots of your BeyFlow Chat instance here._
+
+**Suggested screenshots:**
+- Main chat interface with 3D background
+- Workflow Builder with connected nodes
+- Workspace with multiple modules
+- AI Studio with agent selection
+- WidgetHub panel open
 
 ## 🤝 Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Open pull request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **OpenAI** - For the GPT-4o API
+- **ElevenLabs** - For text-to-speech capabilities
+- **Three.js** - For amazing 3D graphics
+- **Replit** - For providing an excellent development and deployment platform
+- **React Team** - For React 19 and concurrent features
+
+## 📞 Support
+
+For support, please open an issue in the GitHub repository or reach out via the discussions tab.
 
 ---
 
-**Ready for your brand assets!** 🎨
-Add your PNG files to `public/brand/` and watch them integrate seamlessly with the dopaminergic experience.
+**Built with ❤️ using React, Three.js, and modern web technologies**
