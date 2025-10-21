@@ -11,8 +11,8 @@ export default function YouTubeMusicPlayer() {
   const [isMinimized, setIsMinimized] = useState(true)
   const [isMuted, setIsMuted] = useState(false)
   
-  // User's YouTube Music Liked Songs
-  const playlistId = 'LM' // User's Liked Music from YouTube Music
+  // User's YouTube Music Playlist (use PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn from user's link)
+  const playlistId = 'PLVtr4-t9dz1tEch_iofCLzmchxBHiP8cn' // User's custom playlist
   
   return (
     <>

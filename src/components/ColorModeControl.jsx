@@ -13,20 +13,38 @@ export default function ColorModeControl() {
   const { themePersona, colorMode, setColorMode } = useStore()
   const theme = getTheme(themePersona)
   
+  const colorModeStyles = {
+    neutral: { bg: 'rgba(76, 195, 217, 0.15)', border: 'rgba(76, 195, 217, 0.5)' },
+    positive: { bg: 'rgba(46, 204, 113, 0.15)', border: 'rgba(46, 204, 113, 0.5)' },
+    warning: { bg: 'rgba(243, 156, 18, 0.15)', border: 'rgba(243, 156, 18, 0.5)' },
+    danger: { bg: 'rgba(231, 76, 60, 0.15)', border: 'rgba(231, 76, 60, 0.5)' }
+  }
+  
+  const currentStyle = colorModeStyles[colorMode] || colorModeStyles.neutral
+  
+  const handleColorChange = (modeId) => {
+    console.log('🎨 Color Mode Changed:', modeId)
+    setColorMode(modeId)
+  }
+  
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+    <motion.div 
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50"
+      animate={{
+        boxShadow: `0 0 30px ${currentStyle.border}`
+      }}
+      transition={{ duration: 0.3 }}
+    >
       <div className={`flex gap-2 p-2 ${theme.rounded} ${theme.effects.blur ? 'backdrop-blur-md' : ''} shadow-2xl`}
         style={{
-          background: theme.id === 'terminal' 
-            ? 'rgba(0,0,0,0.8)' 
-            : 'rgba(139,92,246,0.2)',
-          border: theme.id === 'terminal' ? '2px solid rgba(0,255,255,0.4)' : '2px solid rgba(255,255,255,0.3)'
+          background: currentStyle.bg,
+          border: `2px solid ${currentStyle.border}`
         }}
       >
         {colorModes.map(mode => (
           <motion.button
             key={mode.id}
-            onClick={() => setColorMode(mode.id)}
+            onClick={() => handleColorChange(mode.id)}
             className={`px-3 py-1.5 ${theme.rounded} flex items-center gap-2 transition-all ${
               colorMode === mode.id 
                 ? `bg-gradient-to-r ${mode.color} text-white shadow-lg` 
@@ -42,6 +60,6 @@ export default function ColorModeControl() {
           </motion.button>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }

@@ -36,7 +36,10 @@ const useStore = create((set, get) => ({
   
   // Color mode (semantic states)
   colorMode: 'neutral',
-  setColorMode: (mode) => set({ colorMode: mode }),
+  setColorMode: (mode) => {
+    console.log('🎨 Store: Setting colorMode to:', mode)
+    set({ colorMode: mode })
+  },
 
   // Current module
   currentModule: 'chat',

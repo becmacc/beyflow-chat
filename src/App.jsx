@@ -84,8 +84,13 @@ function ModuleRouter() {
 }
 
 function App() {
-  const { ui, audio, themePersona } = useStore()
+  const { ui, audio, themePersona, colorMode } = useStore()
   const theme = getTheme(themePersona)
+  
+  // Log color mode changes
+  useEffect(() => {
+    console.log('🎨 App: Current colorMode is:', colorMode)
+  }, [colorMode])
   const bananaFlow = useBananaFlow()
   const { trackEvent, insights } = useAnalytics()
   const audioData = useAdvancedAudio()
