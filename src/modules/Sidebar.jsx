@@ -21,9 +21,10 @@ export default function Sidebar() {
 
   return (
     <motion.div
-      className={`w-56 ${theme.id === 'glassmorphic' ? 'bg-gradient-to-br from-purple-900/80 via-blue-900/80 to-teal-900/80 backdrop-blur-xl' : theme.colors.bg} border-r ${theme.colors.border} flex flex-col relative overflow-hidden`}
+      className={`w-56 ${theme.id === 'glassmorphic' ? 'bg-gradient-to-br from-purple-900/40 via-blue-900/40 to-teal-900/40 backdrop-blur-md' : 'bg-black/30 backdrop-blur-md'} border-r ${theme.colors.border} flex flex-col relative overflow-hidden transition-all duration-300`}
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
+      whileHover={{ backgroundColor: theme.id === 'glassmorphic' ? 'rgba(139, 92, 246, 0.25)' : 'rgba(0, 0, 0, 0.5)' }}
       transition={{ duration: 0.5 }}
     >
       {/* Logo/Brand */}

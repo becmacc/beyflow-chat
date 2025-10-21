@@ -178,7 +178,10 @@ function App() {
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Top Bar - adapts to theme */}
-          <div className={`h-12 ${theme.colors.bg} border-b ${theme.colors.border} flex items-center justify-between px-6`}>
+          <motion.div 
+            className={`h-12 ${theme.id === 'glassmorphic' ? 'bg-white/10 backdrop-blur-md' : 'bg-black/30 backdrop-blur-md'} border-b ${theme.colors.border} flex items-center justify-between px-6 transition-all duration-300`}
+            whileHover={{ backgroundColor: theme.id === 'glassmorphic' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.5)' }}
+          >
             <div className="flex items-center space-x-3">
               <img 
                 src={brandAssets.beyMediaLogo} 
@@ -197,7 +200,7 @@ function App() {
                 {audio.playing && <span>[PLAY]</span>}
               </div>
             </div>
-          </div>
+          </motion.div>
           
           {/* Module Content */}
           <ModuleRouter />
