@@ -30,14 +30,12 @@ import { useAnalytics } from "./hooks/useAnalytics"
 import { useAdvancedAudio } from "./hooks/useAdvancedAudio"
 import OptimizedScene from "./components/OptimizedScene"
 import ThemeToggle from "./components/ThemeToggle"
-import YouTubeMusicPlayer from "./components/YouTubeMusicPlayer"
-import InstagramBrowser from "./components/InstagramBrowser"
 import MotivationalQuote from "./components/MotivationalQuote"
 import InteractiveLighting from "./components/InteractiveLighting"
 import HologramHost from "./components/HologramHost"
 import ColorModeControl from "./components/ColorModeControl"
 import BusinessCalendar from "./components/BusinessCalendar"
-import WhatsAppBusiness from "./components/WhatsAppBusiness"
+import SocialHubPanel from "./components/SocialHubPanel"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
@@ -285,26 +283,18 @@ function App() {
         <BusinessCalendar />
       </div>
       
-      {/* Z-30: Bottom-left - YouTube Player */}
-      <YouTubeMusicPlayer />
-      
-      {/* Z-30: Bottom-left - Instagram Browser (above YouTube) */}
-      <div className="fixed bottom-4 left-20 z-30">
-        <InstagramBrowser />
-      </div>
-      
-      {/* Z-30: Bottom-left - WhatsApp (next to Instagram) */}
-      <div className="fixed bottom-4 left-44 z-30">
-        <WhatsAppBusiness />
-      </div>
+      {/* Z-30: Social Hub - Unified launcher for YouTube, Instagram, WhatsApp */}
+      <SocialHubPanel />
       
       {/* Z-20: Motivational Quote - Right side middle */}
       <div className="fixed top-1/2 -translate-y-1/2 right-4 max-w-xs z-20">
         <MotivationalQuote />
       </div>
       
-      {/* Z-20: Hologram Host - Bottom-right */}
-      <HologramHost />
+      {/* Z-20: Hologram Host - Bottom-right (offset from Performance Monitor) */}
+      <div className="fixed bottom-20 right-4 z-20">
+        <HologramHost />
+      </div>
     </div>
     </ErrorBoundary>
   )
