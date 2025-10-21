@@ -3,9 +3,15 @@ import { useEffect } from 'react'
 import useStore from '../store'
 
 export default function ParallaxDepth() {
-  const { colorMode } = useStore()
+  const { colorMode, spectrum } = useStore()
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
+  
+  // Get spectrum values with defaults
+  const blur = spectrum?.blur ?? 0.3
+  const glow = spectrum?.glow ?? 0.3
+  const saturation = spectrum?.saturation ?? 0.3
+  const speed = spectrum?.speed ?? 0.3
 
   const colorModeStyles = {
     neutral: { primary: 'rgba(76, 195, 217, 0.15)', secondary: 'rgba(76, 195, 217, 0.08)', accent: 'rgba(0, 255, 255, 0.1)' },
@@ -48,22 +54,23 @@ export default function ParallaxDepth() {
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={`mega-${i}`}
-            className="absolute rounded-full blur-[100px]"
+            className="absolute rounded-full"
             style={{
               width: `${600 + i * 100}px`,
               height: `${600 + i * 100}px`,
               left: `${(i * 25) % 100}%`,
               top: `${(i * 30) % 100}%`,
               background: `radial-gradient(circle, ${currentColors.primary}, ${currentColors.secondary}, transparent)`,
-              opacity: 0.15
+              opacity: 0.15 * (1 + glow),
+              filter: `blur(${50 + blur * 100}px) saturate(${0.5 + saturation * 1.5})`
             }}
             animate={{
               scale: [1, 1.3, 1],
-              opacity: [0.15, 0.25, 0.15],
+              opacity: [0.15 * (1 + glow), 0.25 * (1 + glow), 0.15 * (1 + glow)],
               rotate: [0, 360]
             }}
             transition={{
-              duration: 20 + i * 5,
+              duration: (20 + i * 5) / (0.5 + speed * 1.5),
               repeat: Infinity,
               ease: "easeInOut",
               delay: i

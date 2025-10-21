@@ -87,8 +87,14 @@ function ModuleRouter() {
 }
 
 function App() {
-  const { ui, audio, themePersona, colorMode } = useStore()
+  const { ui, audio, themePersona, colorMode, spectrum } = useStore()
   const theme = getTheme(themePersona)
+  
+  // Get spectrum values
+  const blur = spectrum?.blur ?? 0.3
+  const glow = spectrum?.glow ?? 0.3
+  const saturation = spectrum?.saturation ?? 0.3
+  const speed = spectrum?.speed ?? 0.3
   
   // Log color mode changes
   useEffect(() => {
@@ -177,9 +183,13 @@ function App() {
         
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
-          {/* Top Bar - adapts to theme */}
+          {/* Top Bar - adapts to theme AND spectrum */}
           <motion.div 
-            className={`h-12 ${theme.id === 'glassmorphic' ? 'bg-white/10 backdrop-blur-md' : 'bg-black/30 backdrop-blur-md'} border-b ${theme.colors.border} flex items-center justify-between px-6 transition-all duration-300`}
+            className={`h-12 ${theme.id === 'glassmorphic' ? 'bg-white/10' : 'bg-black/30'} border-b ${theme.colors.border} flex items-center justify-between px-6 transition-all duration-300`}
+            style={{
+              backdropFilter: `blur(${8 + blur * 16}px) saturate(${0.8 + saturation * 1.2})`,
+              boxShadow: glow > 0.5 ? `0 0 ${glow * 30}px rgba(0, 255, 255, ${glow * 0.2})` : 'none'
+            }}
             whileHover={{ backgroundColor: theme.id === 'glassmorphic' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.5)' }}
           >
             <div className="flex items-center space-x-3">
@@ -233,18 +243,19 @@ function App() {
         ))}
       </div>
 
-      {/* Dopamine gradient pulse overlay */}
+      {/* Dopamine gradient pulse overlay - CONTROLLED BY SPECTRUM */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 50% 50%, rgba(76, 195, 217, 0.1), transparent 70%)`,
+          background: `radial-gradient(circle at 50% 50%, rgba(76, 195, 217, ${0.1 * (1 + glow)}), transparent 70%)`,
+          filter: `blur(${20 + blur * 40}px) saturate(${0.5 + saturation * 1.5})`
         }}
         animate={{
           scale: [1, 1.05, 1],
-          opacity: [0.3, 0.6, 0.3],
+          opacity: [0.3 * (1 + glow * 0.5), 0.6 * (1 + glow), 0.3 * (1 + glow * 0.5)],
         }}
         transition={{
-          duration: 8,
+          duration: 8 / (0.5 + speed * 1.5),
           repeat: Infinity,
           ease: "easeInOut"
         }}

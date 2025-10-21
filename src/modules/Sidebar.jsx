@@ -16,12 +16,21 @@ const modules = [
 ]
 
 export default function Sidebar() {
-  const { currentModule, setModule, messages, themePersona } = useStore()
+  const { currentModule, setModule, messages, themePersona, spectrum } = useStore()
   const theme = getTheme(themePersona)
+  
+  // Get spectrum values
+  const blur = spectrum?.blur ?? 0.3
+  const glow = spectrum?.glow ?? 0.3
+  const saturation = spectrum?.saturation ?? 0.3
 
   return (
     <motion.div
-      className={`w-56 ${theme.id === 'glassmorphic' ? 'bg-gradient-to-br from-purple-900/40 via-blue-900/40 to-teal-900/40 backdrop-blur-md' : 'bg-black/30 backdrop-blur-md'} border-r ${theme.colors.border} flex flex-col relative overflow-hidden transition-all duration-300`}
+      className={`w-56 ${theme.id === 'glassmorphic' ? 'bg-gradient-to-br from-purple-900/40 via-blue-900/40 to-teal-900/40' : 'bg-black/30'} border-r ${theme.colors.border} flex flex-col relative overflow-hidden transition-all duration-300`}
+      style={{
+        backdropFilter: `blur(${8 + blur * 16}px) saturate(${0.8 + saturation * 1.2})`,
+        boxShadow: glow > 0.5 ? `0 0 ${glow * 40}px rgba(0, 255, 255, ${glow * 0.3})` : 'none'
+      }}
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       whileHover={{ backgroundColor: theme.id === 'glassmorphic' ? 'rgba(139, 92, 246, 0.25)' : 'rgba(0, 0, 0, 0.5)' }}
