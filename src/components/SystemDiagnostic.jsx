@@ -19,7 +19,7 @@ export default function SystemDiagnostic() {
         ErrorBoundary: () => import('./ErrorBoundary'),
         
         // External deps
-        framerMotion: () => Promise.resolve(require('framer-motion')),
+        framerMotion: () => import('framer-motion'),
       }
       
       const results = {}

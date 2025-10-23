@@ -1,3 +1,4 @@
+import React from 'react'
 import { motion } from 'framer-motion'
 
 export default function GlassmorphicCard({ children, className = '', hover = true, ...props }) {

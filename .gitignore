@@ -65,6 +65,10 @@ temp/
 # Optional eslint cache
 .eslintcache
 
+# Vite cache
+.vite/
+.cache/
+
 # Audio processing cache
 audio-cache/
 

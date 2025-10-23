@@ -1,14 +1,43 @@
-# 🚀 BeyFlow Chat
+# BeyFlow Chat — Replit Optimized
 
-> A next-generation AI chat application with 3D visuals, workflow automation, and advanced productivity tools.
+## 💡 Purpose
+This repo is pre-configured for one-click Replit builds.
 
-[![Replit](https://img.shields.io/badge/Replit-Ready-blue?style=for-the-badge&logo=replit)](https://replit.com)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
-[![Three.js](https://img.shields.io/badge/Three.js-3D-000000?style=for-the-badge&logo=three.js)](https://threejs.org)
+### ✅ Agent Workflow
+1. Uses `npm ci --prefer-offline --no-audit`
+2. Builds via `vite build`
+3. Stops automatically after build
 
-BeyFlow Chat is a comprehensive productivity platform that combines AI-powered chat, workflow automation, and immersive 3D visuals into a single, cohesive experience. Built with modern web technologies, it provides a "dopaminergic" user interface designed to enhance engagement and productivity.
+### 🧰 Manual Commands
+```bash
+npm ci --prefer-offline --no-audit
+npm run build
+npm run dev
+```
 
-## ✨ Key Features
+### 🧩 Environment
+- Node 18+
+- React 18 / Vite 7
+- ESLint 9 / Prettier 3
+- Three.js 163
+- Zustand 4
+- Framer Motion 11
+
+### 🚀 Quick Start
+1. Import to Replit
+2. Click "Run" - builds automatically
+3. Use "Start Dev" for development mode
+
+### 📦 Optimizations
+- Cached dependencies with `.npmrc`
+- Minimal scripts (dev/build/preview only)
+- Grouped dependencies by function
+- Clean directory structure
+- PWA + compression enabled
+
+---
+
+## Original Project Information
 
 ### 💬 AI Chat Interface
 - **OpenAI Integration** - Powered by GPT-4o with multiple specialized agents
