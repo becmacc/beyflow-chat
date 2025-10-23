@@ -135,31 +135,34 @@ export const OptimizedLayout = memo(({ children }) => {
   )
 })
 
-// 🎨 Background Layer Component
+// ✅ OPTIMIZED: Background Layer with viewport-based animation
 const BackgroundLayer = memo(() => {
   const { spectrum } = useTheme()
+  const [isInView, setIsInView] = useState(true)
   
   return (
     <div className="absolute inset-0 z-0">
-      {/* Animated gradient background */}
+      {/* Animated gradient background - only animates when in view */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-teal-600/20"
-        animate={{
+        animate={isInView ? {
           background: [
             'linear-gradient(45deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2), rgba(20, 184, 166, 0.2))',
             'linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(20, 184, 166, 0.2), rgba(147, 51, 234, 0.2))',
             'linear-gradient(225deg, rgba(20, 184, 166, 0.2), rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2))',
             'linear-gradient(315deg, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2), rgba(20, 184, 166, 0.2))'
           ]
-        }}
+        } : {}}
         transition={{
           duration: 20 / (0.5 + spectrum.speed * 1.5),
-          repeat: Infinity,
+          repeat: isInView ? Infinity : 0,
           ease: "linear"
         }}
+        onViewportEnter={() => setIsInView(true)}
+        onViewportLeave={() => setIsInView(false)}
       />
       
-      {/* Particle effects */}
+      {/* Particle effects - reduced animation when not in view */}
       <motion.div
         className="absolute inset-0 opacity-30"
         style={{
@@ -167,13 +170,13 @@ const BackgroundLayer = memo(() => {
                       radial-gradient(circle at 80% 20%, rgba(255, 0, 255, ${spectrum.glow * 0.2}) 0%, transparent 50%),
                       radial-gradient(circle at 40% 40%, rgba(0, 255, 0, ${spectrum.glow * 0.1}) 0%, transparent 50%)`
         }}
-        animate={{
+        animate={isInView ? {
           scale: [1, 1.1, 1],
           opacity: [0.2, 0.4, 0.2]
-        }}
+        } : { scale: 1, opacity: 0.2 }}
         transition={{
           duration: 8,
-          repeat: Infinity,
+          repeat: isInView ? Infinity : 0,
           ease: "easeInOut"
         }}
       />

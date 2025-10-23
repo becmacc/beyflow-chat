@@ -1,26 +1,30 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Sphere, Box, Environment, Float } from "@react-three/drei"
-import { Suspense, useEffect, useState } from "react"
-import BeyTVModule from "./modules/BeyTVModule"
-import StackBlogModule from "./modules/StackBlogModule"
-import OmnisphereModule from "./modules/OmnisphereModule"
+import { Suspense, useEffect, useState, lazy, memo, useCallback, useMemo } from "react"
 import { useBeyFlowStore } from "./core/UnifiedStore"
 import integrationSystem from "./core/UnifiedIntegrationSystem"
 import { OptimizedLayout } from "./core/OptimizedLayout"
 import { LayoutProvider, EnhancedLayout, ComponentZone, CardContainer, GridLayout } from "./core/EnhancedLayoutSystem"
 import { NotionContainer, GlassCard, ParallaxBackground, FloatingActionButton, CommandPalette } from "./core/ModernUISystem"
 import { PerformancePanel } from "./components/PerformanceMonitor"
+
+// ✅ OPTIMIZED: Eagerly load critical modules (ChatPanel, Sidebar)
 import ChatPanel from "./modules/ChatPanel"
 import Sidebar from "./modules/Sidebar"
-import Visualizer3D from "./modules/Visualizer3D"
-import SessionManager from "./modules/SessionManager"
-import AIStudio from "./modules/AIStudio"
-import WorkflowBuilder from "./modules/WorkflowBuilder"
-import UIShowcase from "./modules/UIShowcase"
-import ContactsHub from "./modules/ContactsHub"
-import Workspace from "./modules/Workspace"
-import WebBrowser from "./modules/WebBrowser"
+
+// ✅ OPTIMIZED: Lazy load all other modules for faster initial load
+const BeyTVModule = lazy(() => import("./modules/BeyTVModule"))
+const StackBlogModule = lazy(() => import("./modules/StackBlogModule"))
+const OmnisphereModule = lazy(() => import("./modules/OmnisphereModule"))
+const Visualizer3D = lazy(() => import("./modules/Visualizer3D"))
+const SessionManager = lazy(() => import("./modules/SessionManager"))
+const AIStudio = lazy(() => import("./modules/AIStudio"))
+const WorkflowBuilder = lazy(() => import("./modules/WorkflowBuilder"))
+const UIShowcase = lazy(() => import("./modules/UIShowcase"))
+const ContactsHub = lazy(() => import("./modules/ContactsHub"))
+const Workspace = lazy(() => import("./modules/Workspace"))
+const WebBrowser = lazy(() => import("./modules/WebBrowser"))
 import { GradientBackground, RecursivePattern } from "./components/DopamineUI"
 import FluidGradientBg from "./components/FluidGradientBg"
 import MeshGradient from "./components/MeshGradient"
@@ -55,8 +59,20 @@ import EnhancedBrandWatermark from "./components/EnhancedBrandWatermark"
 import BrandIntegrationStatus from "./components/BrandIntegrationStatus"
 import { getTheme } from "./config/themes"
 
+// ✅ OPTIMIZED: Memoized loading fallback
+const ModuleLoadingFallback = memo(function ModuleLoadingFallback() {
+  return (
+    <div className="flex items-center justify-center h-full">
+      <div className="text-center space-y-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400 mx-auto"></div>
+        <p className="text-white/70 text-sm">Loading module...</p>
+      </div>
+    </div>
+  )
+})
+
 // 3D Scene Component with enhanced dopamine visuals
-function Scene({ audioData }) {
+const Scene = memo(function Scene({ audioData }) {
   const sceneConfig = useBeyFlowStore(state => state.scene.config)
   const ui = useBeyFlowStore(state => state.ui)
   const audio = useBeyFlowStore(state => state.audio)
@@ -68,25 +84,25 @@ function Scene({ audioData }) {
       <OptimizedScene audioData={audioData} />
     </Suspense>
   )
-}
+})
 
-// Module Router
-function ModuleRouter() {
+// ✅ OPTIMIZED: Module Router with lazy loading
+const ModuleRouter = memo(function ModuleRouter() {
   const currentModule = useBeyFlowStore(state => state.ui.currentModule)
   
   const modules = {
     chat: <ChatPanel />,
-    beytv: <BeyTVModule />,
-    stackblog: <StackBlogModule />,
-    omnisphere: <OmnisphereModule />,
-    contacts: <ContactsHub />,
-    workspace: <Workspace />,
-    workflows: <WorkflowBuilder />,
-    browser: <WebBrowser />,
-    sessions: <SessionManager />,
-    visualizer: <Visualizer3D />,
-    ai: <AIStudio />,
-    ui: <UIShowcase />,
+    beytv: <Suspense fallback={<ModuleLoadingFallback />}><BeyTVModule /></Suspense>,
+    stackblog: <Suspense fallback={<ModuleLoadingFallback />}><StackBlogModule /></Suspense>,
+    omnisphere: <Suspense fallback={<ModuleLoadingFallback />}><OmnisphereModule /></Suspense>,
+    contacts: <Suspense fallback={<ModuleLoadingFallback />}><ContactsHub /></Suspense>,
+    workspace: <Suspense fallback={<ModuleLoadingFallback />}><Workspace /></Suspense>,
+    workflows: <Suspense fallback={<ModuleLoadingFallback />}><WorkflowBuilder /></Suspense>,
+    browser: <Suspense fallback={<ModuleLoadingFallback />}><WebBrowser /></Suspense>,
+    sessions: <Suspense fallback={<ModuleLoadingFallback />}><SessionManager /></Suspense>,
+    visualizer: <Suspense fallback={<ModuleLoadingFallback />}><Visualizer3D /></Suspense>,
+    ai: <Suspense fallback={<ModuleLoadingFallback />}><AIStudio /></Suspense>,
+    ui: <Suspense fallback={<ModuleLoadingFallback />}><UIShowcase /></Suspense>,
     settings: <div className="p-8 text-white">Settings Module</div>
   }
   
@@ -104,16 +120,20 @@ function ModuleRouter() {
       </motion.div>
     </AnimatePresence>
   )
-}
+})
 
-function App() {
-  const ui = useBeyFlowStore(state => state.ui)
-  const audio = useBeyFlowStore(state => state.audio)
+const App = memo(function App() {
+  // ✅ OPTIMIZED: Selective subscriptions
   const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const colorMode = useBeyFlowStore(state => state.ui.colorMode)
   const spectrum = useBeyFlowStore(state => state.ui.spectrum)
-  const openFloatingBrowser = useBeyFlowStore(state => state.ui.openFloatingBrowser)
-  const theme = getTheme(themePersona)
+  const gradientShift = useBeyFlowStore(state => state.ui.gradientShift)
+  const patternDepth = useBeyFlowStore(state => state.ui.patternDepth)
+  const openFloatingBrowser = useBeyFlowStore(state => state.actions.openFloatingBrowser)
+  const setCurrentModule = useBeyFlowStore(state => state.actions.setModule)
+  const setThemePersona = useBeyFlowStore(state => state.actions.setThemePersona)
+  
+  const theme = useMemo(() => getTheme(themePersona), [themePersona])
   
   // Modern UX enhancements
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
@@ -127,46 +147,46 @@ function App() {
   const saturation = spectrum?.saturation ?? 0.3
   const speed = spectrum?.speed ?? 0.3
   
-  // Enhanced keyboard shortcuts for modern UX
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      // Command Palette (Cmd/Ctrl + K)
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        setCommandPaletteOpen(true)
-      }
-      
-      // Quick navigation shortcuts
-      if ((e.metaKey || e.ctrlKey) && e.key === '1') {
-        e.preventDefault()
-        const setCurrentModule = useBeyFlowStore.getState().ui.setCurrentModule
-        setCurrentModule('chat')
-      }
+  // ✅ OPTIMIZED: Memoized keyboard handler with passive options
+  const handleKeyDown = useCallback((e) => {
+    // Command Palette (Cmd/Ctrl + K)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault()
+      setCommandPaletteOpen(true)
     }
     
+    // Quick navigation shortcuts
+    if ((e.metaKey || e.ctrlKey) && e.key === '1') {
+      e.preventDefault()
+      setCurrentModule('chat')
+    }
+  }, [setCurrentModule])
+
+  // Enhanced keyboard shortcuts for modern UX
+  useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [handleKeyDown])
   
-  // Command palette commands
-  const commands = [
+  // ✅ OPTIMIZED: Memoize command palette commands
+  const commands = useMemo(() => [
     {
       icon: '💬',
       title: 'Open Chat',
       description: 'Navigate to chat panel',
-      action: () => useBeyFlowStore.getState().ui.setCurrentModule('chat')
+      action: () => setCurrentModule('chat')
     },
     {
       icon: '📺',
       title: 'Open BeyTV',
       description: 'Navigate to BeyTV module',
-      action: () => useBeyFlowStore.getState().ui.setCurrentModule('beytv')
+      action: () => setCurrentModule('beytv')
     },
     {
       icon: '🌐',
       title: 'Open Browser',
       description: 'Open floating browser',
-      action: () => useBeyFlowStore.getState().ui.openFloatingBrowser()
+      action: openFloatingBrowser
     },
     {
       icon: '🎨',
@@ -174,13 +194,13 @@ function App() {
       description: 'Switch between themes',
       action: () => {
         const themes = ['dopaminergic', 'nootropic', 'cyberpunk', 'glassmorphic']
-        const current = useBeyFlowStore.getState().ui.themePersona
+        const current = themePersona
         const currentIndex = themes.indexOf(current)
         const nextTheme = themes[(currentIndex + 1) % themes.length]
-        useBeyFlowStore.getState().ui.setThemePersona(nextTheme)
+        setThemePersona(nextTheme)
       }
     }
-  ]
+  ], [setCurrentModule, openFloatingBrowser, themePersona, setThemePersona])
   
   // Log color mode changes
   useEffect(() => {
@@ -429,6 +449,6 @@ function App() {
       </ErrorBoundary>
     </LayoutProvider>
   )
-}
+})
 
 export default App
