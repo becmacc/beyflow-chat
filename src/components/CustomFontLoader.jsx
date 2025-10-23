@@ -30,12 +30,6 @@ const CustomFontLoader = () => {
         style: 'normal'
       },
       {
-        family: 'FuturaPTLight',
-        src: brandAssets.fonts.futuraPTLight,
-        weight: '300',
-        style: 'normal'
-      },
-      {
         family: 'RegulatorNova',
         src: brandAssets.fonts.regulatorNovaLight,
         weight: '300', 
@@ -86,13 +80,12 @@ const CustomFontLoader = () => {
     // Set CSS custom properties for fonts
     root.style.setProperty('--font-filson-pro', 'FilsonPro, -apple-system, BlinkMacSystemFont, sans-serif');
     root.style.setProperty('--font-filson-bold', 'FilsonProBold, -apple-system, BlinkMacSystemFont, sans-serif');
-    root.style.setProperty('--font-futura-light', 'FuturaPTLight, -apple-system, BlinkMacSystemFont, sans-serif');
     root.style.setProperty('--font-regulator-nova', 'RegulatorNova, -apple-system, BlinkMacSystemFont, sans-serif');
     
     // Set primary font hierarchy
     root.style.setProperty('--font-primary', 'var(--font-filson-pro)');
     root.style.setProperty('--font-heading', 'var(--font-filson-bold)');
-    root.style.setProperty('--font-accent', 'var(--font-futura-light)');
+    root.style.setProperty('--font-accent', 'var(--font-filson-pro)');
     root.style.setProperty('--font-special', 'var(--font-regulator-nova)');
     
     console.log('🎨 Font CSS variables applied');
@@ -105,7 +98,7 @@ const CustomFontLoader = () => {
 export const fontClasses = {
   primary: 'font-filson-pro',
   heading: 'font-filson-bold', 
-  accent: 'font-futura-light',
+  accent: 'font-filson-pro',
   special: 'font-regulator-nova'
 };
 
