@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, MotionConfig } from "framer-motion"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Sphere, Box, Environment, Float } from "@react-three/drei"
 import { Suspense, useEffect, useState, lazy, memo, useCallback, useMemo } from "react"
@@ -58,6 +58,8 @@ import DynamicBrandBackground from "./components/DynamicBrandBackground"
 import EnhancedBrandWatermark from "./components/EnhancedBrandWatermark"
 import BrandIntegrationStatus from "./components/BrandIntegrationStatus"
 import { getTheme } from "./config/themes"
+import { useOrientationChange } from "./hooks/useOrientationChange"
+import { perfMonitor } from "./utils/AdvancedPerformanceMonitor"
 
 // ✅ OPTIMIZED: Memoized loading fallback
 const ModuleLoadingFallback = memo(function ModuleLoadingFallback() {
@@ -210,8 +212,52 @@ const App = memo(function App() {
   const { trackEvent, insights } = useAnalytics()
   const audioData = useAdvancedAudio()
   
+  // 📱 OPTIMIZATION: Orientation change listener
+  const { orientation, isPortrait, recalculateLayout } = useOrientationChange((newOrientation) => {
+    console.log(`🔄 App: Orientation changed to ${newOrientation}`)
+    perfMonitor.trackAnimationPause() // Track orientation changes as optimization events
+  })
+  
+  // ⚡ OPTIMIZATION: Passive touch listeners
+  useEffect(() => {
+    const handleTouchMove = (e) => {
+      // Touch handling logic here if needed
+    }
+    
+    const handleTouchStart = (e) => {
+      // Touch start logic here if needed
+    }
+    
+    const opts = { passive: true }
+    window.addEventListener('touchmove', handleTouchMove, opts)
+    window.addEventListener('touchstart', handleTouchStart, opts)
+    
+    return () => {
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchstart', handleTouchStart)
+    }
+  }, [])
+  
   // Initialize keyboard shortcuts
   useKeyboardShortcuts()
+  
+  // 📊 OPTIMIZATION: Start performance monitoring
+  useEffect(() => {
+    console.log('📊 Starting baseline performance monitoring...')
+    perfMonitor.startBaseline()
+    
+    // Switch to optimized monitoring after 10 seconds
+    const timeout = setTimeout(() => {
+      perfMonitor.stop()
+      perfMonitor.startOptimized()
+      console.log('⚡ Switched to optimized performance monitoring')
+    }, 10000)
+    
+    return () => {
+      clearTimeout(timeout)
+      perfMonitor.stop()
+    }
+  }, [])
   
   // Initialize Unified Integration System
   useEffect(() => {
@@ -250,8 +296,9 @@ const App = memo(function App() {
   }, [trackEvent])
   
   return (
-    <LayoutProvider>
-      <ErrorBoundary>
+    <MotionConfig reducedMotion="user">
+      <LayoutProvider>
+        <ErrorBoundary>
         {/* Load Custom Brand Fonts */}
         <CustomFontLoader />
         
@@ -448,6 +495,7 @@ const App = memo(function App() {
         </ComponentZone>
       </ErrorBoundary>
     </LayoutProvider>
+    </MotionConfig>
   )
 })
 

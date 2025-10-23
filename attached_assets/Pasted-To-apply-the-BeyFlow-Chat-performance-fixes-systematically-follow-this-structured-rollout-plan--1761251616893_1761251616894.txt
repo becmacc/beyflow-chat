@@ -1,0 +1,84 @@
+To apply the BeyFlow Chat performance fixes systematically, follow this structured rollout plan.
+
+⸻
+
+HEADLINE
+
+Systematic patching workflow for BeyFlow Chat performance audit.
+
+TL;DR
+
+Apply each optimization in a sequenced CI-like pipeline: isolate → patch → profile → commit → reprofile → deploy.
+
+⸻
+
+BODY
+
+Phase 1 — Setup & Baseline
+	1.	Duplicate the current Repl (branch: perf-baseline).
+	2.	Enable DevTools Performance tab, record one full interaction cycle (load → click → animation → idle).
+	3.	Export metrics (FPS, CPU, paint time, CLS).
+
+Phase 2 — Incremental Patching (Systematic Order)
+
+Step	Area	Patch Type	Tools/Files	Metric Target
+1	Zustand	Selective subscription & React.memo	/src/store, /src/components/*	≥40% fewer renders
+2	Lazy Loading	Dynamic imports for heavy modules	/src/App.jsx, /src/modules/*	Bundle < 1.2 MB
+3	Framer Motion	Pause off-screen anims + MotionConfig	/src/components/Animated*	FPS ≥ 55
+4	Three.js	Render-on-demand (invalidateFrameloop)	/src/3D/Scene.jsx	GPU < 30% idle load
+5	Viewport & Orientation	Add meta + responsive CSS	/public/index.html, /src/styles/global.css	No occlusion portrait
+6	Touch Events	Passive listeners	/src/hooks/useTouchHandlers.ts	Scroll-block 0
+7	Visual	Replace backdrop-filter	/src/styles/glass.css	Paint time ↓ > 40%
+
+Phase 3 — Verification
+	1.	After each patch:
+npm run build && npm run analyze
+→ log before/after render time.
+	2.	Run Lighthouse → performance score goal ≥ 85.
+	3.	Test on real mobile viewport (portrait + landscape).
+
+Phase 4 — Automation
+Create a dedicated file for automated profiling:
+/src/core/PerformanceMonitor.ts
+
+import { useEffect } from "react";
+export function usePerfLog(tag: string) {
+  useEffect(() => {
+    const start = performance.now();
+    return () => console.log(`${tag}:`, (performance.now()-start).toFixed(2), 'ms');
+  }, [tag]);
+}
+
+Use it in key modules to log runtime cost.
+
+Phase 5 — Commit Sequence
+
+git checkout -b perf-refactor
+git add .
+git commit -m "Step 1: Zustand refactor"
+# build + test
+git commit -m "Step 2: Lazy load modules"
+...
+
+Phase 6 — Final Profiling
+	•	Record final DevTools performance trace.
+	•	Compare Main thread blocking and FPS vs baseline.
+	•	Deploy once DOMContentLoaded < 2 s and idle FPS > 55.
+
+⸻
+
+METRIC
+
+10/10 clarity. Predicts ≥ 60% performance gain post-deployment.
+
+NEXT STEP
+
+Run the Replit Agent prompt below to automate this rollout:
+
+Systematically apply the BeyFlow Chat optimization plan:
+
+1. Create perf-baseline branch and record current FPS/CPU.
+2. Sequentially patch modules per the optimization table (Zustand → Lazy Load → Motion → Three.js → Viewport → Touch → Visual).
+3. After each step, rebuild and log performance deltas.
+4. Generate final before/after comparison report.
+Output summary: [Step | Module | Before (FPS/CPU/Paint) | After | Δ% Improvement].

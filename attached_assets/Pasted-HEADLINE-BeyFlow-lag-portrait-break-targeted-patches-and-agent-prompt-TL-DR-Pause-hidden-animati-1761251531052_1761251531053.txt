@@ -1,0 +1,122 @@
+HEADLINE
+BeyFlow lag + portrait break: targeted patches and agent prompt
+
+TL;DR
+Pause hidden animations, throttle Three.js, fix viewport + portrait CSS, tighten Zustand renders; run the agent prompt below to verify.
+
+BODY
+	•	Critical patches
+	•	Viewport
+
+<!-- index.html -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+
+
+	•	Portrait CSS guards
+
+/* app.css */
+:root{--safe:env(safe-area-inset-bottom,0);}
+
+.app {contain: content; overflow: hidden;}
+@media (orientation: portrait){
+  .sidebar{display:none;}
+  .main{width:100vw; height:100dvh; overflow:auto; padding-bottom:var(--safe);}
+  .glass{backdrop-filter:none; background:rgba(10,18,28,.6); /* cheaper */ }
+  .panel{max-width:100%; inset:auto; transform:none;}
+}
+
+
+	•	Three.js: render-on-demand
+
+// Scene.tsx
+const { invalidate, advance } = useThree();
+const needsRender = useRef(true);
+
+useEffect(() => {
+  const onChange = () => { needsRender.current = true; requestAnimationFrame(() => invalidate()); };
+  // subscribe to camera/controls/store changes → call onChange
+  return () => {/* clean up subscriptions */};
+}, [invalidate]);
+
+useFrame((_, delta) => {
+  if (!needsRender.current) return;
+  advance(delta);
+  needsRender.current = false;
+}, 1);
+
+
+	•	Framer Motion: pause offscreen + reduce motion
+
+// MotionConfig at app root
+<MotionConfig reducedMotion="user">
+  {children}
+</MotionConfig>
+
+// Components
+const Card = memo(({children}) =>
+  <motion.div
+    initial={false}
+    whileInView={{opacity:1, y:0}}
+    viewport={{amount:0.2, once:false}}
+    exit={{opacity:0}}
+    transition={{type:"tween", duration:.25}}>
+    {children}
+  </motion.div>
+);
+
+
+	•	Zustand: selective subscriptions
+
+// store.ts
+export const useChatStore = create<State>()(/* ... */);
+
+// Component.tsx
+const msgCount = useChatStore(s => s.messages.length, shallow);
+const send = useChatStore(s => s.send); // split selectors
+
+
+	•	Touch handlers
+
+useEffect(() => {
+  const opts = {passive:true} as AddEventListenerOptions;
+  window.addEventListener('touchmove', onTouchMove, opts);
+  return () => window.removeEventListener('touchmove', onTouchMove);
+}, []);
+
+
+	•	Replace heavy blur
+
+/* before: .glass{backdrop-filter: blur(18px) saturate(140%);} */
+.glass{background:linear-gradient(180deg,rgba(9,22,34,.75),rgba(9,22,34,.35)); box-shadow:0 0 24px rgba(0,255,255,.12);}
+
+
+	•	Replit Agent prompt (paste)
+
+Continue BeyFlow Chat optimization. Apply and verify:
+
+1) Inject meta viewport and portrait CSS; confirm no horizontal scroll and CLS < 0.05 in portrait.
+2) Switch Three.js to render-on-demand: stop continuous useFrame except on camera/store changes; log rAF count before/after.
+3) Wrap Framer Motion in <MotionConfig reducedMotion="user">; convert offscreen animations to whileInView; confirm paused when hidden.
+4) Refactor Zustand usage to selective selectors with shallow compare; list components whose renders dropped >50%.
+5) Replace backdrop-filter with gradient/shadow in .glass; report paint time reduction.
+6) Ensure passive touch listeners and remove duplicate onDrag/onTouchMove; verify scroll-blocking = 0.
+Output a table: [Area | Before (FPS, CPU, Paint ms) | After | Files changed].
+
+
+	•	Targets to hit
+	•	First Interaction Delay < 150 ms
+	•	rAF/frame ≤ 60 when idle → 0
+	•	Main-thread long tasks (>50 ms) per tap: 0–1
+	•	Portrait CLS < 0.05, no overflow
+
+DIAGRAM
+
+Tap → Zustand update → React reconcile → Framer/Three render
+         ↓ cut with selectors     ↓ pause offscreen
+                             Three.js render-on-demand
+
+METRIC
+9/10 confidence this removes the visible lag and portrait occlusion.
+
+NEXT STEP
+Apply the patches, run the agent prompt, then report the “Before vs After” table.

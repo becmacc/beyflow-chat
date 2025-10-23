@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { createBeyFlowTheme } from "../utils"
 import { useBeyFlowStore } from "../core/UnifiedStore"
+import { useAnimationPause } from "../hooks/useAnimationPause"
 
 export function DopamineSlider({ value, onChange, label, min = 0, max = 100 }) {
     const ui = useBeyFlowStore(state => state.ui)
