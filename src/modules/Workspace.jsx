@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Plus, X, Save, FolderOpen, Download, Upload, Trash2, Check } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import NotesModule from '../components/modules/NotesModule'
 import AnalyticsModule from '../components/modules/AnalyticsModule'

@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, OrbitControls, MeshDistortMaterial, Sphere, RoundedBox } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Volume2, VolumeX, Minimize2, Maximize2 } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import * as THREE from 'three'
 

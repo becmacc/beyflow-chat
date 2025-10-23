@@ -1,8 +1,15 @@
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Sphere, Box, Environment, Float } from "@react-three/drei"
-import { Suspense, useEffect } from "react"
-import useStore from "./store"
+import { Suspense, useEffect, useState } from "react"
+import BeyTVModule from "./modules/BeyTVModule"
+import StackBlogModule from "./modules/StackBlogModule"
+import OmnisphereModule from "./modules/OmnisphereModule"
+import { useBeyFlowStore } from "./core/UnifiedStore"
+import { UnifiedIntegrationSystem } from "./core/UnifiedIntegrationSystem"
+import { OptimizedLayout } from "./core/OptimizedLayout"
+import { LayoutProvider, EnhancedLayout, ComponentZone, CardContainer, GridLayout } from "./core/EnhancedLayoutSystem"
+import { NotionContainer, GlassCard, ParallaxBackground, FloatingActionButton, CommandPalette } from "./core/ModernUISystem"
 import { PerformancePanel } from "./components/PerformanceMonitor"
 import ChatPanel from "./modules/ChatPanel"
 import Sidebar from "./modules/Sidebar"
@@ -41,11 +48,18 @@ import ParallaxDepth from "./components/ParallaxDepth"
 import SpectrumControl from "./components/SpectrumControl"
 import FloatingBrowser from "./components/FloatingBrowser"
 import WidgetHub from "./components/WidgetHub"
+import IntegrationDashboard from "./components/IntegrationDashboard"
+import CustomFontLoader from "./components/CustomFontLoader"
+import DynamicBrandBackground from "./components/DynamicBrandBackground"
+import EnhancedBrandWatermark from "./components/EnhancedBrandWatermark"
+import BrandIntegrationStatus from "./components/BrandIntegrationStatus"
 import { getTheme } from "./config/themes"
 
 // 3D Scene Component with enhanced dopamine visuals
 function Scene({ audioData }) {
-  const { sceneConfig, ui, audio } = useStore()
+  const sceneConfig = useBeyFlowStore(state => state.scene.config)
+  const ui = useBeyFlowStore(state => state.ui)
+  const audio = useBeyFlowStore(state => state.audio)
   const colors = createDopamineColors(ui.gradientShift)
   const pattern = recursivePattern(ui.patternDepth)
   
@@ -58,10 +72,13 @@ function Scene({ audioData }) {
 
 // Module Router
 function ModuleRouter() {
-  const { currentModule } = useStore()
+  const currentModule = useBeyFlowStore(state => state.ui.currentModule)
   
   const modules = {
     chat: <ChatPanel />,
+    beytv: <BeyTVModule />,
+    stackblog: <StackBlogModule />,
+    omnisphere: <OmnisphereModule />,
     contacts: <ContactsHub />,
     workspace: <Workspace />,
     workflows: <WorkflowBuilder />,
@@ -90,14 +107,80 @@ function ModuleRouter() {
 }
 
 function App() {
-  const { ui, audio, themePersona, colorMode, spectrum, openFloatingBrowser } = useStore()
+  const ui = useBeyFlowStore(state => state.ui)
+  const audio = useBeyFlowStore(state => state.audio)
+  const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const colorMode = useBeyFlowStore(state => state.ui.colorMode)
+  const spectrum = useBeyFlowStore(state => state.ui.spectrum)
+  const openFloatingBrowser = useBeyFlowStore(state => state.ui.openFloatingBrowser)
   const theme = getTheme(themePersona)
   
-  // Get spectrum values
+  // Modern UX enhancements
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+  const { scrollY } = useScroll()
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, -500])
+  const backgroundOpacity = useTransform(scrollY, [0, 300], [1, 0.8])
+  
+  // Get spectrum values for enhanced effects
   const blur = spectrum?.blur ?? 0.3
   const glow = spectrum?.glow ?? 0.3
   const saturation = spectrum?.saturation ?? 0.3
   const speed = spectrum?.speed ?? 0.3
+  
+  // Enhanced keyboard shortcuts for modern UX
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Command Palette (Cmd/Ctrl + K)
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setCommandPaletteOpen(true)
+      }
+      
+      // Quick navigation shortcuts
+      if ((e.metaKey || e.ctrlKey) && e.key === '1') {
+        e.preventDefault()
+        const setCurrentModule = useBeyFlowStore.getState().ui.setCurrentModule
+        setCurrentModule('chat')
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+  
+  // Command palette commands
+  const commands = [
+    {
+      icon: '💬',
+      title: 'Open Chat',
+      description: 'Navigate to chat panel',
+      action: () => useBeyFlowStore.getState().ui.setCurrentModule('chat')
+    },
+    {
+      icon: '📺',
+      title: 'Open BeyTV',
+      description: 'Navigate to BeyTV module',
+      action: () => useBeyFlowStore.getState().ui.setCurrentModule('beytv')
+    },
+    {
+      icon: '🌐',
+      title: 'Open Browser',
+      description: 'Open floating browser',
+      action: () => useBeyFlowStore.getState().ui.openFloatingBrowser()
+    },
+    {
+      icon: '🎨',
+      title: 'Change Theme',
+      description: 'Switch between themes',
+      action: () => {
+        const themes = ['dopaminergic', 'nootropic', 'cyberpunk', 'glassmorphic']
+        const current = useBeyFlowStore.getState().ui.themePersona
+        const currentIndex = themes.indexOf(current)
+        const nextTheme = themes[(currentIndex + 1) % themes.length]
+        useBeyFlowStore.getState().ui.setThemePersona(nextTheme)
+      }
+    }
+  ]
   
   // Log color mode changes
   useEffect(() => {
@@ -109,6 +192,26 @@ function App() {
   
   // Initialize keyboard shortcuts
   useKeyboardShortcuts()
+  
+  // Initialize Unified Integration System
+  useEffect(() => {
+    console.log('🚀 Initializing Unified Integration System...');
+    
+    // Initialize the unified system
+    const integration = UnifiedIntegrationSystem.getInstance();
+    integration.initialize();
+    
+    // Listen for system events
+    integration.subscribe('system:ready', (data) => {
+      console.log('✅ Unified Integration System connected:', data.services);
+    });
+    
+    // Listen for cross-service notifications
+    integration.subscribe('notification:system', (data) => {
+      console.log('💬 System notification:', data.message);
+    });
+    
+  }, []);
   
   // Track app initialization
   useEffect(() => {
@@ -138,203 +241,204 @@ function App() {
   }, [trackEvent])
   
   return (
-    <ErrorBoundary>
-      <div className={`h-screen overflow-hidden relative ${theme.colors.bgGradient}`}>
-      {/* Parallax Depth Layer - Deepest background */}
-      <ParallaxDepth />
-      
-      {/* Interactive Lighting Layer */}
-      <InteractiveLighting />
-      
-      {/* Background Layers - adapt to theme */}
-      {theme.effects.scanlines && <FluidGradientBg />}
-      {theme.effects.grid && <MeshGradient />}
-      
-      {/* Glassmorphic background */}
-      {theme.id === 'glassmorphic' && (
-        <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-teal-900" />
-          <div 
-            className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage: `radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-                               radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-                               radial-gradient(circle at 40% 80%, rgba(34, 211, 238, 0.3) 0%, transparent 50%)`
-            }}
-          />
-        </div>
-      )}
-      
-      {/* Brand Watermark */}
-      {brandConfig.watermark.enabled && (
-        <BrandWatermark 
-          logoSrc={brandAssets.beyMediaLogo}
-          position={brandConfig.watermark.position}
-          opacity={brandConfig.watermark.opacity}
-          rotateWithAudio={brandConfig.watermark.rotateWithAudio}
-          scale={brandConfig.watermark.scale}
-          pulseWithReward={brandConfig.watermark.pulseWithReward}
-        />
-      )}
-      
-      {/* Removed 3D - pure cyberpunk doesn't need it */}
-
-      
-      {/* Main UI */}
-      <div className="relative z-10 flex h-full">
-        <Sidebar />
+    <LayoutProvider>
+      <ErrorBoundary>
+        {/* Load Custom Brand Fonts */}
+        <CustomFontLoader />
         
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col">
-          {/* Top Bar - adapts to theme AND spectrum */}
-          <motion.div 
-            className={`h-12 ${theme.id === 'glassmorphic' ? 'bg-white/10' : 'bg-black/30'} border-b ${theme.colors.border} flex items-center justify-between px-6 transition-all duration-300`}
-            style={{
-              backdropFilter: `blur(${8 + blur * 16}px) saturate(${0.8 + saturation * 1.2})`,
-              boxShadow: glow > 0.5 ? `0 0 ${glow * 30}px rgba(0, 255, 255, ${glow * 0.2})` : 'none'
-            }}
-            whileHover={{ backgroundColor: theme.id === 'glassmorphic' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.5)' }}
-          >
-            <div className="flex items-center space-x-3">
-              <img 
-                src={brandAssets.beyMediaLogo} 
-                alt="BeyMedia" 
-                className="w-6 h-6 object-contain opacity-30"
-              />
-              <h1 className={`text-sm ${theme.font} ${theme.colors.textMuted}`}>
-                beyflow_chat
-              </h1>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              {/* Floating Browser Toggle */}
-              <button
-                onClick={() => {
-                  console.log('🌐 Button clicked!')
-                  openFloatingBrowser()
-                }}
-                className="p-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 transition-all"
-                title="Open Floating Browser"
-              >
-                <span className="text-lg">🌐</span>
-              </button>
+        {/* Enhanced Parallax Background System */}
+        <ParallaxBackground
+          layers={[
+            {
+              speed: 0.1,
+              opacity: 0.3,
+              zIndex: 1,
+              content: <DynamicBrandBackground audioData={audioData} spectrum={spectrum} />,
+              className: "absolute inset-0"
+            },
+            {
+              speed: 0.3,
+              opacity: 0.5,
+              zIndex: 2,
+              content: <ParallaxDepth />,
+              className: "absolute inset-0"
+            },
+            {
+              speed: 0.5,
+              opacity: 0.7,
+              zIndex: 3,
+              content: <InteractiveLighting />,
+              className: "absolute inset-0"
+            }
+          ]}
+        >
+          {/* Enhanced Layout System */}
+          <EnhancedLayout>
+            {{
+              sidebar: (
+                <ComponentZone zone="sidebar">
+                  <Sidebar />
+                </ComponentZone>
+              ),
               
-              <ThemeToggle />
-              <div className={`flex items-center space-x-3 text-xs ${theme.font} ${theme.colors.textMuted}`}>
-                {audio.isListening && <span>[REC]</span>}
-                {audio.playing && <span>[PLAY]</span>}
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* Module Content */}
-          <ModuleRouter />
-        </div>
-      </div>
-      
-      
-      {/* Smaller particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              header: (
+                <ComponentZone zone="top-bar" padding={false}>
+                  <motion.div 
+                    className="flex items-center space-x-3"
+                    style={{
+                      backdropFilter: `blur(${8 + blur * 16}px) saturate(${0.8 + saturation * 1.2})`,
+                    }}
+                  >
+                    <img 
+                      src={brandAssets.beyMediaLogo} 
+                      alt="BeyMedia" 
+                      className="w-6 h-6 object-contain opacity-40"
+                    />
+                    <h1 className="text-sm font-brand-primary text-white/80">
+                      beyflow_chat
+                    </h1>
+                    <span className="text-xs font-brand-accent text-cyan-400 opacity-60">
+                      by BeyMedia
+                    </span>
+                  </motion.div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <button
+                      onClick={() => setCommandPaletteOpen(true)}
+                      className="px-3 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 transition-colors text-white/70 hover:text-white"
+                      title="Open Command Palette (⌘K)"
+                    >
+                      ⌘K
+                    </button>
+                    
+                    <button
+                      onClick={openFloatingBrowser}
+                      className="p-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 transition-all"
+                      title="Open Floating Browser"
+                    >
+                      <span className="text-lg">🌐</span>
+                    </button>
+                    
+                    <ThemeToggle />
+                  </div>
+                </ComponentZone>
+              ),
+              
+              main: (
+                <ComponentZone zone="main-content">
+                  {/* Notion-like Content Organization */}
+                  <div className="h-full overflow-y-auto">
+                    <NotionContainer 
+                      title="Workspace" 
+                      level={1} 
+                      className="p-6"
+                    >
+                      <GridLayout columns={1} gap={6}>
+                        {/* Main Module Content */}
+                        <GlassCard hover={false} className="min-h-[400px]">
+                          <ModuleRouter />
+                        </GlassCard>
+                        
+                        {/* Secondary Content Areas */}
+                        <NotionContainer 
+                          title="Tools & Utilities" 
+                          level={2} 
+                          collapsible 
+                          defaultCollapsed={true}
+                        >
+                          <GridLayout columns={3} gap={4}>
+                            <CardContainer title="Performance" variant="minimal">
+                              {import.meta.env.DEV && (
+                                <PerformancePanel isVisible={true} position="bottom-right" />
+                              )}
+                            </CardContainer>
+                            
+                            <CardContainer title="Integration Status" variant="minimal">
+                              <BananaFlowStatus />
+                            </CardContainer>
+                            
+                            <CardContainer title="Analytics" variant="minimal">
+                              {import.meta.env.DEV && insights && (
+                                <div className="space-y-2 font-mono text-xs">
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Users</span>
+                                    <span className="text-cyan-400">{insights.realTimeData?.activeUsers || 0}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Messages</span>
+                                    <span className="text-cyan-400">{insights.realTimeData?.messagesPerMinute || 0}</span>
+                                  </div>
+                                </div>
+                              )}
+                            </CardContainer>
+                          </GridLayout>
+                        </NotionContainer>
+                      </GridLayout>
+                    </NotionContainer>
+                  </div>
+                </ComponentZone>
+              )
             }}
-            animate={{
-              y: [0, -150, 0],
-              opacity: [0, 1, 0],
-              scale: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Dopamine gradient pulse overlay - CONTROLLED BY SPECTRUM */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at 50% 50%, rgba(76, 195, 217, ${0.1 * (1 + glow)}), transparent 70%)`,
-          filter: `blur(${20 + blur * 40}px) saturate(${0.5 + saturation * 1.5})`
-        }}
-        animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.3 * (1 + glow * 0.5), 0.6 * (1 + glow), 0.3 * (1 + glow * 0.5)],
-        }}
-        transition={{
-          duration: 8 / (0.5 + speed * 1.5),
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      {/* 
-        Z-INDEX LAYERS (organized from bottom to top):
-        z-0  : Background effects
-        z-10 : Main content
-        z-20 : Side components (Quote, Hologram)
-        z-30 : Bottom controls (YouTube, Instagram, WhatsApp)
-        z-40 : Dev tools (Performance, Analytics)
-        z-50 : Top controls (ColorMode, Calendar)
-        z-60 : Modals/Overlays
-      */}
-      
-      {/* Banana Flow Status Indicator - Bottom left */}
-      <BananaFlowStatus />
-      
-      {/* Z-40: Dev Tools - Top-left (above Social Hub) */}
-      {import.meta.env.DEV && insights && (
-        <div className="fixed top-4 left-64 z-40" style={{ marginLeft: '200px' }}>
-          <MinimizablePanel title="LIVE" position="top-left" defaultMinimized={true}>
-            <div className="space-y-0.5 font-mono">
-              <div className="flex justify-between gap-2"><span className="text-gray-500">USR</span> <span className="text-neon-green">{insights.realTimeData?.activeUsers || 0}</span></div>
-              <div className="flex justify-between gap-2"><span className="text-gray-500">MSG</span> <span className="text-neon-cyan">{insights.realTimeData?.messagesPerMinute || 0}</span></div>
-              <div className="flex justify-between gap-2"><span className="text-gray-500">ERR</span> <span className="text-neon-magenta">{(insights.realTimeData?.errorRate || 0).toFixed(1)}%</span></div>
-            </div>
-          </MinimizablePanel>
-        </div>
-      )}
-      
-      {/* Z-40: Performance Monitor - Bottom-right corner */}
-      {import.meta.env.DEV && (
-        <div className="fixed bottom-4 right-4 z-40">
-          <MinimizablePanel title="Performance" position="bottom-right" defaultMinimized={true}>
-            <PerformancePanel isVisible={true} position="bottom-right" />
-          </MinimizablePanel>
-        </div>
-      )}
-      
-      {/* Z-40: Widget Hub - Bottom-right (consolidates Social, YouTube, Utilities) */}
-      <WidgetHub />
-      
-      {/* Z-50: Color Mode Control - Bottom-center */}
-      <ColorModeControl />
-      
-      {/* Z-50: Spectrum Control - Top-right */}
-      <SpectrumControl />
-      
-      {/* Z-50: Floating Browser - Draggable overlay */}
-      <FloatingBrowser />
-      
-      {/* Z-20: Motivational Quote - Right side middle */}
-      <div className="fixed top-1/2 -translate-y-1/2 right-4 max-w-xs z-20">
-        <MotivationalQuote />
-      </div>
-      
-      {/* Z-20: Hologram Host - Bottom-right - LARGER AND MORE VISIBLE */}
-      <div className="fixed bottom-32 right-16 z-20 scale-[2.5] opacity-100">
-        <HologramHost />
-      </div>
-    </div>
-    </ErrorBoundary>
+          </EnhancedLayout>
+        </ParallaxBackground>
+        
+        {/* Modern Floating Action Button */}
+        <FloatingActionButton
+          actions={[
+            {
+              icon: "💬",
+              onClick: () => useBeyFlowStore.getState().ui.setCurrentModule('chat')
+            },
+            {
+              icon: "📺", 
+              onClick: () => useBeyFlowStore.getState().ui.setCurrentModule('beytv')
+            },
+            {
+              icon: "🎨",
+              onClick: () => setCommandPaletteOpen(true)
+            },
+            {
+              icon: "⚡",
+              onClick: () => console.log('Quick action!')
+            }
+          ]}
+        />
+        
+        {/* Command Palette */}
+        <CommandPalette
+          isOpen={commandPaletteOpen}
+          onClose={() => setCommandPaletteOpen(false)}
+          commands={commands}
+        />
+        
+        {/* Organized Widget Areas (No More Overlapping!) */}
+        <ComponentZone zone="floating" className="bottom-4 right-80">
+          <WidgetHub />
+        </ComponentZone>
+        
+        <ComponentZone zone="floating" className="bottom-6 left-6">
+          <ColorModeControl />
+        </ComponentZone>
+        
+        <ComponentZone zone="floating" className="top-4 right-4">
+          <SpectrumControl />
+        </ComponentZone>
+        
+        {/* Hologram Host - Clean positioning */}
+        <ComponentZone zone="floating" className="bottom-20 right-20">
+          <div className="scale-150 opacity-90">
+            <HologramHost />
+          </div>
+        </ComponentZone>
+        
+        {/* Motivational Quote - Side panel style */}
+        <ComponentZone zone="floating" className="top-1/2 -translate-y-1/2 right-6 max-w-xs">
+          <GlassCard className="p-4">
+            <MotivationalQuote />
+          </GlassCard>
+        </ComponentZone>
+      </ErrorBoundary>
+    </LayoutProvider>
   )
 }
 

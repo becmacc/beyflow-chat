@@ -1,5 +1,5 @@
 import { MessageCircle, Instagram } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 const PinterestIcon = ({ size = 20, className = '' }) => (

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import { omnigenAgents } from '../config/omnigenAgents'
 import GlassmorphicCard from '../components/GlassmorphicCard'

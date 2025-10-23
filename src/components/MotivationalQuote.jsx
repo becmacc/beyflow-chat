@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RefreshCw, Quote, Minimize2, Maximize2 } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import { getRandomQuote } from '../config/quotes'
 

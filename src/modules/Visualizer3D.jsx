@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Sphere, Box, Torus, Environment, Float, Text } from "@react-three/drei"
 import { motion } from "framer-motion"
 import { useState, Suspense } from "react"
-import useStore from "../store"
+import { useBeyFlowStore } from "../core/UnifiedStore"
 
 function ParticleSystem({ count = 50 }) {
   const particles = Array.from({ length: count }, (_, i) => ({

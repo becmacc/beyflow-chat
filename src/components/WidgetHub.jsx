@@ -4,7 +4,7 @@ import {
   X, Minimize2, BarChart2, Music, Users, Calendar as CalendarIcon, 
   Globe, MessageCircle, Instagram, ExternalLink, Maximize2
 } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import { useAnalytics } from '../hooks/useAnalytics'
 import BusinessCalendar from './BusinessCalendar'

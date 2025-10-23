@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 const PinterestIcon = ({ size = 18, className = '' }) => (

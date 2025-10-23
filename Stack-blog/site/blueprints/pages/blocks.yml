@@ -1,0 +1,41 @@
+title: Blocks Page
+
+# Authors cannot access block pages at all
+options:
+  create:
+    author: false
+  read:
+    author: false
+  update:
+    author: false
+  delete:
+    author: false
+  
+fields:
+  header:
+    type: blocks
+    fieldsets:
+      - comp582
+
+    max: 1
+    
+  blocks:
+    type: blocks
+    fieldsets:
+      - blog
+      - latestblog
+      - featuredblog
+      - features03
+      - wavyhero
+      - bentogrid
+      - applecarousel
+      - authorbox
+      - textblock
+    label: Content Blocks
+    
+  footer:
+    type: blocks
+    fieldsets:
+      - footer
+
+    max: 1

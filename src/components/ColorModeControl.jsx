@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { Button, Card, Input, Modal } from "../core/StandardComponents"
 import { motion } from 'framer-motion'
 import { Minimize2, Maximize2 } from 'lucide-react'
-import useStore from '../store'
+import { Button, Card, Input, Modal } from "../core/StandardComponents"
+import { useBeyFlowStore } from "../core/UnifiedStore"
+import { Button, Card } from "../core/StandardComponents"
 import { getTheme } from '../config/themes'
 
 const colorModes = [
@@ -12,7 +15,9 @@ const colorModes = [
 ]
 
 export default function ColorModeControl() {
-  const { themePersona, colorMode, setColorMode } = useStore()
+  const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const colorMode = useBeyFlowStore(state => state.ui.colorMode)  
+  const setColorMode = useBeyFlowStore(state => state.ui.setColorMode)
   const theme = getTheme(themePersona)
   const [isMinimized, setIsMinimized] = useState(false)
   

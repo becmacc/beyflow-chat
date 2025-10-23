@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { BananaAgent } from './nanoAgent'
 import router from './event_router'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 
 export function useBananaFlow() {
   const agentRef = useRef(null)

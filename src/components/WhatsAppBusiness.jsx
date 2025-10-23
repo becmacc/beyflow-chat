@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from '../core/UnifiedStore'
 import { getTheme } from '../config/themes'
 
 export default function WhatsAppBusiness() {
-  const { themePersona } = useStore()
+  const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const openWhatsApp = () => {

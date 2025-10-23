@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { themes } from '../config/themes'
 
 export default function ThemeToggle() {

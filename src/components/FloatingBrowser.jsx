@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Minimize2, Maximize2, ExternalLink, Bookmark, Trash2, AlertCircle, ArrowLeft, ArrowRight, RefreshCw, Home, GripHorizontal } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 
 export default function FloatingBrowser() {
   const { floatingBrowser, setFloatingBrowser, closeFloatingBrowser } = useStore()

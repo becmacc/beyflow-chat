@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
-import useStore from "../store"
+import { Button, Card, Input, Modal } from "../core/StandardComponents"
+import { useBeyFlowStore } from "../core/UnifiedStore"
 
 // Brand Watermark - Subtle logo in background (optimized for BeyMedia)
 export const BrandWatermark = ({ 

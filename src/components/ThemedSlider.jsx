@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import ReactSlider from 'react-slider'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import './ThemedSlider.css'
 

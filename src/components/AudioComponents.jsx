@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
+import { Button, Card, Input, Modal } from "../core/StandardComponents"
 import { motion, AnimatePresence } from "framer-motion"
-import useStore from "../store"
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { analyzeAudioFrequency } from "../modules/audioAPI"
 
 export function AudioPlayer({ src, onEnded = () => {} }) {

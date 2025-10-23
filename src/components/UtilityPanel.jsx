@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Grid3x3, X, Maximize2, Minimize2 } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import BusinessCalendar from './BusinessCalendar'
 import SocialHubPanel from './SocialHubPanel'

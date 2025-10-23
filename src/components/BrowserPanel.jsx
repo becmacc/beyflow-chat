@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react'
+import { Button, Card, Input, Modal } from "../core/StandardComponents"
 import { X, ExternalLink, Bookmark, Trash2, AlertCircle, ArrowLeft, ArrowRight, RefreshCw, Home } from 'lucide-react'
+import { Button, Card, Input, Modal } from "../core/StandardComponents"
 
 export default function BrowserPanel({ onClose }) {
   const [url, setUrl] = useState('')
@@ -145,7 +147,7 @@ export default function BrowserPanel({ onClose }) {
           <button
             onClick={goBack}
             disabled={historyIndex <= 0}
-            className="p-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="btn-primary"
             title="Back"
           >
             <ArrowLeft className="w-3 h-3 text-cyan-400" />
@@ -153,21 +155,21 @@ export default function BrowserPanel({ onClose }) {
           <button
             onClick={goForward}
             disabled={historyIndex >= history.length - 1}
-            className="p-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="btn-primary"
             title="Forward"
           >
             <ArrowRight className="w-3 h-3 text-cyan-400" />
           </button>
           <button
             onClick={reload}
-            className="p-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 transition-all"
+            className="btn-primary"
             title="Reload"
           >
             <RefreshCw className={`w-3 h-3 text-cyan-400 ${loading ? 'animate-spin' : ''}`} />
           </button>
           <button
             onClick={goHome}
-            className="p-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 transition-all"
+            className="btn-primary"
             title="Home"
           >
             <Home className="w-3 h-3 text-cyan-400" />
@@ -184,7 +186,7 @@ export default function BrowserPanel({ onClose }) {
             />
             <button
               onClick={loadUrl}
-              className="px-3 py-1 bg-cyan-500 hover:bg-cyan-600 text-black font-semibold rounded text-xs transition-all"
+              className="btn-primary"
             >
               Go
             </button>
@@ -193,7 +195,7 @@ export default function BrowserPanel({ onClose }) {
           <button
             onClick={addBookmark}
             disabled={!currentUrl}
-            className="p-1.5 rounded bg-yellow-500/20 hover:bg-yellow-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="btn-primary"
             title="Bookmark"
           >
             <Bookmark className="w-3 h-3 text-yellow-400" />
@@ -201,7 +203,7 @@ export default function BrowserPanel({ onClose }) {
           <button
             onClick={openInNewTab}
             disabled={!currentUrl}
-            className="p-1.5 rounded bg-purple-500/20 hover:bg-purple-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="btn-primary"
             title="Open in new tab"
           >
             <ExternalLink className="w-3 h-3 text-purple-400" />

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import useStore from "../store"
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import api from "./api"
 import { generateSpeech, processVoiceCommand } from "./audioAPI"
 import { AudioPlayer, VoiceInput, VoiceSettings } from "../components/AudioComponents"
@@ -30,8 +30,58 @@ export default function ChatPanel() {
   const [text, setText] = useState("")
   const [userInput, setUserInput] = useState(user)
   const [currentAudioUrl, setCurrentAudioUrl] = useState(null)
+  const [integrationConnected, setIntegrationConnected] = useState(false)
   const messagesEndRef = useRef(null)
   const { trackEvent } = useAnalytics()
+
+  // Connect to BeyFlow Integration System
+  useEffect(() => {
+    if (window.BeyFlow) {
+      setIntegrationConnected(true)
+      
+      // Register chat component
+      window.BeyFlow.register('chat', {
+        addSystemMessage: (data) => {
+          addMessage({
+            text: data.message,
+            user: 'BeyFlow System',
+            timestamp: Date.now(),
+            type: data.type || 'system'
+          })
+        },
+        addAIMessage: (data) => {
+          addMessage({
+            text: data.message,
+            user: 'AI Assistant',
+            timestamp: Date.now(),
+            type: 'ai_response'
+          })
+        }
+      })
+      
+      // Listen for cross-component messages
+      window.BeyFlow.subscribe('chat:system_message', (data) => {
+        addMessage({
+          text: data.message,
+          user: 'BeyFlow',
+          timestamp: Date.now(),
+          type: data.type || 'system'
+        })
+      })
+      
+      // Listen for AI responses
+      window.BeyFlow.subscribe('ai:response_ready', (data) => {
+        addMessage({
+          text: data.aiResponse.message,
+          user: 'AI Assistant',
+          timestamp: Date.now(),
+          type: 'ai_response'
+        })
+      })
+      
+      console.log('💬 Chat connected to BeyFlow Integration')
+    }
+  }, [addMessage])
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -63,8 +113,24 @@ export default function ChatPanel() {
     addMessage({
       text: messageText,
       user: userInput,
-      type: 'user'
+      type: 'user',
+      timestamp: Date.now()
     })
+
+    // **NEW: Emit to BeyFlow Integration System**
+    if (window.BeyFlow) {
+      window.BeyFlow.emit('chat:message_sent', {
+        message: messageText,
+        user: userInput,
+        timestamp: Date.now(),
+        aiEnabled: true, // Enable AI processing
+        logToBlog: messageText.includes('#blog'), // Auto-blog if #blog hashtag
+        context: { 
+          messageCount: messages.length,
+          integrationConnected
+        }
+      })
+    }
 
     try {
       // Send to webhook

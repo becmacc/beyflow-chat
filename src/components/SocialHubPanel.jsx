@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Youtube, Grid3x3, Play, Pause, Link as LinkIcon, Instagram, MessageCircle, ExternalLink } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 const PinterestIcon = ({ size = 16 }) => (

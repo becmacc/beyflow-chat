@@ -1,29 +1,81 @@
 import { motion } from "framer-motion"
-import useStore from "../store"
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { brandAssets } from "../config/brandConfig"
 import GlassmorphicCard from "../components/GlassmorphicCard"
 import { getTheme } from "../config/themes"
 
 const modules = [
-  { id: 'chat', name: 'Chat', icon: '💬', description: 'Real-time messaging' },
-  { id: 'contacts', name: 'Contacts', icon: '👥', description: 'Network hub' },
-  { id: 'workspace', name: 'Workspace', icon: '📝', description: 'Notes & tasks' },
-  { id: 'workflows', name: 'Workflows', icon: '🔗', description: 'Connect APIs & LLMs' },
-  { id: 'browser', name: 'Web Browser', icon: '🌐', description: 'Browse & bookmark' },
-  { id: 'sessions', name: 'Sessions', icon: '💾', description: 'Saved conversations' },
-  { id: 'ai', name: 'AI Studio', icon: '🤖', description: 'AI playground' },
-  { id: 'ui', name: 'UI Components', icon: '✨', description: 'Sliders & carousels' },
-  { id: 'settings', name: 'Settings', icon: '⚙️', description: 'Configuration' }
+  { id: 'chat', name: 'Chat', icon: '💬', description: 'Real-time messaging + AI', status: 'active' },
+  { id: 'beytv', name: 'BeyTV', icon: '📺', description: 'Media automation + RSS', status: 'checking' },
+  { id: 'stackblog', name: 'Stack Blog', icon: '�', description: 'Content management', status: 'checking' },
+  { id: 'omnisphere', name: 'Omnisphere AI', icon: '🤖', description: 'AI assistance hub', status: 'checking' },
+  { id: 'workflows', name: 'Workflows', icon: '🔗', description: 'Automation builder', status: 'active' },
+  { id: 'contacts', name: 'Contacts', icon: '👥', description: 'Network hub', status: 'active' },
+  { id: 'workspace', name: 'Workspace', icon: '📋', description: 'Notes & tasks', status: 'active' },
+  { id: 'browser', name: 'Web Browser', icon: '🌐', description: 'Browse & bookmark', status: 'active' },
+  { id: 'sessions', name: 'Sessions', icon: '💾', description: 'Saved conversations', status: 'active' },
+  { id: 'visualizer', name: 'Visualizer', icon: '🎨', description: '3D audio visuals', status: 'active' },
+  { id: 'ai', name: 'AI Studio', icon: '✨', description: 'AI playground', status: 'active' },
+  { id: 'ui', name: 'UI Components', icon: '🎛️', description: 'Sliders & controls', status: 'active' },
+  { id: 'settings', name: 'Settings', icon: '⚙️', description: 'Configuration', status: 'active' }
 ]
 
 export default function Sidebar() {
   const { currentModule, setModule, messages, themePersona, spectrum } = useStore()
+  const [integrationStatus, setIntegrationStatus] = useState({})
   const theme = getTheme(themePersona)
   
   // Get spectrum values
   const blur = spectrum?.blur ?? 0.3
   const glow = spectrum?.glow ?? 0.3
   const saturation = spectrum?.saturation ?? 0.3
+
+  // Check integration status
+  useEffect(() => {
+    const checkStatus = () => {
+      if (window.BeyFlowIntegration) {
+        const status = window.BeyFlowIntegration.getIntegrationStatus()
+        setIntegrationStatus(status.components || {})
+      }
+    }
+    
+    checkStatus()
+    const interval = setInterval(checkStatus, 5000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
+  // Get module status
+  const getModuleStatus = (moduleId) => {
+    switch (moduleId) {
+      case 'beytv':
+        return integrationStatus.beytv?.connected ? 'connected' : 'offline'
+      case 'stackblog':
+        return integrationStatus.stackblog?.connected ? 'connected' : 'offline'
+      case 'omnisphere':
+        return integrationStatus.omnisphere?.connected ? 'connected' : 'offline'
+      default:
+        return 'active'
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'connected': return 'text-green-400'
+      case 'offline': return 'text-red-400'
+      case 'checking': return 'text-yellow-400'
+      default: return 'text-blue-400'
+    }
+  }
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'connected': return '🟢'
+      case 'offline': return '🔴'
+      case 'checking': return '🟡'
+      default: return '🔵'
+    }
+  }
 
   return (
     <motion.div
@@ -90,8 +142,20 @@ export default function Sidebar() {
               <div className="flex items-center space-x-2.5">
                 <span className="text-xl flex-shrink-0" aria-hidden="true">{module.icon}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm truncate">{module.name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-sm truncate">{module.name}</p>
+                    {(module.id === 'beytv' || module.id === 'stackblog' || module.id === 'omnisphere') && (
+                      <span className="text-xs">
+                        {getStatusIcon(getModuleStatus(module.id))}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs opacity-75 mt-0.5 truncate">{module.description}</p>
+                  {(module.id === 'beytv' || module.id === 'stackblog' || module.id === 'omnisphere') && (
+                    <p className={`text-xs font-mono mt-0.5 ${getStatusColor(getModuleStatus(module.id))}`}>
+                      {getModuleStatus(module.id).toUpperCase()}
+                    </p>
+                  )}
                 </div>
               </div>
               

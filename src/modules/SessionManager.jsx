@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import useStore from "../store"
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import storage from "./storage"
 
 export default function SessionManager() {

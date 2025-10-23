@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import GlassmorphicCard from '../components/GlassmorphicCard'
 import OmnigenCube from '../components/OmnigenCube'
 import BrowserPanel from '../components/BrowserPanel'

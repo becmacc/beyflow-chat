@@ -4,6 +4,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Brand Fonts */
+@font-face {
+  font-family: 'FilsonPro';
+  src: url('/fonts/FilsonPro.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FilsonProBold';
+  src: url('/fonts/FilsonProBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FuturaPTLight';
+  src: url('/fonts/Futura PT Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RegulatorNova';
+  src: url('/fonts/fonnts.com-Regulator_Nova_Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.6;
@@ -18,6 +51,24 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Brand Font Variables */
+  --font-filson-pro: 'FilsonPro', Inter, system-ui, sans-serif;
+  --font-filson-bold: 'FilsonProBold', Inter, system-ui, sans-serif;
+  --font-futura-light: 'FuturaPTLight', Inter, system-ui, sans-serif;
+  --font-regulator-nova: 'RegulatorNova', Inter, system-ui, sans-serif;
+  
+  /* Font Hierarchy */
+  --font-primary: var(--font-filson-pro);
+  --font-heading: var(--font-filson-bold);
+  --font-accent: var(--font-futura-light);
+  --font-special: var(--font-regulator-nova);
+  
+  /* Brand Colors */
+  --color-beymedia-primary: #4CC3D9;
+  --color-beymedia-secondary: #3b82f6;
+  --color-beygen-primary: #10b981;
+  --color-beygen-secondary: #8b5cf6;
 }
 
 * {
@@ -305,6 +356,65 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Brand Font Utility Classes */
+.font-filson-pro {
+  font-family: var(--font-filson-pro);
+}
+
+.font-filson-bold {
+  font-family: var(--font-filson-bold);
+}
+
+.font-futura-light {
+  font-family: var(--font-futura-light);
+}
+
+.font-regulator-nova {
+  font-family: var(--font-regulator-nova);
+}
+
+.font-brand-primary {
+  font-family: var(--font-primary);
+}
+
+.font-brand-heading {
+  font-family: var(--font-heading);
+}
+
+.font-brand-accent {
+  font-family: var(--font-accent);
+}
+
+.font-brand-special {
+  font-family: var(--font-special);
+}
+
+/* Brand Color Utilities */
+.text-beymedia {
+  color: var(--color-beymedia-primary);
+}
+
+.text-beygen {
+  color: var(--color-beygen-primary);
+}
+
+.bg-beymedia {
+  background-color: var(--color-beymedia-primary);
+}
+
+.bg-beygen {
+  background-color: var(--color-beygen-primary);
+}
+
+.border-beymedia {
+  border-color: var(--color-beymedia-primary);
+}
+
+.border-beygen {
+  border-color: var(--color-beygen-primary);
 }
 
 /* Cyberpunk utility classes */

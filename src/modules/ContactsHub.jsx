@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Search, Mail, MessageCircle, Linkedin, Calendar } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 export default function ContactsHub() {

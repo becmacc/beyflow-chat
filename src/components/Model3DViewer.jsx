@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, Environment, Center, Sphere, Box, Torus, Cone } from '@react-three/drei'
 import { Suspense, useState } from 'react'
 import { motion } from 'framer-motion'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 function Scene3D({ shape, color }) {

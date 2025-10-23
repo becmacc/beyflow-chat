@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Sparkles, Sliders, LayoutGrid, Box } from 'lucide-react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 import ThemedSlider from '../components/ThemedSlider'
 import ThemedCarousel from '../components/ThemedCarousel'

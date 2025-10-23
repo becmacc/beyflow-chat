@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Terminal as TerminalIcon } from 'lucide-react'
-import useStore from '../../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function TerminalModule({ moduleId }) {

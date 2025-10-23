@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { useEffect } from 'react'
-import useStore from '../store'
+import { useBeyFlowStore } from "../core/UnifiedStore"
 
 export default function ParallaxDepth() {
   const { colorMode, spectrum } = useStore()
