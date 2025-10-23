@@ -1,5 +1,4 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -131,127 +130,40 @@ ${this.state.error?.stack || 'No stack trace available'}
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-8">
-          <motion.div 
-            className="max-w-2xl mx-auto text-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            {/* Animated Error Icon */}
-            <motion.div
-              className="text-8xl mb-6"
-              animate={{ 
-                rotate: [0, -10, 10, -10, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            >
-              🚀💥
-            </motion.div>
-
-            <motion.h1 
-              className="text-5xl font-bold text-white mb-4 gradient-text"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              Houston, we have a problem!
-            </motion.h1>
-
-            <motion.p 
-              className="text-xl text-white/80 mb-8"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              The BeyFlow experience encountered an unexpected error
-            </motion.p>
-
-            {/* Error Details (Developer Mode) */}
-            {import.meta.env.DEV && (
-              <motion.details 
-                className="text-left bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/10"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <summary className="text-white font-semibold cursor-pointer hover:text-cyan-400 transition-colors">
-                  🔍 Error Details (Dev Mode)
-                </summary>
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <h4 className="text-cyan-400 font-semibold">Error ID:</h4>
-                    <code className="text-sm text-white/80 bg-black/50 px-3 py-1 rounded">
-                      {this.state.errorId}
-                    </code>
-                  </div>
-                  <div>
-                    <h4 className="text-cyan-400 font-semibold">Message:</h4>
-                    <code className="text-sm text-red-300 bg-black/50 px-3 py-1 rounded block">
-                      {this.state.error?.message}
-                    </code>
-                  </div>
-                  <div>
-                    <h4 className="text-cyan-400 font-semibold">Stack Trace:</h4>
-                    <pre className="text-xs text-white/60 bg-black/50 p-3 rounded overflow-x-auto max-h-32">
-                      {this.state.error?.stack}
-                    </pre>
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
+          <div className="text-center p-8 bg-red-900/20 rounded-lg border border-red-500 max-w-md">
+            <div className="text-6xl mb-4">�</div>
+            <h2 className="text-red-400 text-xl font-bold mb-4">Something went wrong</h2>
+            <p className="text-red-300 mb-4">The application encountered an error</p>
+            
+            {import.meta.env.DEV && this.state.error && (
+              <details className="text-left bg-black/50 p-3 rounded mb-4 text-xs">
+                <summary className="cursor-pointer text-yellow-400">Error Details</summary>
+                <div className="mt-2 text-red-300">
+                  <div><strong>Error:</strong> {this.state.error.message}</div>
+                  <div className="mt-2 max-h-32 overflow-auto">
+                    <strong>Stack:</strong>
+                    <pre className="text-xs text-gray-400">{this.state.error.stack}</pre>
                   </div>
                 </div>
-              </motion.details>
+              </details>
             )}
-
-            {/* Action Buttons */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <motion.button
+            
+            <div className="space-y-2">
+              <button 
                 onClick={this.handleRetry}
-                className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="w-full px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded transition-colors"
               >
-                🔄 Try Again
-              </motion.button>
-
-              <motion.button
+                Try Again
+              </button>
+              <button 
                 onClick={this.handleReload}
-                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
               >
-                🚀 Restart Mission
-              </motion.button>
-
-              <motion.button
-                onClick={this.handleReportIssue}
-                className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                📧 Report Issue
-              </motion.button>
-            </motion.div>
-
-            {/* Helpful Tips */}
-            <motion.div 
-              className="mt-8 text-sm text-white/60"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <p>💡 Try refreshing the page or check your internet connection</p>
-              <p className="mt-2">Error ID: <code className="text-cyan-400">{this.state.errorId}</code></p>
-            </motion.div>
-          </motion.div>
+                Reload App
+              </button>
+            </div>
+          </div>
         </div>
       )
     }

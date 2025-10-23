@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Code2, Copy, Play } from 'lucide-react'
-import { useBeyFlowStore } from "../core/UnifiedStore"
+import { useBeyFlowStore } from "../../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function CodeModule({ moduleId }) {

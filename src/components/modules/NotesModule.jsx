@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Save, Eye, Edit3 } from 'lucide-react'
-import { useBeyFlowStore } from "../core/UnifiedStore"
+import { useBeyFlowStore } from "../../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function NotesModule({ moduleId }) {

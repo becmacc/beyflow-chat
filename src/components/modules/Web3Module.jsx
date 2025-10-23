@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Wallet, TrendingUp, Activity } from 'lucide-react'
-import { useBeyFlowStore } from "../core/UnifiedStore"
+import { useBeyFlowStore } from "../../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function Web3Module({ moduleId }) {

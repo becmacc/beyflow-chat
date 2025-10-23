@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BarChart3, MessageSquare, Clock } from 'lucide-react'
-import { useBeyFlowStore } from "../core/UnifiedStore"
+import { useBeyFlowStore } from "../../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function AnalyticsModule({ moduleId }) {
