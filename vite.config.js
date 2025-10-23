@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import viteCompression from 'vite-plugin-compression'
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   plugins: [
@@ -17,6 +18,55 @@ export default defineConfig({
       ext: '.br',
       threshold: 10240,
       deleteOriginFile: false
+    }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['fonts/*.woff2', 'brand/*.svg'],
+      manifest: {
+        name: 'BeyFlow Chat',
+        short_name: 'BeyFlow',
+        description: 'Visual workflow automation platform',
+        theme_color: '#4CC3D9',
+        icons: [
+          {
+            src: '/vite.svg',
+            sizes: '192x192',
+            type: 'image/svg+xml'
+          }
+        ]
+      },
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\./,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts',
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60
+              }
+            }
+          },
+          {
+            urlPattern: /\.(?:js|css)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-resources'
+            }
+          }
+        ]
+      }
     }),
     visualizer({
       open: false,

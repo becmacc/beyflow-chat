@@ -1,6 +1,4 @@
 import { motion, AnimatePresence, useScroll, useTransform, MotionConfig } from "framer-motion"
-import { Canvas } from "@react-three/fiber"
-import { OrbitControls, Sphere, Box, Environment, Float } from "@react-three/drei"
 import { Suspense, useEffect, useState, lazy, memo, useCallback, useMemo } from "react"
 import { useBeyFlowStore } from "./core/UnifiedStore"
 import integrationSystem from "./core/UnifiedIntegrationSystem"
@@ -9,9 +7,9 @@ import { LayoutProvider, EnhancedLayout, ComponentZone, CardContainer, GridLayou
 import { NotionContainer, GlassCard, ParallaxBackground, FloatingActionButton, CommandPalette } from "./core/ModernUISystem"
 import { PerformancePanel } from "./components/PerformanceMonitor"
 
-// ✅ OPTIMIZED: Eagerly load critical modules (ChatPanel, Sidebar)
-import ChatPanel from "./modules/ChatPanel"
-import Sidebar from "./modules/Sidebar"
+// ⚡ OPTIMIZATION: Lazy load ChatPanel to reduce initial bundle
+const ChatPanel = lazy(() => import("./modules/ChatPanel"))
+const Sidebar = lazy(() => import("./modules/Sidebar"))
 
 // ✅ OPTIMIZED: Lazy load all other modules for faster initial load
 const BeyTVModule = lazy(() => import("./modules/BeyTVModule"))
@@ -42,7 +40,8 @@ import MinimizablePanel from "./components/MinimizablePanel"
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts"
 import { useAnalytics } from "./hooks/useAnalytics"
 import { useAdvancedAudio } from "./hooks/useAdvancedAudio"
-import OptimizedScene from "./components/OptimizedScene"
+// ⚡ OPTIMIZATION: Lazy load Three.js components (993KB bundle)
+const OptimizedScene = lazy(() => import("./components/OptimizedScene"))
 import ThemeToggle from "./components/ThemeToggle"
 import MotivationalQuote from "./components/MotivationalQuote"
 import InteractiveLighting from "./components/InteractiveLighting"
@@ -93,7 +92,7 @@ const ModuleRouter = memo(function ModuleRouter() {
   const currentModule = useBeyFlowStore(state => state.ui.currentModule)
   
   const modules = {
-    chat: <ChatPanel />,
+    chat: <Suspense fallback={<ModuleLoadingFallback />}><ChatPanel /></Suspense>,
     beytv: <Suspense fallback={<ModuleLoadingFallback />}><BeyTVModule /></Suspense>,
     stackblog: <Suspense fallback={<ModuleLoadingFallback />}><StackBlogModule /></Suspense>,
     omnisphere: <Suspense fallback={<ModuleLoadingFallback />}><OmnisphereModule /></Suspense>,
@@ -333,7 +332,9 @@ const App = memo(function App() {
             {{
               sidebar: (
                 <ComponentZone zone="sidebar">
-                  <Sidebar />
+                  <Suspense fallback={<ModuleLoadingFallback />}>
+                    <Sidebar />
+                  </Suspense>
                 </ComponentZone>
               ),
               
