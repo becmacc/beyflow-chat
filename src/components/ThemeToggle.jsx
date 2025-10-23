@@ -4,8 +4,8 @@ import { themes } from '../config/themes'
 
 export default function ThemeToggle() {
     const themePersona = useBeyFlowStore(state => state.ui.themePersona)
-  const setThemePersona = useBeyFlowStore(state => state.ui.setThemePersona)
-  const currentTheme = themes[themePersona]
+  const setThemePersona = useBeyFlowStore(state => state.actions.setTheme)
+  const currentTheme = themes[themePersona] || themes.dopaminergic || Object.values(themes)[0]
 
   const themeOptions = Object.values(themes)
 

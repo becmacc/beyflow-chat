@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useBeyFlowStore } from "../core/UnifiedStore"
 import { brandAssets } from "../config/brandConfig"
@@ -22,7 +23,7 @@ const modules = [
 
 export default function Sidebar() {
     const currentModule = useBeyFlowStore(state => state.ui.currentModule)
-  const setModule = useBeyFlowStore(state => state.ui.setCurrentModule)
+  const setModule = useBeyFlowStore(state => state.actions.setModule)
   const messages = useBeyFlowStore(state => state.chat.messages)
   const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const spectrum = useBeyFlowStore(state => state.ui.spectrum)
@@ -37,9 +38,13 @@ export default function Sidebar() {
   // Check integration status
   useEffect(() => {
     const checkStatus = () => {
-      if (window.BeyFlowIntegration) {
-        const status = window.BeyFlowIntegration.getIntegrationStatus()
-        setIntegrationStatus(status.components || {})
+      if (window.BeyFlowIntegration && typeof window.BeyFlowIntegration.getIntegrationStatus === 'function') {
+        try {
+          const status = window.BeyFlowIntegration.getIntegrationStatus()
+          setIntegrationStatus(status.components || {})
+        } catch (error) {
+          console.warn('Failed to get integration status:', error)
+        }
       }
     }
     

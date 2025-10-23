@@ -328,7 +328,20 @@ export const useBeyFlowStore = create()(
               voice: state.audio.voice,
               visualizationMode: state.audio.visualizationMode
             }
-          })
+          }),
+          merge: (persistedState, currentState) => {
+            // Deep merge to preserve initial state for unpersisted fields
+            const merged = { ...currentState }
+            
+            if (persistedState) {
+              if (persistedState.user) merged.user = { ...currentState.user, ...persistedState.user }
+              if (persistedState.ui) merged.ui = { ...currentState.ui, ...persistedState.ui }
+              if (persistedState.chat) merged.chat = { ...currentState.chat, ...persistedState.chat }
+              if (persistedState.audio) merged.audio = { ...currentState.audio, ...persistedState.audio }
+            }
+            
+            return merged
+          }
         }
       )
     ),

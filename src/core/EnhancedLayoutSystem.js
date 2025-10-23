@@ -55,7 +55,7 @@ export const LayoutProvider = ({ children }) => {
 // Clean main layout structure
 export const EnhancedLayout = ({ children }) => {
   const { activePanel, sidePanels, notifications } = useLayout()
-  const sidebarCollapsed = useBeyFlowStore(state => state.ui.sidebarCollapsed)
+  const sidebarOpen = useBeyFlowStore(state => state.ui.sidebarOpen)
   
   return (
     <div className="h-screen flex overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black">
@@ -70,7 +70,7 @@ export const EnhancedLayout = ({ children }) => {
       {/* Sidebar - Collapsible */}
       <motion.aside 
         className="relative border-r border-white/10 backdrop-blur-xl bg-black/20"
-        animate={{ width: sidebarCollapsed ? 60 : 240 }}
+        animate={{ width: sidebarOpen ? 240 : 60 }}
         transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
       >
         <div className="h-full flex flex-col">

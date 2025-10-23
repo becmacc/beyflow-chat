@@ -1,11 +1,18 @@
 import OpenAI from 'openai'
 import { omnigenAgents } from '../config/omnigenAgents'
 
-const openai = new OpenAI({
-  baseURL: import.meta.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  apiKey: import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-})
+let openai = null
+try {
+  if (import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY) {
+    openai = new OpenAI({
+      baseURL: import.meta.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      apiKey: import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true
+    })
+  }
+} catch (error) {
+  console.warn('OpenAI initialization skipped in workflow:', error.message)
+}
 
 export class WorkflowExecutor {
   constructor(nodes, connections, webhookUrl) {
