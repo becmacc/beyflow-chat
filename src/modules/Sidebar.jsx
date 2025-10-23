@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo, useCallback, useMemo } from "react"
 import { motion } from "framer-motion"
 import { useBeyFlowStore } from "../core/UnifiedStore"
 import { brandAssets } from "../config/brandConfig"
@@ -21,14 +21,18 @@ const modules = [
   { id: 'settings', name: 'Settings', icon: '⚙️', description: 'Configuration', status: 'active' }
 ]
 
-export default function Sidebar() {
-    const currentModule = useBeyFlowStore(state => state.ui.currentModule)
-  const setModule = useBeyFlowStore(state => state.actions.setModule)
-  const messages = useBeyFlowStore(state => state.chat.messages)
+const Sidebar = memo(function Sidebar() {
+  // ✅ OPTIMIZED: Selective subscriptions
+  const currentModule = useBeyFlowStore(state => state.ui.currentModule)
+  const messagesCount = useBeyFlowStore(state => state.chat.messages.length)
   const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const spectrum = useBeyFlowStore(state => state.ui.spectrum)
+  const setModule = useBeyFlowStore(state => state.actions.setModule)
+  
   const [integrationStatus, setIntegrationStatus] = useState({})
-  const theme = getTheme(themePersona)
+  
+  // ✅ OPTIMIZED: Memoize theme object
+  const theme = useMemo(() => getTheme(themePersona), [themePersona])
   
   // Get spectrum values
   const blur = spectrum?.blur ?? 0.3
@@ -54,8 +58,8 @@ export default function Sidebar() {
     return () => clearInterval(interval)
   }, [])
 
-  // Get module status
-  const getModuleStatus = (moduleId) => {
+  // ✅ OPTIMIZED: Memoize utility functions
+  const getModuleStatus = useCallback((moduleId) => {
     switch (moduleId) {
       case 'beytv':
         return integrationStatus.beytv?.connected ? 'connected' : 'offline'
@@ -66,25 +70,25 @@ export default function Sidebar() {
       default:
         return 'active'
     }
-  }
+  }, [integrationStatus])
 
-  const getStatusColor = (status) => {
+  const getStatusColor = useCallback((status) => {
     switch (status) {
       case 'connected': return 'text-green-400'
       case 'offline': return 'text-red-400'
       case 'checking': return 'text-yellow-400'
       default: return 'text-blue-400'
     }
-  }
+  }, [])
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = useCallback((status) => {
     switch (status) {
       case 'connected': return '🟢'
       case 'offline': return '🔴'
       case 'checking': return '🟡'
       default: return '🔵'
     }
-  }
+  }, [])
 
   return (
     <motion.div
@@ -182,13 +186,13 @@ export default function Sidebar() {
               )}
               
               {/* Badge for messages count on chat module */}
-              {module.id === 'chat' && messages.length > 0 && (
+              {module.id === 'chat' && messagesCount > 0 && (
                 <motion.div
                   className="absolute right-3 top-3 bg-cyan-400 text-black text-xs px-2 py-1 rounded-full font-bold min-h-[20px]"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                 >
-                  {messages.length}
+                  {messagesCount}
                 </motion.div>
               )}
             </motion.button>
@@ -204,9 +208,11 @@ export default function Sidebar() {
         </div>
         
         <div className="mt-2 text-xs text-cyan-700/40 font-mono">
-          <p>🍌 {messages.length} flows</p>
+          <p>🍌 {messagesCount} flows</p>
         </div>
       </div>
     </motion.div>
   )
-}
+})
+
+export default Sidebar

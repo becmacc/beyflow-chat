@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, memo, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useBeyFlowStore } from "../core/UnifiedStore"
 import api from "./api"
@@ -7,7 +7,7 @@ import { AudioPlayer, VoiceInput, VoiceSettings } from "../components/AudioCompo
 import { ChatBubble, FluidButton, LoadingDots } from "../components/DopamineUI"
 import { useAnalytics } from "../hooks/useAnalytics"
 
-function TypingIndicator() {
+const TypingIndicator = memo(function TypingIndicator() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -23,20 +23,21 @@ function TypingIndicator() {
       </div>
     </motion.div>
   )
-}
+})
 
-export default function ChatPanel() {
-    const user = useBeyFlowStore(state => state.user)
+const ChatPanel = memo(function ChatPanel() {
+  // ✅ OPTIMIZED: Selective subscriptions - only re-render when specific values change
+  const user = useBeyFlowStore(state => state.user)
   const messages = useBeyFlowStore(state => state.chat.messages)
-  const addMessage = useBeyFlowStore(state => state.actions.addMessage)
   const webhook = useBeyFlowStore(state => state.integrations.webhook)
-  const setUser = useBeyFlowStore(state => state.actions.setUser)
   const isLoading = useBeyFlowStore(state => state.ui.loading)
-  const setLoading = useBeyFlowStore(state => state.actions.setLoading)
-  const updateAnalytics = useBeyFlowStore(state => state.actions.updateAnalytics)
-  const audio = useBeyFlowStore(state => state.audio)
-  const setAudioUrl = useBeyFlowStore(state => state.actions.setAudioUrl)
-  const setModule = useBeyFlowStore(state => state.actions.setModule)
+  
+  // ✅ OPTIMIZED: Audio - only subscribe to needed properties
+  const audioMuted = useBeyFlowStore(state => state.audio.muted)
+  const audioVoice = useBeyFlowStore(state => state.audio.voice)
+  
+  // ✅ OPTIMIZED: Get all actions in one selector (actions object is stable)
+  const actions = useBeyFlowStore(state => state.actions)
   const [text, setText] = useState("")
   const [userInput, setUserInput] = useState(user)
   const [currentAudioUrl, setCurrentAudioUrl] = useState(null)
@@ -52,7 +53,7 @@ export default function ChatPanel() {
       // Register chat component
       window.BeyFlow.register('chat', {
         addSystemMessage: (data) => {
-          addMessage({
+          actions.addMessage({
             text: data.message,
             user: 'BeyFlow System',
             timestamp: Date.now(),
@@ -60,7 +61,7 @@ export default function ChatPanel() {
           })
         },
         addAIMessage: (data) => {
-          addMessage({
+          actions.addMessage({
             text: data.message,
             user: 'AI Assistant',
             timestamp: Date.now(),
@@ -71,7 +72,7 @@ export default function ChatPanel() {
       
       // Listen for cross-component messages
       window.BeyFlow.subscribe('chat:system_message', (data) => {
-        addMessage({
+        actions.addMessage({
           text: data.message,
           user: 'BeyFlow',
           timestamp: Date.now(),
@@ -81,7 +82,7 @@ export default function ChatPanel() {
       
       // Listen for AI responses
       window.BeyFlow.subscribe('ai:response_ready', (data) => {
-        addMessage({
+        actions.addMessage({
           text: data.aiResponse.message,
           user: 'AI Assistant',
           timestamp: Date.now(),
@@ -91,20 +92,21 @@ export default function ChatPanel() {
       
       console.log('💬 Chat connected to BeyFlow Integration')
     }
-  }, [addMessage])
+  }, [actions.addMessage])
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const sendMessage = async () => {
+  // ✅ OPTIMIZED: Memoize sendMessage to prevent recreation
+  const sendMessage = useCallback(async () => {
     if (!text.trim()) return
     if (isLoading) return
 
     const messageText = text.trim()
     setText("")
-    setLoading(true)
+    actions.setLoading(true)
 
     // Track message send event
     trackEvent('message_sent', {
@@ -116,11 +118,11 @@ export default function ChatPanel() {
 
     // Update user if changed
     if (userInput !== user) {
-      setUser(userInput)
+      actions.setUser(userInput)
     }
 
     // Add user message
-    addMessage({
+    actions.addMessage({
       text: messageText,
       user: userInput,
       type: 'user',
@@ -150,7 +152,7 @@ export default function ChatPanel() {
       })
 
       // Update analytics
-      updateAnalytics({
+      actions.updateAnalytics({
         messageCount: messages.length + 1,
         responseTime: [...(useBeyFlowStore.getState().analytics.responseTime || []), result.responseTime]
       })
@@ -158,54 +160,55 @@ export default function ChatPanel() {
       // Add response
       if (result.success) {
         const responseText = result.data.message || result.data.response || "Message sent successfully! 🚀"
-        addMessage({
+        actions.addMessage({
           text: responseText,
           user: 'BeyFlow',
           type: 'bot'
         })
 
         // Generate audio for response
-        if (!audio.muted) {
+        if (!audioMuted) {
           try {
-            const audioUrl = await generateSpeech(responseText, audio.voice)
+            const audioUrl = await generateSpeech(responseText, audioVoice)
             if (audioUrl) {
               setCurrentAudioUrl(audioUrl)
-              setAudioUrl(audioUrl)
+              actions.setAudioUrl(audioUrl)
             }
           } catch (error) {
             console.warn('Audio generation failed:', error)
           }
         }
       } else {
-        addMessage({
+        actions.addMessage({
           text: "Sorry, there was an error. Please try again! 😅",
           user: 'BeyFlow',
           type: 'bot'
         })
       }
     } catch (error) {
-      addMessage({
+      actions.addMessage({
         text: "Connection error. Please check your internet and try again! 🌐",
         user: 'BeyFlow',
         type: 'bot'
       })
     } finally {
-      setLoading(false)
+      actions.setLoading(false)
     }
-  }
+  }, [text, isLoading, userInput, user, messages.length, audioMuted, audioVoice, currentAudioUrl, trackEvent, webhook, actions])
 
-  const handleKeyPress = (e) => {
+  // ✅ OPTIMIZED: Memoize handlers
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       sendMessage()
     }
-  }
+  }, [sendMessage])
 
-  const handleVoiceTranscript = (transcript) => {
+  const handleVoiceTranscript = useCallback((transcript) => {
     setText(transcript)
-  }
+  }, [])
 
-  const handleVoiceCommand = (transcript) => {
+  const handleVoiceCommand = useCallback((transcript) => {
     const command = processVoiceCommand(transcript)
     
     switch (command.action) {
@@ -213,7 +216,7 @@ export default function ChatPanel() {
         // Clear messages logic would go here
         break
       case 'show_module':
-        setModule(command.module)
+        actions.setModule(command.module)
         break
       case 'send_message':
         setText(command.message)
@@ -223,7 +226,7 @@ export default function ChatPanel() {
       default:
         handleVoiceTranscript(transcript)
     }
-  }
+  }, [actions.setModule, sendMessage, handleVoiceTranscript])
 
   return (
     <div className="flex flex-col h-full">
@@ -325,4 +328,6 @@ export default function ChatPanel() {
       </motion.div>
     </div>
   )
-}
+})
+
+export default ChatPanel
