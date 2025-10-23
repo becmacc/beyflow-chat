@@ -7,11 +7,18 @@ import GlassmorphicCard from '../components/GlassmorphicCard'
 import OmnigenCube from '../components/OmnigenCube'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  baseURL: import.meta.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-  apiKey: import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-})
+let openai = null
+try {
+  if (import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY) {
+    openai = new OpenAI({
+      baseURL: import.meta.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+      apiKey: import.meta.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true
+    })
+  }
+} catch (error) {
+  console.warn('OpenAI initialization skipped:', error.message)
+}
 
 export default function AIStudio() {
     const themePersona = useBeyFlowStore(state => state.ui.themePersona)
@@ -33,6 +40,10 @@ export default function AIStudio() {
     setLoading(true)
 
     try {
+      if (!openai) {
+        throw new Error('OpenAI API key not configured. Please set up your API key in the integrations.')
+      }
+
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o',
         messages: [
