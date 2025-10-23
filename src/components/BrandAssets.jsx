@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import { Button, Card, Input, Modal } from "../core/StandardComponents"
 import { useBeyFlowStore } from "../core/UnifiedStore"
+import { useAnimationPause } from "../hooks/useAnimationPause"
 
 // Brand Watermark - Subtle logo in background (optimized for BeyMedia)
 export const BrandWatermark = ({ 
@@ -14,6 +15,7 @@ export const BrandWatermark = ({
 }) => {
   const [rotation, setRotation] = useState(0)
   const [pulse, setPulse] = useState(1)
+  const { ref, shouldAnimate } = useAnimationPause({ threshold: 0.05 })
   
   useEffect(() => {
     if (!rotateWithAudio) return
@@ -47,6 +49,7 @@ export const BrandWatermark = ({
 
   return (
     <div 
+      ref={ref}
       className="fixed pointer-events-none z-10 transition-all duration-500"
       style={{
         ...positionStyles[position],
@@ -62,10 +65,10 @@ export const BrandWatermark = ({
           filter: 'grayscale(60%) opacity(30%)',
           mixBlendMode: 'overlay'
         }}
-        animate={{
+        animate={shouldAnimate ? {
           scale: [scale, scale * 1.02, scale],
           opacity: [opacity, opacity * 1.2, opacity]
-        }}
+        } : {}}
         transition={{
           duration: 4,
           repeat: Infinity,

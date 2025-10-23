@@ -1,9 +1,15 @@
-import React, { useRef, useMemo, useLayoutEffect, useState } from 'react'
+import React, { useRef, useMemo, useLayoutEffect, useState, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
+import { perfMonitor } from '../utils/AdvancedPerformanceMonitor'
 
 export const OptimizedInstancedBoxes = ({ count = 100, audioData = null }) => {
   const meshRef = useRef()
+  const { invalidate } = useThree()
+  const needsRender = useRef(true)
+  const lastCameraPosition = useRef(new THREE.Vector3())
+  const frameSkipCounter = useRef(0)
+  
   const dummyObject = useMemo(() => new THREE.Object3D(), [])
   const colorArray = useMemo(() => new Float32Array(count * 3), [count])
   const positionArray = useMemo(() => {
@@ -15,6 +21,14 @@ export const OptimizedInstancedBoxes = ({ count = 100, audioData = null }) => {
       scale: Math.random() * 0.5 + 0.5
     }))
   }, [count])
+  
+  // ⚡ OPTIMIZATION: Trigger render on audio data change
+  useEffect(() => {
+    if (audioData) {
+      needsRender.current = true
+      invalidate()
+    }
+  }, [audioData, invalidate])
 
   // Advanced geometry optimization
   const { geometry, material } = useMemo(() => {
@@ -57,12 +71,26 @@ export const OptimizedInstancedBoxes = ({ count = 100, audioData = null }) => {
     meshRef.current.geometry.setAttribute('color', new THREE.InstancedBufferAttribute(colorArray, 3))
   }, [count, positionArray, dummyObject, colorArray])
 
-  // Audio-reactive animation with frame limiting
+  // ⚡ OPTIMIZATION: Demand-based rendering with aggressive frame skipping
   useFrame((state, delta) => {
     if (!meshRef.current) return
-
-    // Limit updates to 30fps for performance
-    if (state.clock.elapsedTime % (1/30) > delta) return
+    
+    // Check if camera moved
+    const cameraMoved = !state.camera.position.equals(lastCameraPosition.current)
+    if (cameraMoved) {
+      lastCameraPosition.current.copy(state.camera.position)
+      needsRender.current = true
+    }
+    
+    // Skip frames when idle (render at 10fps instead of 60fps)
+    if (!needsRender.current && !audioData) {
+      frameSkipCounter.current++
+      if (frameSkipCounter.current < 6) return // Skip 5 frames, render on 6th
+      frameSkipCounter.current = 0
+    }
+    
+    // Track render calls for monitoring
+    perfMonitor.trackRenderCall()
 
     for (let i = 0; i < count; i++) {
       const { x, y, z, rotationSpeed, scale } = positionArray[i]
@@ -106,6 +134,9 @@ export const OptimizedInstancedBoxes = ({ count = 100, audioData = null }) => {
     
     meshRef.current.instanceMatrix.needsUpdate = true
     meshRef.current.geometry.attributes.color.needsUpdate = true
+    
+    // Mark render as completed
+    needsRender.current = false
   })
 
   return (

@@ -45,18 +45,20 @@ export function DopamineSlider({ value, onChange, label, min = 0, max = 100 }) {
 export function GradientBackground({ children, intensity = 1 }) {
     const ui = useBeyFlowStore(state => state.ui)
   const theme = createBeyFlowTheme(ui.gradientShift)
+  const { ref, shouldAnimate } = useAnimationPause({ threshold: 0.1 })
   
   return (
     <motion.div 
+      ref={ref}
       className="absolute inset-0 overflow-hidden"
-      animate={{
+      animate={shouldAnimate ? {
         background: [
           theme.gradients.background,
           theme.gradients.primary,
           theme.gradients.accent,
           theme.gradients.background
         ]
-      }}
+      } : {}}
       transition={{
         duration: 8,
         repeat: Infinity,
@@ -122,11 +124,13 @@ export function FluidButton({ children, onClick, variant = "primary", disabled =
 
 export function RecursivePattern({ depth = 3, size = 20 }) {
     const ui = useBeyFlowStore(state => state.ui)
+  const { ref, shouldAnimate } = useAnimationPause({ threshold: 0.1 })
   
   if (depth <= 0) return null
   
   return (
     <motion.div
+      ref={ref}
       className="absolute pointer-events-none"
       style={{
         width: size,
@@ -134,11 +138,11 @@ export function RecursivePattern({ depth = 3, size = 20 }) {
         border: '1px solid rgba(76, 195, 217, 0.3)',
         borderRadius: '50%'
       }}
-      animate={{
+      animate={shouldAnimate ? {
         rotate: 360,
         scale: [1, 1.2, 1],
         opacity: [0.3, 0.6, 0.3]
-      }}
+      } : {}}
       transition={{
         duration: 4 + depth,
         repeat: Infinity,
