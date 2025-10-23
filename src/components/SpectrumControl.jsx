@@ -5,7 +5,9 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 export default function SpectrumControl() {
-  const { themePersona, spectrum, setSpectrum } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const spectrum = useBeyFlowStore(state => state.ui.spectrum)
+  const setSpectrum = useBeyFlowStore(state => state.ui.setSpectrum)
   const theme = getTheme(themePersona)
   const [isMinimized, setIsMinimized] = useState(true)
 

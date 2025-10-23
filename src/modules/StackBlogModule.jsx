@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useStore } from '../store/useStore'
-import { getTheme } from '../store/themes'
+import { useBeyFlowStore } from '../core/UnifiedStore'
+import { getTheme } from '../config/themes'
 
 export default function StackBlogModule() {
-  const { themePersona, spectrum } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const spectrum = useBeyFlowStore(state => state.ui.spectrum)
   const [posts, setPosts] = useState([])
   const [newPost, setNewPost] = useState({ title: '', content: '', category: 'general' })
   const [isConnected, setIsConnected] = useState(false)

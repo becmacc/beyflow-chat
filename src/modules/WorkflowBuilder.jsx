@@ -37,7 +37,7 @@ const nodeTypes = {
 }
 
 function WorkflowNode({ node, onEdit, onDelete, onConnect, isSelected, onClick, isExecuting }) {
-  const { colorMode } = useStore()
+    const colorMode = useBeyFlowStore(state => state.ui.colorMode)
   const nodeConfig = nodeTypes[node.category]?.[node.type]
   
   const colorModeStyles = {
@@ -174,7 +174,8 @@ function ConnectionLine({ from, to, nodes }) {
 }
 
 export default function WorkflowBuilder() {
-  const { webhook, themePersona } = useStore()
+    const webhook = useBeyFlowStore(state => state.integrations.webhook)
+  const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   const [nodes, setNodes] = useState([])
   const [connections, setConnections] = useState([])

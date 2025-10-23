@@ -26,7 +26,17 @@ function TypingIndicator() {
 }
 
 export default function ChatPanel() {
-  const { user, messages, addMessage, webhook, setUser, isLoading, setLoading, updateAnalytics, audio, setAudioUrl, setModule } = useStore()
+    const user = useBeyFlowStore(state => state.user)
+  const messages = useBeyFlowStore(state => state.chat.messages)
+  const addMessage = useBeyFlowStore(state => state.chat.addMessage)
+  const webhook = useBeyFlowStore(state => state.integrations.webhook)
+  const setUser = useBeyFlowStore(state => state.setUser)
+  const isLoading = useBeyFlowStore(state => state.ui.loading)
+  const setLoading = useBeyFlowStore(state => state.ui.setLoading)
+  const updateAnalytics = useBeyFlowStore(state => state.analytics.update)
+  const audio = useBeyFlowStore(state => state.audio)
+  const setAudioUrl = useBeyFlowStore(state => state.audio.setUrl)
+  const setModule = useBeyFlowStore(state => state.ui.setCurrentModule)
   const [text, setText] = useState("")
   const [userInput, setUserInput] = useState(user)
   const [currentAudioUrl, setCurrentAudioUrl] = useState(null)
@@ -142,7 +152,7 @@ export default function ChatPanel() {
       // Update analytics
       updateAnalytics({
         messageCount: messages.length + 1,
-        responseTime: [...(useStore.getState().analytics.responseTime || []), result.responseTime]
+        responseTime: [...(useBeyFlowStore.getState().analytics.responseTime || []), result.responseTime]
       })
 
       // Add response

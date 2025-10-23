@@ -21,7 +21,11 @@ const modules = [
 ]
 
 export default function Sidebar() {
-  const { currentModule, setModule, messages, themePersona, spectrum } = useStore()
+    const currentModule = useBeyFlowStore(state => state.ui.currentModule)
+  const setModule = useBeyFlowStore(state => state.ui.setCurrentModule)
+  const messages = useBeyFlowStore(state => state.chat.messages)
+  const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const spectrum = useBeyFlowStore(state => state.ui.spectrum)
   const [integrationStatus, setIntegrationStatus] = useState({})
   const theme = getTheme(themePersona)
   

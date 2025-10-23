@@ -3,7 +3,9 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import api from '../modules/api'
 
 export function useWebhook() {
-  const { webhook, addMessage, updateAnalytics } = useStore()
+    const webhook = useBeyFlowStore(state => state.integrations.webhook)
+  const addMessage = useBeyFlowStore(state => state.chat.addMessage)
+  const updateAnalytics = useBeyFlowStore(state => state.analytics.update)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -15,7 +17,7 @@ export function useWebhook() {
       const result = await api.sendMessage(webhook, payload)
       
       // Update analytics
-      const currentAnalytics = useStore.getState().analytics
+      const currentAnalytics = useBeyFlowStore.getState().analytics
       updateAnalytics({
         messageCount: currentAnalytics.messageCount + 1,
         responseTime: [...(currentAnalytics.responseTime || []), result.responseTime]
@@ -43,7 +45,8 @@ export function useWebhook() {
 }
 
 export function useAnalytics() {
-  const { analytics, updateAnalytics } = useStore()
+    const analytics = useBeyFlowStore(state => state.analytics)
+  const updateAnalytics = useBeyFlowStore(state => state.analytics.update)
 
   const getAverageResponseTime = useCallback(() => {
     if (!analytics.responseTime || analytics.responseTime.length === 0) return 0

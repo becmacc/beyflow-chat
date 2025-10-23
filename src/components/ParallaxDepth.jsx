@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 import { useBeyFlowStore } from "../core/UnifiedStore"
 
 export default function ParallaxDepth() {
-  const { colorMode, spectrum } = useStore()
+    const colorMode = useBeyFlowStore(state => state.ui.colorMode)
+  const spectrum = useBeyFlowStore(state => state.ui.spectrum)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   

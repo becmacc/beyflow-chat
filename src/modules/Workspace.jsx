@@ -25,20 +25,18 @@ const moduleLabels = {
 }
 
 export default function Workspace() {
-  const { 
-    themePersona, 
-    spectrum,
-    workspaceModules, 
-    availableModuleTypes, 
-    workspaceConfigs,
-    addWorkspaceModule, 
-    removeWorkspaceModule,
-    saveWorkspaceConfig,
-    loadWorkspaceConfig,
-    deleteWorkspaceConfig,
-    exportWorkspaceConfig,
-    importWorkspaceConfig
-  } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const spectrum = useBeyFlowStore(state => state.ui.spectrum)
+  const workspaceModules = useBeyFlowStore(state => state.workspaceModules)
+  const availableModuleTypes = useBeyFlowStore(state => state.availableModuleTypes)
+  const workspaceConfigs = useBeyFlowStore(state => state.workspaceConfigs)
+  const addWorkspaceModule = useBeyFlowStore(state => state.addWorkspaceModule)
+  const removeWorkspaceModule = useBeyFlowStore(state => state.removeWorkspaceModule)
+  const saveWorkspaceConfig = useBeyFlowStore(state => state.saveWorkspaceConfig)
+  const loadWorkspaceConfig = useBeyFlowStore(state => state.loadWorkspaceConfig)
+  const deleteWorkspaceConfig = useBeyFlowStore(state => state.deleteWorkspaceConfig)
+  const exportWorkspaceConfig = useBeyFlowStore(state => state.exportWorkspaceConfig)
+  const importWorkspaceConfig = useBeyFlowStore(state => state.importWorkspaceConfig)
   const theme = getTheme(themePersona)
   
   const [activeModuleId, setActiveModuleId] = useState(workspaceModules[0]?.id || null)
@@ -67,7 +65,7 @@ export default function Workspace() {
     setShowAddMenu(false)
     showToast(`Added ${moduleLabels[type]} module`)
     setTimeout(() => {
-      const modules = useStore.getState().workspaceModules
+      const modules = useBeyFlowStore.getState().workspaceModules
       const addedModule = modules[modules.length - 1]
       if (addedModule) {
         setActiveModuleId(addedModule.id)
@@ -97,7 +95,7 @@ export default function Workspace() {
     if (loadWorkspaceConfig(name)) {
       showToast(`Loaded workspace: "${name}"`)
       setShowLoadDialog(false)
-      const modules = useStore.getState().workspaceModules
+      const modules = useBeyFlowStore.getState().workspaceModules
       setActiveModuleId(modules[0]?.id || null)
     } else {
       showToast('Failed to load workspace', 'error')
@@ -132,7 +130,7 @@ export default function Workspace() {
         reader.onload = (event) => {
           if (importWorkspaceConfig(event.target.result)) {
             showToast('Workspace imported successfully')
-            const modules = useStore.getState().workspaceModules
+            const modules = useBeyFlowStore.getState().workspaceModules
             setActiveModuleId(modules[0]?.id || null)
           } else {
             showToast('Failed to import workspace', 'error')

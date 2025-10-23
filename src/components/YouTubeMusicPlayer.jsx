@@ -5,7 +5,7 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 export default function YouTubeMusicPlayer() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const [isMinimized, setIsMinimized] = useState(true)

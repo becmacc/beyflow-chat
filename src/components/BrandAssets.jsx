@@ -50,132 +50,101 @@ export const BrandWatermark = ({
       className="fixed pointer-events-none z-10 transition-all duration-500"
       style={{
         ...positionStyles[position],
-        transform: `${positionStyles[position].transform || ''} scale(${scale * pulse}) rotate(${rotation}deg)`,
-        opacity: opacity
+        opacity,
+        transform: `${positionStyles[position].transform || ''} scale(${scale * pulse}) rotate(${rotation}deg)`
       }}
     >
-      <img
+      <motion.img
         src={logoSrc}
-        alt="BeyMedia Brand"
-        className="w-32 h-32 lg:w-48 lg:h-48 object-contain"
+        alt="Brand watermark"
+        className="w-24 h-24 object-contain select-none"
         style={{
-          filter: 'blur(0.5px) saturate(0.8)',
+          filter: 'grayscale(60%) opacity(30%)',
           mixBlendMode: 'overlay'
+        }}
+        animate={{
+          scale: [scale, scale * 1.02, scale],
+          opacity: [opacity, opacity * 1.2, opacity]
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
       />
     </div>
   )
 }
 
-export function FloatingBrandElements({ images = [] }) {
-  const { ui } = useStore()
-
-  if (!images.length) return null
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {images.map((imageSrc, index) => (
-        <motion.div
-          key={index}
-          className="absolute"
-          style={{
-            left: `${10 + (index * 20) % 80}%`,
-            top: `${15 + (index * 25) % 70}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, 10, 0],
-            rotate: [0, 5, 0],
-            scale: [0.8, 1, 0.8],
-          }}
-          transition={{
-            duration: 8 + index * 2,
-            repeat: Infinity,
-            delay: index * 1.5,
-            ease: "easeInOut"
-          }}
-        >
-          <img
-            src={imageSrc}
-            alt={`Brand element ${index}`}
-            className="w-16 h-16 lg:w-24 lg:h-24 object-contain opacity-10"
-            style={{
-              filter: `blur(1px) saturate(0.6) hue-rotate(${ui.gradientShift + index * 60}deg)`,
-              mixBlendMode: 'overlay'
-            }}
-          />
-        </motion.div>
-      ))}
-    </div>
-  )
-}
-
-// Background Brand Layer - Ultra-subtle background texture
-export const BackgroundBrandLayer = ({ patternSrc, patternAltSrc, opacity = 0.02 }) => {
-  const [currentPattern, setCurrentPattern] = useState(0)
+// Enhanced Floating Brand Elements
+export const FloatingBrandElements = ({ 
+  logos = [],
+  maxElements = 6,
+  audioReactive = true 
+}) => {
+  const audio = useBeyFlowStore(state => state.audio)
+  const ui = useBeyFlowStore(state => state.ui)
+  
+  const [positions, setPositions] = useState([])
   
   useEffect(() => {
-    if (!patternAltSrc) return
+    // Initialize random positions for floating elements
+    const initPositions = Array.from({ length: Math.min(logos.length, maxElements) }, (_, i) => ({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      rotation: Math.random() * 360,
+      scale: 0.3 + Math.random() * 0.4,
+      speed: 0.2 + Math.random() * 0.8
+    }))
     
-    const interval = setInterval(() => {
-      setCurrentPattern(prev => prev === 0 ? 1 : 0)
-    }, 30000) // Switch patterns every 30 seconds
+    setPositions(initPositions)
+  }, [logos, maxElements])
+  
+  useEffect(() => {
+    if (!audioReactive || !audio.playing) return
     
+    const animateElements = () => {
+      setPositions(prev => prev.map(pos => ({
+        ...pos,
+        x: (pos.x + pos.speed) % window.innerWidth,
+        y: pos.y + Math.sin(Date.now() * 0.001 + pos.id) * 0.5,
+        rotation: pos.rotation + 0.1
+      })))
+    }
+    
+    const interval = setInterval(animateElements, 50)
     return () => clearInterval(interval)
-  }, [patternAltSrc])
-  
-  const activePattern = currentPattern === 0 ? patternSrc : (patternAltSrc || patternSrc)
+  }, [audioReactive, audio.playing])
   
   return (
-    <div 
-      className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000"
-      style={{
-        backgroundImage: `url(${activePattern})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'repeat',
-        opacity: opacity,
-        filter: 'blur(1px)',
-        mixBlendMode: 'overlay'
-      }}
-    />
-  )
-}
-
-export function BrandParticles({ logoSrc, count = 8 }) {
-  const { ui, audio } = useStore()
-
-  if (!logoSrc) return null
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {[...Array(count)].map((_, i) => (
+    <div className="fixed inset-0 pointer-events-none z-5">
+      {positions.map((pos, index) => (
         <motion.div
-          key={i}
+          key={pos.id}
           className="absolute"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: pos.x,
+            top: pos.y,
+            transform: `rotate(${pos.rotation}deg) scale(${pos.scale})`
           }}
           animate={{
-            y: [0, -200, 0],
-            x: [0, Math.random() * 50 - 25, 0],
-            opacity: [0, 0.08, 0],
-            scale: [0.5, 0.8, 0.5],
-            rotate: [0, 360, 0]
+            scale: [pos.scale, pos.scale * 1.1, pos.scale],
+            opacity: [0.1, 0.2, 0.1]
           }}
           transition={{
-            duration: 15 + Math.random() * 10,
+            duration: 3 + index,
             repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: "easeInOut"
+            ease: "easeInOut",
+            delay: index * 0.5
           }}
         >
           <img
-            src={logoSrc}
-            alt="Brand particle"
-            className="w-8 h-8 object-contain"
+            src={logos[index % logos.length]}
+            alt={`Floating brand ${index}`}
+            className="w-8 h-8 object-contain opacity-10"
             style={{
-              filter: `blur(0.5px) saturate(0.5) hue-rotate(${ui.gradientShift + i * 45}deg)`,
+              filter: `hue-rotate(${ui.gradientShift}deg) saturate(0.3)`,
               mixBlendMode: 'screen'
             }}
           />
@@ -185,58 +154,87 @@ export function BrandParticles({ logoSrc, count = 8 }) {
   )
 }
 
-export function ChatBubbleBrandAccent({ imageSrc, children, isUser }) {
-  if (!imageSrc) return children
-
+// Background Brand Layer
+export const BackgroundBrandLayer = ({ 
+  patternSrc,
+  intensity = 0.03,
+  scrollParallax = true 
+}) => {
+  const ui = useBeyFlowStore(state => state.ui)
+  const [scrollY, setScrollY] = useState(0)
+  
+  useEffect(() => {
+    if (!scrollParallax) return
+    
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+    
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [scrollParallax])
+  
   return (
-    <div className="relative">
-      {children}
-      <motion.div
-        className="absolute -top-1 -right-1 w-6 h-6 pointer-events-none"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.3, scale: 1 }}
-        transition={{ delay: 0.5, duration: 0.3 }}
-      >
-        <img
-          src={imageSrc}
-          alt="Brand accent"
-          className="w-full h-full object-contain"
-          style={{
-            filter: `saturate(0.6) ${isUser ? 'hue-rotate(180deg)' : ''}`,
-            mixBlendMode: 'overlay'
-          }}
-        />
-      </motion.div>
-    </div>
+    <div 
+      className="fixed inset-0 pointer-events-none z-1"
+      style={{
+        backgroundImage: `url(${patternSrc})`,
+        backgroundSize: '120px 120px',
+        backgroundRepeat: 'repeat',
+        opacity: intensity,
+        transform: scrollParallax ? `translateY(${scrollY * 0.1}px)` : 'none',
+        filter: `hue-rotate(${ui.gradientShift}deg) saturate(0.6)`,
+        mixBlendMode: 'overlay'
+      }}
+    />
   )
 }
 
-export function SidebarBrandAccent({ logoSrc }) {
-  const { ui } = useStore()
-
-  if (!logoSrc) return null
-
+// Animated Brand Particles  
+export const BrandParticles = ({ 
+  logoSrc,
+  count = 12,
+  audioReactive = true 
+}) => {
+  const audio = useBeyFlowStore(state => state.audio)
+  const ui = useBeyFlowStore(state => state.ui)
+  
   return (
-    <motion.div
-      className="absolute bottom-4 left-4 right-4 pointer-events-none"
-      animate={{
-        opacity: [0.1, 0.2, 0.1],
-      }}
-      transition={{
-        duration: 8,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
-    >
-      <img
-        src={logoSrc}
-        alt="Brand accent"
-        className="w-full h-8 object-contain opacity-20"
-        style={{
-          filter: `saturate(0.4) hue-rotate(${ui.gradientShift}deg)`,
-          mixBlendMode: 'overlay'
-        }}
-      />
-    </motion.div>
+    <div className="fixed inset-0 pointer-events-none z-3">
+      {Array.from({ length: count }, (_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-4 h-4"
+          style={{
+            left: `${(i * 7) % 100}%`,
+            top: `${(i * 11) % 100}%`,
+          }}
+          animate={{
+            x: [0, 20, -20, 0],
+            y: [0, -30, 30, 0],
+            rotate: [0, 180, 360],
+            scale: audioReactive && audio.playing 
+              ? [0.5, 1.2, 0.8, 1] 
+              : [0.8, 1, 0.8],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <img
+            src={logoSrc}
+            alt="Brand accent"
+            className="w-full h-8 object-contain opacity-20"
+            style={{
+              filter: `saturate(0.4) hue-rotate(${ui.gradientShift}deg)`,
+              mixBlendMode: 'overlay'
+            }}
+          />
+        </motion.div>
+      ))}
+    </div>
   )
 }

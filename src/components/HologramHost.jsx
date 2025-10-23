@@ -152,7 +152,8 @@ function ParticleField({ colorMode }) {
 }
 
 export default function HologramHost() {
-  const { themePersona, colorMode } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const colorMode = useBeyFlowStore(state => state.ui.colorMode)
   const theme = getTheme(themePersona)
   const [isMinimized, setIsMinimized] = useState(true)
   const [isSpeaking, setIsSpeaking] = useState(false)

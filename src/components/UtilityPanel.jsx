@@ -7,7 +7,7 @@ import BusinessCalendar from './BusinessCalendar'
 import SocialHubPanel from './SocialHubPanel'
 
 export default function UtilityPanel() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   const [isExpanded, setIsExpanded] = useState(false)
   const [activeTab, setActiveTab] = useState('calendar')

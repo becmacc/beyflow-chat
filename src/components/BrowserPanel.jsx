@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import { Button, Card, Input, Modal } from "../core/StandardComponents"
 import { X, ExternalLink, Bookmark, Trash2, AlertCircle, ArrowLeft, ArrowRight, RefreshCw, Home } from 'lucide-react'
-import { Button, Card, Input, Modal } from "../core/StandardComponents"
 
 export default function BrowserPanel({ onClose }) {
   const [url, setUrl] = useState('')

@@ -4,7 +4,11 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import storage from "./storage"
 
 export default function SessionManager() {
-  const { messages, user, setUser, addMessage, clearMessages } = useStore()
+    const messages = useBeyFlowStore(state => state.chat.messages)
+  const user = useBeyFlowStore(state => state.user)
+  const setUser = useBeyFlowStore(state => state.setUser)
+  const addMessage = useBeyFlowStore(state => state.chat.addMessage)
+  const clearMessages = useBeyFlowStore(state => state.chat.clearMessages)
   const [sessions, setSessions] = useState(storage.getSessions())
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [sessionName, setSessionName] = useState("")

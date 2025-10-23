@@ -24,7 +24,7 @@ const PinterestIcon = ({ size = 20, className = '' }) => (
 )
 
 export default function WidgetHub() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   const { insights, realTimeData } = useAnalytics()
   

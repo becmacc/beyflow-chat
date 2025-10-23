@@ -3,7 +3,8 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { themes } from '../config/themes'
 
 export default function ThemeToggle() {
-  const { themePersona, setThemePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const setThemePersona = useBeyFlowStore(state => state.ui.setThemePersona)
   const currentTheme = themes[themePersona]
 
   const themeOptions = Object.values(themes)

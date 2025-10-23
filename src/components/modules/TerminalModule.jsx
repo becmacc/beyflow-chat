@@ -4,7 +4,7 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function TerminalModule({ moduleId }) {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const [history, setHistory] = useState([

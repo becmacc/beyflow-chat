@@ -4,7 +4,7 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function Web3Module({ moduleId }) {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const [ethBalance] = useState(2.5423)

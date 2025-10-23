@@ -4,7 +4,8 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 export default function ContactsHub() {
-  const { themePersona, contacts } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const contacts = useBeyFlowStore(state => state.contacts)
   const theme = getTheme(themePersona)
   const [searchQuery, setSearchQuery] = useState('')
   

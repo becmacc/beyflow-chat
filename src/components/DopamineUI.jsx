@@ -3,7 +3,7 @@ import { createBeyFlowTheme } from "../utils"
 import { useBeyFlowStore } from "../core/UnifiedStore"
 
 export function DopamineSlider({ value, onChange, label, min = 0, max = 100 }) {
-  const { ui } = useStore()
+    const ui = useBeyFlowStore(state => state.ui)
   const theme = createBeyFlowTheme(ui.gradientShift)
   
   return (
@@ -42,7 +42,7 @@ export function DopamineSlider({ value, onChange, label, min = 0, max = 100 }) {
 }
 
 export function GradientBackground({ children, intensity = 1 }) {
-  const { ui } = useStore()
+    const ui = useBeyFlowStore(state => state.ui)
   const theme = createBeyFlowTheme(ui.gradientShift)
   
   return (
@@ -120,7 +120,7 @@ export function FluidButton({ children, onClick, variant = "primary", disabled =
 }
 
 export function RecursivePattern({ depth = 3, size = 20 }) {
-  const { ui } = useStore()
+    const ui = useBeyFlowStore(state => state.ui)
   
   if (depth <= 0) return null
   

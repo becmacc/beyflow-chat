@@ -39,7 +39,7 @@ const platforms = [
 ]
 
 export default function SocialMediaBrowser() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
 
   return (

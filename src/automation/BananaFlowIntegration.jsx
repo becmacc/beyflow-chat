@@ -10,7 +10,9 @@ export function useBananaFlow() {
   const agentRef = useRef(null)
   const [stats, setStats] = useState({})
   const [isActive, setIsActive] = useState(false)
-  const { messages, audio, ui } = useStore()
+    const messages = useBeyFlowStore(state => state.chat.messages)
+  const audio = useBeyFlowStore(state => state.audio)
+  const ui = useBeyFlowStore(state => state.ui)
 
   // Initialize Banana Agent
   useEffect(() => {

@@ -4,7 +4,9 @@ import { X, Minimize2, Maximize2, ExternalLink, Bookmark, Trash2, AlertCircle, A
 import { useBeyFlowStore } from "../core/UnifiedStore"
 
 export default function FloatingBrowser() {
-  const { floatingBrowser, setFloatingBrowser, closeFloatingBrowser } = useStore()
+    const floatingBrowser = useBeyFlowStore(state => state.floatingBrowser)
+  const setFloatingBrowser = useBeyFlowStore(state => state.setFloatingBrowser)
+  const closeFloatingBrowser = useBeyFlowStore(state => state.closeFloatingBrowser)
   const [url, setUrl] = useState('')
   const [currentUrl, setCurrentUrl] = useState('')
   const [bookmarks, setBookmarks] = useState([])

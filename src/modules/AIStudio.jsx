@@ -14,7 +14,7 @@ const openai = new OpenAI({
 })
 
 export default function AIStudio() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const [selectedAgent, setSelectedAgent] = useState('omnigen')

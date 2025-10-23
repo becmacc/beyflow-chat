@@ -15,7 +15,7 @@ const PinterestIcon = ({ size = 18, className = '' }) => (
 )
 
 export default function PinterestBrowser() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const openPinterest = () => {

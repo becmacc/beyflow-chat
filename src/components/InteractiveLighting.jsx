@@ -4,7 +4,8 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../config/themes'
 
 export default function InteractiveLighting() {
-  const { themePersona, colorMode } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const colorMode = useBeyFlowStore(state => state.ui.colorMode)
   const theme = getTheme(themePersona)
   
   const mx = useMotionValue(0)

@@ -33,7 +33,7 @@ function Scene3D({ shape, color }) {
 }
 
 export default function Model3DViewer({ className = '' }) {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const [shape, setShape] = useState('sphere')

@@ -8,7 +8,11 @@ import ThemedCarousel from '../components/ThemedCarousel'
 import Model3DViewer from '../components/Model3DViewer'
 
 export default function UIShowcase() {
-  const { themePersona, updateUI, updateSceneConfig, updateAudio, ui } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const updateUI = useBeyFlowStore(state => state.ui.update)
+  const updateSceneConfig = useBeyFlowStore(state => state.scene.updateConfig)
+  const updateAudio = useBeyFlowStore(state => state.audio.update)
+  const ui = useBeyFlowStore(state => state.ui)
   const theme = getTheme(themePersona)
   
   const [volume, setVolume] = useState(75)

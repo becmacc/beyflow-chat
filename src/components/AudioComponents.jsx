@@ -5,7 +5,8 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { analyzeAudioFrequency } from "../modules/audioAPI"
 
 export function AudioPlayer({ src, onEnded = () => {} }) {
-  const { audio, updateAudio } = useStore()
+    const audio = useBeyFlowStore(state => state.audio)
+  const updateAudio = useBeyFlowStore(state => state.audio.update)
   const audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [frequencyData, setFrequencyData] = useState(new Array(64).fill(0))
@@ -122,7 +123,8 @@ export function AudioPlayer({ src, onEnded = () => {} }) {
 }
 
 export function VoiceInput({ onTranscript, onCommand }) {
-  const { audio, updateAudio } = useStore()
+    const audio = useBeyFlowStore(state => state.audio)
+  const updateAudio = useBeyFlowStore(state => state.audio.update)
   const [isListening, setIsListening] = useState(false)
   const [transcript, setTranscript] = useState('')
   const recognitionRef = useRef(null)
@@ -243,7 +245,8 @@ export function VoiceInput({ onTranscript, onCommand }) {
 }
 
 export function VoiceSettings() {
-  const { audio, updateAudio } = useStore()
+    const audio = useBeyFlowStore(state => state.audio)
+  const updateAudio = useBeyFlowStore(state => state.audio.update)
   const [showSettings, setShowSettings] = useState(false)
 
   const voices = [

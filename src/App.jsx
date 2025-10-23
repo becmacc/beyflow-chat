@@ -6,7 +6,7 @@ import BeyTVModule from "./modules/BeyTVModule"
 import StackBlogModule from "./modules/StackBlogModule"
 import OmnisphereModule from "./modules/OmnisphereModule"
 import { useBeyFlowStore } from "./core/UnifiedStore"
-import { UnifiedIntegrationSystem } from "./core/UnifiedIntegrationSystem"
+import integrationSystem from "./core/UnifiedIntegrationSystem"
 import { OptimizedLayout } from "./core/OptimizedLayout"
 import { LayoutProvider, EnhancedLayout, ComponentZone, CardContainer, GridLayout } from "./core/EnhancedLayoutSystem"
 import { NotionContainer, GlassCard, ParallaxBackground, FloatingActionButton, CommandPalette } from "./core/ModernUISystem"
@@ -197,19 +197,8 @@ function App() {
   useEffect(() => {
     console.log('🚀 Initializing Unified Integration System...');
     
-    // Initialize the unified system
-    const integration = UnifiedIntegrationSystem.getInstance();
-    integration.initialize();
-    
-    // Listen for system events
-    integration.subscribe('system:ready', (data) => {
-      console.log('✅ Unified Integration System connected:', data.services);
-    });
-    
-    // Listen for cross-service notifications
-    integration.subscribe('notification:system', (data) => {
-      console.log('💬 System notification:', data.message);
-    });
+    // Integration system is already initialized as a global instance
+    console.log('✅ Integration system status:', integrationSystem.getStatus());
     
   }, []);
   

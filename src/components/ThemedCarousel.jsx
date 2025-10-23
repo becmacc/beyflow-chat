@@ -16,7 +16,7 @@ export default function ThemedCarousel({
   pagination = true,
   className = ''
 }) {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
 
   const swiperConfig = {

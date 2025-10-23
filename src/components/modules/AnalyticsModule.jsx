@@ -4,7 +4,9 @@ import { useBeyFlowStore } from "../core/UnifiedStore"
 import { getTheme } from '../../config/themes'
 
 export default function AnalyticsModule({ moduleId }) {
-  const { themePersona, analytics, messages } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
+  const analytics = useBeyFlowStore(state => state.analytics)
+  const messages = useBeyFlowStore(state => state.chat.messages)
   const theme = getTheme(themePersona)
   const [sessionTime, setSessionTime] = useState(0)
   

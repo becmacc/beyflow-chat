@@ -6,7 +6,7 @@ import { getTheme } from '../config/themes'
 import { getRandomQuote } from '../config/quotes'
 
 export default function MotivationalQuote() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   
   const [quote, setQuote] = useState(getRandomQuote())

@@ -16,7 +16,7 @@ const PinterestIcon = ({ size = 16 }) => (
 )
 
 export default function SocialHubPanel() {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isYoutubePlaying, setIsYoutubePlaying] = useState(false)

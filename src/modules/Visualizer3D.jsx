@@ -72,7 +72,7 @@ function GeometricShapes() {
 }
 
 function Scene3D() {
-  const { sceneConfig } = useStore()
+    const sceneConfig = useBeyFlowStore(state => state.scene.config)
   
   return (
     <>
@@ -95,7 +95,8 @@ function Scene3D() {
 }
 
 export default function Visualizer3D() {
-  const { sceneConfig, updateSceneConfig } = useStore()
+    const sceneConfig = useBeyFlowStore(state => state.scene.config)
+  const updateSceneConfig = useBeyFlowStore(state => state.scene.updateConfig)
   const [showControls, setShowControls] = useState(false)
 
   return (

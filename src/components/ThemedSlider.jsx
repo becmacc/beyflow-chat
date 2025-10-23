@@ -13,7 +13,7 @@ export default function ThemedSlider({
   onChange,
   showValue = true
 }) {
-  const { themePersona } = useStore()
+    const themePersona = useBeyFlowStore(state => state.ui.themePersona)
   const theme = getTheme(themePersona)
   const [value, setValue] = useState(defaultValue)
 
